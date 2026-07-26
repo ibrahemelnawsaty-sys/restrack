@@ -9,7 +9,7 @@
         <nav class="links" aria-label="التنقل الرئيسي">
             <a href="{{ $home }}#features">المميزات</a>
             <a href="{{ $home }}#program">البرنامج</a>
-            <a href="{{ route('pricing') }}">الأسعار</a>
+            <a href="{{ $home }}#pricing">الأسعار</a>
             <a href="{{ $home }}#faq">الأسئلة</a>
         </nav>
         <div class="bar-actions">
@@ -33,7 +33,7 @@
     <div class="mobile-menu glass" id="mobileMenu">
         <a href="{{ $home }}#features">المميزات</a>
         <a href="{{ $home }}#program">البرنامج</a>
-        <a href="{{ route('pricing') }}">الأسعار</a>
+        <a href="{{ $home }}#pricing">الأسعار</a>
         <a href="{{ $home }}#faq">الأسئلة</a>
         @auth
             <a href="{{ route('dashboard') }}">لوحتي</a>

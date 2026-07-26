@@ -25,7 +25,7 @@ class HomeController extends Controller
 
     public function sitemap(): Response
     {
-        $urls = [route('home'), route('pricing'), route('login'), route('register')];
+        $urls = [route('home'), route('login'), route('register')];
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>'
             .'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
