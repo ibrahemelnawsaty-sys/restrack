@@ -21,8 +21,11 @@ npm run build          # يبني الأصول إلى public/build (لا تُب�
 ```bash
 php artisan key:generate
 php artisan migrate --force --seed        # ينشئ الجداول ويزرع المستويات والخطط والحسابات التجريبية
-php artisan storage:link
-php artisan config:cache route:cache view:cache   # أداء الإنتاج
+
+# رابط التخزين العام عبر الـshell وليس artisan — لأن Hostinger يعطّل symlink()/exec() في PHP:
+ln -sf "$PWD/storage/app/public" "$PWD/public/storage"
+
+php artisan optimize                      # كاش الإعدادات + المسارات + العروض دفعةً واحدة (لا تدمجها كأوامر منفصلة في سطر)
 ```
 > بعد أول تشغيل، **غيّر كلمات مرور الحسابات التجريبية أو احذفها** (super@ / admin@ / instructor@ / student@restrack.sa).
 
@@ -47,7 +50,7 @@ php /home/USER/domains/restrack.sa/artisan schedule:run >> /dev/null 2>&1
 ## 8) بعد أي تحديث لاحق
 ```bash
 php artisan migrate --force
-php artisan config:cache route:cache view:cache
+php artisan optimize
 ```
 لتفريغ الكاش أثناء التطوير: `php artisan optimize:clear`.
 
