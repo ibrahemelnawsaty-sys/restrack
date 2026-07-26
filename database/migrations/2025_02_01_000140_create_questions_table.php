@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('questions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('level_id')->constrained()->cascadeOnDelete();
+            $table->text('question_ar');
+            $table->text('question_en')->nullable();
+            $table->json('options_ar');            // array of choices
+            $table->json('options_en')->nullable();
+            $table->unsignedTinyInteger('correct_index');
+            $table->text('explanation_ar')->nullable();
+            $table->boolean('is_published')->default(true);
+            $table->timestamps();
+
+            $table->index(['level_id', 'is_published']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('questions');
+    }
+};

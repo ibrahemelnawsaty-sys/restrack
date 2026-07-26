@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /checkout
+Disallow: /lectures
+Disallow: /exam-attempts
+
+Sitemap: https://restrack.sa/sitemap.xml

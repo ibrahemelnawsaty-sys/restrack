@@ -1,0 +1,393 @@
+<title>Restrack — التصميم الزجاجي الفاخر</title>
+<meta name="description" content="الاتجاه المعتمد: تصميم زجاجي فاخر بأيقونات SVG راقية وأنيميشن واو خفيف — شبابي واحترافي وفخم.">
+<script>document.documentElement.setAttribute('dir','rtl');document.documentElement.setAttribute('lang','ar');</script>
+<style>
+  :root{
+    --bg-0:#070d1c; --bg-1:#0b1428; --bg-2:#0f1c3a;
+    --ink:#F3F6FF; --ink-2:#AEB9D6; --ink-3:#7C88AC;
+    --gold:#D9B458; --gold-2:#B9932F; --violet:#8B7CFF; --teal:#2FD6BE;
+    --g-fill-1:rgba(255,255,255,.10); --g-fill-2:rgba(255,255,255,.035);
+    --g-border:rgba(255,255,255,.16); --g-hi:rgba(255,255,255,.24);
+    --g-blur:22px; --g-sat:160%;
+    --shadow:0 30px 70px -34px rgba(0,0,0,.8);
+    --ring-track:rgba(255,255,255,.10);
+    --orb-op:.55;
+    color-scheme:dark;
+  }
+  :root[data-theme="light"]{
+    --bg-0:#EEF2FB; --bg-1:#F4F7FE; --bg-2:#E7ECF9;
+    --ink:#152142; --ink-2:#4A5677; --ink-3:#7E88A6;
+    --gold:#9A7C22; --gold-2:#B9932F; --violet:#6A5AE0; --teal:#0E9E88;
+    --g-fill-1:rgba(255,255,255,.72); --g-fill-2:rgba(255,255,255,.45);
+    --g-border:rgba(255,255,255,.85); --g-hi:rgba(255,255,255,.95);
+    --g-blur:20px; --g-sat:150%;
+    --shadow:0 26px 60px -30px rgba(28,40,90,.32);
+    --ring-track:rgba(20,33,66,.10);
+    --orb-op:.38;
+    color-scheme:light;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg-1);color:var(--ink);overflow-x:hidden;
+    font-family:'Tajawal','Segoe UI','Noto Sans Arabic',Tahoma,system-ui,sans-serif;
+    font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;
+    transition:background .5s ease,color .5s ease}
+  .wrap{max-width:1160px;margin-inline:auto;padding-inline:24px}
+  h1,h2,h3,h4{margin:0;line-height:1.15;text-wrap:balance;color:var(--ink)}
+  p{margin:0}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  svg{display:block}
+  .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ===== aurora background ===== */
+  .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;
+    background:radial-gradient(130% 100% at 78% -8%,var(--bg-2),var(--bg-1) 46%,var(--bg-0) 100%)}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:var(--orb-op);will-change:transform}
+  .orb.v{width:520px;height:520px;background:#6f5cf6;inset-block-start:-120px;inset-inline-end:-80px;animation:drift1 26s ease-in-out infinite}
+  .orb.t{width:440px;height:440px;background:#17b9a5;inset-block-end:-140px;inset-inline-start:-100px;animation:drift2 32s ease-in-out infinite}
+  .orb.g{width:360px;height:360px;background:#caa23a;inset-block-start:38%;inset-inline-start:44%;opacity:calc(var(--orb-op) * .7);animation:drift3 38s ease-in-out infinite}
+  .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.04;
+    background-image:radial-gradient(rgba(255,255,255,.9) .5px,transparent .5px);background-size:3px 3px}
+  @keyframes drift1{50%{transform:translate3d(-60px,50px,0) scale(1.08)}}
+  @keyframes drift2{50%{transform:translate3d(70px,-40px,0) scale(1.1)}}
+  @keyframes drift3{50%{transform:translate3d(-40px,-50px,0) scale(1.12)}}
+
+  /* ===== glass system (liquid-glass) ===== */
+  .glass{position:relative;border-radius:24px;
+    background:linear-gradient(160deg,var(--g-fill-1),var(--g-fill-2));
+    border:1px solid var(--g-border);
+    -webkit-backdrop-filter:blur(var(--g-blur)) saturate(var(--g-sat));
+    backdrop-filter:blur(var(--g-blur)) saturate(var(--g-sat));
+    box-shadow:var(--shadow),inset 0 1px 0 var(--g-hi);
+    overflow:hidden;isolation:isolate}
+  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(135deg,var(--g-hi) 0%,transparent 26%)}
+  .glass::after{content:"";position:absolute;inset-block:0;inset-inline-start:-70%;width:55%;pointer-events:none;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.16),transparent);
+    transform:skewX(-16deg);transition:transform 1s cubic-bezier(.2,.7,.2,1);opacity:.9}
+  .glass:hover::after{transform:translateX(340%) skewX(-16deg)}
+
+  /* icon chip */
+  .chip{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;flex:none;
+    background:linear-gradient(150deg,rgba(139,124,255,.22),rgba(47,214,190,.14));
+    border:1px solid var(--g-border);color:var(--gold);box-shadow:inset 0 1px 0 var(--g-hi)}
+  .chip .ico{width:24px;height:24px;stroke-width:1.6}
+  .chip.gold{color:var(--gold)} .chip.violet{color:var(--violet)} .chip.teal{color:var(--teal)}
+
+  /* ===== top bar ===== */
+  header.bar{position:sticky;top:14px;z-index:40;margin-top:14px}
+  .bar .glass{border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem}
+  .brand{display:flex;align-items:center;gap:.65rem;font-weight:800}
+  .brand .logo{width:34px;height:34px}
+  .brand b{font-size:1.05rem;color:var(--ink)} .brand span{color:var(--ink-3);font-size:.74rem;font-weight:600}
+  .tbtn{display:inline-flex;align-items:center;gap:.4rem;font-family:inherit;font-weight:700;font-size:.82rem;
+    cursor:pointer;color:var(--ink);background:transparent;border:1px solid var(--g-border);border-radius:11px;padding:.45rem .8rem}
+  .tbtn:hover{border-color:var(--gold)} .tbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ===== hero ===== */
+  .hero{padding-block:60px 30px}
+  .hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:38px;align-items:center}
+  .kick{display:inline-flex;align-items:center;gap:.5rem;font-size:.76rem;font-weight:800;letter-spacing:.02em;
+    color:var(--ink);padding:.4rem .8rem;border-radius:999px}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(47,214,190,.5);animation:pulse 2.6s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(47,214,190,0)}100%{box-shadow:0 0 0 0 rgba(47,214,190,0)}}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:800;letter-spacing:-.02em;margin-top:16px}
+  .grad-gold{background:linear-gradient(100deg,var(--gold-2),var(--gold) 45%,#F0D48A 70%,var(--gold-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:clamp(1.15rem,2.4vw,1.7rem);font-weight:700;margin-top:.4rem;color:var(--ink)}
+  .hero .lead{color:var(--ink-2);margin-top:1.05rem;max-width:44ch;font-size:1.05rem}
+  .cta-row{display:flex;gap:.7rem;margin-top:1.9rem;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:.55rem;font-family:inherit;font-weight:800;font-size:.96rem;
+    cursor:pointer;border:none;border-radius:15px;padding:.85rem 1.4rem;text-decoration:none}
+  .btn-gold{position:relative;overflow:hidden;color:#1a1405;
+    background:linear-gradient(100deg,var(--gold-2),var(--gold) 55%,#EBCE82);
+    box-shadow:0 16px 34px -14px rgba(185,147,47,.7),inset 0 1px 0 rgba(255,255,255,.5)}
+  .btn-gold span.sheen{position:absolute;inset:0;transform:translateX(-120%);
+    background:linear-gradient(110deg,transparent,rgba(255,255,255,.55),transparent)}
+  .btn-gold:hover span.sheen{transform:translateX(120%);transition:transform .8s ease}
+  .btn-gold:hover{transform:translateY(-2px)}
+  .btn-ghost{color:var(--ink);background:var(--g-fill-1);border:1px solid var(--g-border);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .btn-ghost:hover{border-color:var(--gold)}
+  .trust{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.8rem}
+  .tpill{display:inline-flex;align-items:center;gap:.45rem;font-size:.78rem;font-weight:700;color:var(--ink-2);
+    padding:.4rem .75rem;border-radius:999px;background:var(--g-fill-1);border:1px solid var(--g-border)}
+  .tpill .ico{width:16px;height:16px;stroke-width:1.8;color:var(--teal)}
+
+  /* hero dashboard card */
+  .dashcard{padding:22px}
+  .dc-head{display:flex;align-items:center;justify-content:space-between}
+  .dc-head b{font-size:.98rem;color:var(--ink);font-weight:800}
+  .dc-head .t{color:var(--ink-3);font-size:.74rem}
+  .ringwrap{display:flex;align-items:center;gap:16px;margin-top:16px}
+  .ring{width:104px;height:104px;flex:none}
+  .ring .tk{fill:none;stroke:var(--ring-track);stroke-width:9}
+  .ring .pr{fill:none;stroke:url(#gg);stroke-width:9;stroke-linecap:round;stroke-dasharray:283;stroke-dashoffset:283;
+    transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)}
+  .ring.on .pr{stroke-dashoffset:85}
+  .rl b{font-size:1.7rem;font-weight:800;color:var(--ink)} .rl span{display:block;color:var(--ink-3);font-size:.8rem}
+  .dc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .dc-stats .s{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:13px;
+    background:var(--g-fill-2);border:1px solid var(--g-border)}
+  .dc-stats .s .ico{width:20px;height:20px}
+  .dc-stats .s b{font-size:1.05rem;color:var(--ink);font-weight:800;display:block;line-height:1.2}
+  .dc-stats .s span{font-size:.72rem;color:var(--ink-3)}
+  .dc-stats .s.v{color:var(--violet)} .dc-stats .s.t{color:var(--teal)} .dc-stats .s.g{color:var(--gold)}
+
+  /* ===== section ===== */
+  section{padding-block:56px}
+  .shead{max-width:60ch;margin-bottom:34px}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:800;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .eyebrow .ico{width:16px;height:16px;stroke-width:2}
+  .shead h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800;margin-top:12px}
+  .shead p{color:var(--ink-2);margin-top:.7rem;font-size:1.05rem}
+
+  /* feature icon grid */
+  .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .fcard{padding:22px}
+  .fcard h3{font-size:1.12rem;font-weight:800;margin-top:14px}
+  .fcard p{color:var(--ink-2);font-size:.93rem;margin-top:.4rem}
+
+  /* course card + protection */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  .course{padding:16px;display:flex;gap:14px;align-items:center}
+  .poster{width:120px;height:78px;border-radius:14px;flex:none;position:relative;overflow:hidden;
+    background:linear-gradient(150deg,#26306a,#141d3c);display:grid;place-items:center;border:1px solid var(--g-border)}
+  .poster .play{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#1a1405;
+    background:linear-gradient(140deg,var(--gold),#EBCE82);box-shadow:0 8px 18px -6px rgba(185,147,47,.7)}
+  .poster .play .ico{width:18px;height:18px;stroke-width:2;fill:currentColor;stroke:none;margin-inline-start:2px}
+  .course .m{flex:1;min-width:0}
+  .lvl-tag{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;font-weight:800;color:var(--violet);
+    background:rgba(139,124,255,.14);border:1px solid var(--g-border);border-radius:7px;padding:.15rem .5rem}
+  .course .m b{display:block;font-weight:800;font-size:1rem;color:var(--ink);margin-top:6px}
+  .course .m .meta{color:var(--ink-3);font-size:.78rem;margin-top:2px;display:flex;align-items:center;gap:.35rem}
+  .course .m .meta .ico{width:14px;height:14px;stroke-width:1.8}
+  .pbar{height:6px;border-radius:99px;background:var(--ring-track);margin-top:9px;overflow:hidden}
+  .pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#7ef0dd);border-radius:99px}
+
+  .prot{padding:22px}
+  .prot .top{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .prot .top h3{font-size:1.15rem;font-weight:800}
+  .layer{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--g-border)}
+  .layer:first-of-type{border-top:none}
+  .layer .li{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;color:var(--teal);
+    background:rgba(47,214,190,.12);border:1px solid var(--g-border)}
+  .layer .li .ico{width:18px;height:18px;stroke-width:1.8}
+  .layer b{font-size:.94rem;color:var(--ink)} .layer p{font-size:.82rem;color:var(--ink-3);margin-top:.15rem}
+
+  /* certificate */
+  .certwrap{display:grid;place-items:center;padding-block:10px}
+  .cert{max-width:600px;width:100%;padding:38px;text-align:center}
+  .cert .rose{width:66px;height:66px;margin-inline:auto;color:var(--gold);display:grid;place-items:center;
+    border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(217,180,88,.25),transparent 70%)}
+  .cert .rose .ico{width:52px;height:52px;stroke-width:1.4}
+  .cert h3{font-size:1.5rem;font-weight:800;margin-top:12px}
+  .cert .ar{color:var(--gold);font-weight:700;font-size:1.12rem}
+  .cert .who{font-size:1.35rem;font-weight:800;margin-top:16px;color:var(--ink)}
+  .cert .desc{color:var(--ink-2);font-size:.92rem;margin-top:8px}
+  .cert .foot{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:16px;
+    border-top:1px solid var(--g-border);color:var(--ink-3);font-size:.75rem}
+
+  footer{padding-block:40px;color:var(--ink-3);font-size:.85rem}
+  footer .glass{padding:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center}
+
+  /* entrance animation */
+  .rise{opacity:0;transform:translateY(26px) scale(.985);filter:blur(6px);
+    transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1),filter .8s ease}
+  .rise.in{opacity:1;transform:none;filter:none}
+  .stagger>*{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .stagger.in>*{opacity:1;transform:none}
+  .stagger.in>*:nth-child(2){transition-delay:.08s}
+  .stagger.in>*:nth-child(3){transition-delay:.16s}
+  .stagger.in>*:nth-child(4){transition-delay:.24s}
+  .stagger.in>*:nth-child(5){transition-delay:.32s}
+  .stagger.in>*:nth-child(6){transition-delay:.4s}
+
+  @media (prefers-reduced-motion:reduce){
+    .orb{animation:none!important}
+    .rise,.stagger>*{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+    .glass::after{display:none} html{scroll-behavior:auto}
+  }
+  @media(max-width:880px){
+    .hero-grid{grid-template-columns:1fr;gap:28px}
+    .fgrid{grid-template-columns:1fr}
+    .split{grid-template-columns:1fr}
+  }
+</style>
+
+<!-- ===== SVG icon sprite (premium line icons — no emoji) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B9932F"/><stop offset="1" stop-color="#F0D48A"/></linearGradient></defs>
+  <symbol id="i-research" viewBox="0 0 24 24"><path d="M9 3h6M10 3v5.5L5.5 17a2.5 2.5 0 0 0 2.3 3.5h8.4a2.5 2.5 0 0 0 2.3-3.5L14 8.5V3"/><path d="M7.5 14h9"/><circle cx="10" cy="16.5" r=".7" fill="currentColor" stroke="none"/><circle cx="13.5" cy="18" r=".7" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3.5"/><path d="M11 9.5v5l4-2.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-infinity" viewBox="0 0 24 24"><path d="M6.5 9.5C4.6 9.5 3 10.7 3 12s1.6 2.5 3.5 2.5c2.6 0 4-5 7-5 1.9 0 3.5 1.2 3.5 2.5s-1.6 2.5-3.5 2.5c-3 0-4.4-5-7-5z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5.5"/><path d="M9 13.5L7.5 21l4.5-2.5L16.5 21 15 13.5"/><path d="M12 6.7l.9 1.8 2 .3-1.45 1.4.35 2L12 11.3l-1.8.9.35-2L9.1 8.8l2-.3z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 13h6l-1 8 8-11h-6z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c2 3-1 4.5-1 7a3 3 0 0 0 6 0c0-.7-.2-1.4-.5-2C18 10 19 12 19 14a7 7 0 1 1-14 0c0-4 3-6 4-9 .8 1.2 2 1.8 3 3z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><rect x="5.5" y="12" width="3.2" height="6" rx="1"/><rect x="10.4" y="8" width="3.2" height="10" rx="1"/><rect x="15.3" y="4.5" width="3.2" height="13.5" rx="1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.3" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 3c3.5 4 6 6.7 6 10a6 6 0 0 1-12 0c0-3.3 2.5-6 6-10z"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="4"/><path d="M11 11l8 8M16 16l2-2M18.5 18.5l1.5-1.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.6 4.9L18.5 9.5l-4.9 1.6L12 16l-1.6-4.9L5.5 9.5l4.9-1.6z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></symbol>
+</svg>
+
+<div class="aurora"><span class="orb v"></span><span class="orb t"></span><span class="orb g"></span></div>
+<div class="grain"></div>
+
+<div class="wrap">
+  <header class="bar rise in">
+    <div class="glass">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#B9932F"/><stop offset="1" stop-color="#8B7CFF"/></linearGradient></defs>
+          <rect x="6" y="22" width="6" height="12" rx="3" fill="url(#lg)"/><rect x="17" y="13" width="6" height="21" rx="3" fill="url(#lg)"/><rect x="28" y="5" width="6" height="29" rx="3" fill="url(#lg)"/></svg>
+        <div><b>Restrack</b> <span>مؤسسة ريستراك للتدريب</span></div>
+      </div>
+      <button class="tbtn" id="themeBtn" aria-label="تبديل الوضع"><svg class="ico" id="themeIco"><use href="#i-moon"/></svg><span id="themeTxt">ليلي</span></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="rise in">
+        <span class="kick glass"><span class="dot"></span>محاضرات مسجّلة · محتوى محميّ · محاولات لا محدودة</span>
+        <h1><span class="grad-gold">Research Track Platform</span></h1>
+        <p class="sub">From Beginner to Expert in Medical Research</p>
+        <p class="lead">منصة عربية فاخرة لإتقان <b style="color:var(--ink)">البحث الطبي</b> — اشتراك واحد يفتح المسار كاملاً، بتجربة زجاجية أنيقة وأداء فائق السرعة.</p>
+        <div class="cta-row">
+          <a class="btn btn-gold" href="#"><span class="sheen"></span>ابدأ رحلتك<svg class="ico" style="width:18px;height:18px;stroke-width:2"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#">استعرض البرنامج</a>
+        </div>
+        <div class="trust">
+          <span class="tpill"><svg class="ico"><use href="#i-shield"/></svg>محتوى محميّ بعلامة مائية</span>
+          <span class="tpill"><svg class="ico"><use href="#i-bolt"/></svg>خفيف وسريع</span>
+          <span class="tpill"><svg class="ico"><use href="#i-award"/></svg>شهادة موثّقة</span>
+        </div>
+      </div>
+
+      <div class="glass dashcard rise in" aria-label="لوحة الطالب — محاكاة">
+        <div class="dc-head"><b>لوحتي</b><span class="t">اليوم</span></div>
+        <div class="ringwrap">
+          <svg class="ring" id="ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="tk" cx="50" cy="50" r="45"/><circle class="pr" cx="50" cy="50" r="45"/></svg>
+          <div class="rl"><b class="num" data-count="70" data-suffix="%">0%</b><span>تقدّم المستوى الأول</span></div>
+        </div>
+        <div class="dc-stats">
+          <div class="s g"><svg class="ico"><use href="#i-flame"/></svg><div><b class="num">12</b><span>يوم متتالٍ</span></div></div>
+          <div class="s v"><svg class="ico"><use href="#i-chart"/></svg><div><b class="num">86%</b><span>متوسط الاختبارات</span></div></div>
+          <div class="s t"><svg class="ico"><use href="#i-video"/></svg><div><b class="num">24</b><span>محاضرة مكتملة</span></div></div>
+          <div class="s"><svg class="ico" style="color:var(--gold)"><use href="#i-award"/></svg><div><b style="font-size:.9rem">شهادتي</b><span>عند الإكمال</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead rise">
+      <span class="eyebrow"><svg class="ico"><use href="#i-sparkle"/></svg>لماذا ريستراك</span>
+      <h2>تجربة تعليمية فاخرة بكل التفاصيل</h2>
+      <p>أيقونات دقيقة، زجاج راقٍ، وحركة انسيابية — كل عنصر مصمَّم ليشعر الطالب أنه في منتج عالمي.</p>
+    </div>
+    <div class="fgrid stagger rise">
+      <div class="glass fcard"><div class="chip violet"><svg class="ico"><use href="#i-video"/></svg></div><h3>محاضرات مسجّلة</h3><p>شاهد وأعد متى شئت، بجودة تتكيّف مع شبكتك — دون تقطيع.</p></div>
+      <div class="glass fcard"><div class="chip teal"><svg class="ico"><use href="#i-infinity"/></svg></div><h3>محاولات لا محدودة</h3><p>اختبر بلا خوف — النجاح 70% وأعد المحاولة كما تشاء حتى تتقن.</p></div>
+      <div class="glass fcard"><div class="chip gold"><svg class="ico"><use href="#i-shield"/></svg></div><h3>محتوى محميّ</h3><p>بث مشفّر داخل المنصة وعلامة مائية باسمك — تسريب متتبَّع لصاحبه.</p></div>
+      <div class="glass fcard"><div class="chip teal"><svg class="ico"><use href="#i-research"/></svg></div><h3>تعلّم بالممارسة</h3><p>احسب حجم العينة، قيّم ورقة، اقرأ مخطط الغابة — بتغذية راجعة فورية.</p></div>
+      <div class="glass fcard"><div class="chip violet"><svg class="ico"><use href="#i-award"/></svg></div><h3>شهادات موثّقة</h3><p>ثنائية اللغة بتحقّق QR، وتُشارَك على لينكدإن وواتساب بضغطة.</p></div>
+      <div class="glass fcard"><div class="chip gold"><svg class="ico"><use href="#i-bolt"/></svg></div><h3>سريعة جداً</h3><p>مبنية لتكون خفيفة على كل جهاز — حتى على الشبكات الضعيفة.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead rise">
+      <span class="eyebrow"><svg class="ico"><use href="#i-chart"/></svg>سُلّم واحد · ثلاثة مستويات</span>
+      <h2>من المبتدئ إلى الباحث الناشر</h2>
+    </div>
+    <div class="split">
+      <div class="stagger rise">
+        <div class="glass course" style="margin-bottom:14px">
+          <div class="poster"><span class="play"><svg class="ico"><use href="#i-video"/></svg></span></div>
+          <div class="m"><span class="lvl-tag"><svg class="ico" style="width:12px;height:12px"><use href="#i-check"/></svg>المستوى 1 · مبتدئ</span><b>أخلاقيات البحث ولجان IRB</b><div class="meta"><svg class="ico"><use href="#i-clock"/></svg>8:24 دقيقة · مسجّلة</div><div class="pbar"><i style="width:64%"></i></div></div>
+        </div>
+        <div class="glass course">
+          <div class="poster"><span class="play"><svg class="ico"><use href="#i-video"/></svg></span></div>
+          <div class="m"><span class="lvl-tag"><svg class="ico" style="width:12px;height:12px"><use href="#i-check"/></svg>المستوى 2 · متوسط</span><b>تصميم الدراسات وحجم العيّنة</b><div class="meta"><svg class="ico"><use href="#i-clock"/></svg>11:05 دقيقة · مسجّلة</div><div class="pbar"><i style="width:32%"></i></div></div>
+        </div>
+      </div>
+
+      <div class="glass prot rise">
+        <div class="top"><div class="chip gold"><svg class="ico"><use href="#i-shield"/></svg></div><h3>حماية المحتوى — بطبقات</h3></div>
+        <p style="color:var(--ink-2);font-size:.9rem;margin-bottom:6px">كل الفيديوهات داخل المنصة، لا روابط خارجية.</p>
+        <div class="layer"><span class="li"><svg class="ico"><use href="#i-key"/></svg></span><div><b>روابط موقّعة قصيرة الأمد</b><p>تنتهي خلال دقائق — الرابط المسرّب يموت قبل أن يُشارَك.</p></div></div>
+        <div class="layer"><span class="li"><svg class="ico"><use href="#i-lock"/></svg></span><div><b>بث HLS مشفّر (AES‑128)</b><p>مفاتيح متغيّرة ومُصادَق عليها — لا تنزيل ولا مفتاح ثابت.</p></div></div>
+        <div class="layer"><span class="li"><svg class="ico"><use href="#i-water"/></svg></span><div><b>علامة مائية باسم الطالب</b><p>تتحرّك فوق الفيديو وتظهر في أي تسجيل — تربط التسريب بصاحبه.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="certwrap">
+    <div class="glass cert rise">
+      <div class="rose"><svg class="ico"><use href="#i-award"/></svg></div>
+      <h3>Certificate of Completion</h3>
+      <div class="ar">شهادة إكمال</div>
+      <div class="who">عبدالله محمد الأحمدي</div>
+      <div class="desc">أتمّ بنجاح مسار «Research Track Programs (1) — From Beginner to Expert in Medical Research»</div>
+      <div class="foot"><span class="num">No. RST-2026-4F9A2C1B</span><span>تحقّق عبر QR</span><span class="num">2026 / 07 / 24</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="glass rise">
+      <div class="brand"><b>Restrack</b> <span>مؤسسة ريستراك للتدريب · <span class="num">7053567603</span></span></div>
+      <p style="max-width:34ch">تصميم زجاجي فاخر · أيقونات SVG راقية · أنيميشن خفيف · مود ليلي ونهاري · عربي RTL.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // theme toggle
+  (function(){
+    var r=document.documentElement,b=document.getElementById('themeBtn'),
+        u=document.querySelector('#themeIco use'),t=document.getElementById('themeTxt');
+    function sd(){return matchMedia('(prefers-color-scheme:dark)').matches}
+    function dk(){var v=r.getAttribute('data-theme');return v?v==='dark':sd()}
+    function paint(){var d=dk();u.setAttribute('href',d?'#i-moon':'#i-sun');t.textContent=d?'ليلي':'نهاري'}
+    if(!r.getAttribute('data-theme'))r.setAttribute('data-theme',sd()?'dark':'light');
+    b.onclick=function(){r.setAttribute('data-theme',dk()?'light':'dark');paint()};paint();
+  })();
+
+  // reveal + count-up + ring
+  (function(){
+    var els=document.querySelectorAll('.rise,.stagger');
+    if(reduce||!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('in')});
+      var rg=document.getElementById('ring');if(rg)rg.classList.add('on');
+      document.querySelectorAll('[data-count]').forEach(function(n){n.textContent=n.getAttribute('data-count')+(n.getAttribute('data-suffix')||'')});return;}
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);
+      x.target.querySelectorAll('[data-count]').forEach(count);}})},{threshold:.16});
+    els.forEach(function(e){if(!e.classList.contains('in'))io.observe(e)});
+    var rg=document.getElementById('ring');if(rg)setTimeout(function(){rg.classList.add('on')},400);
+    function count(n){var to=+n.getAttribute('data-count'),sf=n.getAttribute('data-suffix')||'',s=null;
+      function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/1200,1),e=1-Math.pow(1-p,3);
+        n.textContent=Math.round(to*e)+sf;if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step);}
+  })();
+
+  // pointer parallax tilt on hero dashboard card
+  (function(){
+    if(reduce)return;var card=document.querySelector('.dashcard');if(!card)return;
+    var raf=0;
+    card.addEventListener('pointermove',function(e){
+      if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+        var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform='perspective(900px) rotateX('+(-y*5)+'deg) rotateY('+(x*6)+'deg)';});
+    });
+    card.addEventListener('pointerleave',function(){card.style.transform='';});
+  })();
+</script>

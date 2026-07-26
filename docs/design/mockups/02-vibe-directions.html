@@ -1,0 +1,250 @@
+<title>Restrack — اتجاهات التصميم الشبابية</title>
+<meta name="description" content="ثلاثة اتجاهات تصميم شبابية مبهجة لمنصة ريستراك — اختر الروح التي تعجبك.">
+<style>
+  :root{
+    --page:#F1F3F8; --board:#FFFFFF; --chrome-ink:#1B2440;
+    --chrome-mut:#5A6480; --chrome-line:#E4E8F2;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--page:#0E1526; --board:#161f36; --chrome-ink:#EAEEF9; --chrome-mut:#9BA6C2; --chrome-line:#26314f; color-scheme:dark}
+  }
+  :root[data-theme="light"]{--page:#F1F3F8;--board:#FFFFFF;--chrome-ink:#1B2440;--chrome-mut:#5A6480;--chrome-line:#E4E8F2;color-scheme:light}
+  :root[data-theme="dark"]{--page:#0E1526;--board:#161f36;--chrome-ink:#EAEEF9;--chrome-mut:#9BA6C2;--chrome-line:#26314f;color-scheme:dark}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);color:var(--chrome-ink);
+    font-family:'Tajawal','Segoe UI','Noto Sans Arabic',Tahoma,system-ui,sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1160px;margin-inline:auto;padding-inline:22px}
+  h1,h2,h3,h4{margin:0;line-height:1.15;text-wrap:balance}
+  p{margin:0}
+  .num{font-variant-numeric:tabular-nums}
+
+  header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--page) 82%,transparent);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--chrome-line)}
+  .top-in{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:.6rem;font-weight:800}
+  .brand svg{width:30px;height:30px}
+  .brand span{color:var(--chrome-mut);font-size:.76rem;font-weight:600}
+  .tbtn{font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;border-radius:10px;
+    border:1px solid var(--chrome-line);background:var(--board);color:var(--chrome-ink);padding:.45rem .8rem}
+  .tbtn:focus-visible{outline:2px solid #7C6CFC;outline-offset:2px}
+
+  .intro{padding-block:38px 8px}
+  .intro .ey{font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#7C6CFC}
+  .intro h1{font-size:clamp(1.8rem,4.4vw,2.7rem);font-weight:800;margin-top:10px}
+  .intro p{color:var(--chrome-mut);margin-top:10px;max-width:60ch;font-size:1.05rem}
+
+  /* direction board card */
+  .dir{background:var(--board);border:1px solid var(--chrome-line);border-radius:26px;
+    padding:22px;margin-block:26px;box-shadow:0 20px 50px -30px rgba(20,30,60,.35)}
+  .dir-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+  .dir-title{display:flex;align-items:center;gap:12px}
+  .dir-title h2{font-size:1.5rem;font-weight:800}
+  .dir-title .sub{color:var(--chrome-mut);font-size:.9rem;font-weight:600}
+  .rec{font-size:.72rem;font-weight:800;color:#0f7a5f;background:#d9f7ec;border:1px solid #9fe7cf;
+    border-radius:999px;padding:.3rem .7rem}
+  .sws{display:flex;gap:7px}
+  .sws i{width:26px;height:26px;border-radius:8px;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+
+  .mock{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+  @media(max-width:820px){.mock{grid-template-columns:1fr}}
+
+  /* ===== shared mock component skins driven by per-direction vars ===== */
+  .hero{border-radius:20px;padding:26px;position:relative;overflow:hidden;color:var(--h-ink);
+    background:var(--h-bg);min-height:230px;display:flex;flex-direction:column;justify-content:center}
+  .hero .k{display:inline-flex;align-items:center;gap:.4rem;align-self:flex-start;font-size:.72rem;font-weight:800;
+    background:var(--k-bg);color:var(--k-ink);border-radius:999px;padding:.3rem .7rem;margin-bottom:12px}
+  .hero h3{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:800;letter-spacing:-.01em}
+  .hero p{margin-top:8px;font-size:.98rem;opacity:.92;max-width:34ch}
+  .hero .cta{display:inline-flex;align-self:flex-start;margin-top:16px;font-weight:800;font-size:.92rem;
+    padding:.7rem 1.3rem;border-radius:14px;background:var(--cta-bg);color:var(--cta-ink);
+    box-shadow:0 12px 24px -12px var(--cta-sh);cursor:pointer;border:none;font-family:inherit}
+  .blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.85;pointer-events:none}
+  .emoji-float{position:absolute;font-size:2rem;filter:drop-shadow(0 6px 10px rgba(0,0,0,.15))}
+
+  .side{display:flex;flex-direction:column;gap:14px}
+  .ccard{background:var(--c-bg);border:1px solid var(--c-line);border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center}
+  .ccard .thumb{width:64px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:var(--thumb);color:#fff;font-size:1.2rem}
+  .ccard .m{flex:1;min-width:0}
+  .ccard .m .tag{font-size:.68rem;font-weight:800;color:var(--tag-ink);background:var(--tag-bg);border-radius:6px;padding:.12rem .45rem}
+  .ccard .m b{display:block;font-weight:800;font-size:.95rem;color:var(--c-ink);margin-top:4px}
+  .ccard .m .pb{height:6px;border-radius:99px;background:var(--pb-track);margin-top:7px;overflow:hidden}
+  .ccard .m .pb i{display:block;height:100%;background:var(--pb-fill);border-radius:99px}
+
+  .game{background:var(--g-bg);border:1px solid var(--c-line);border-radius:18px;padding:16px;display:flex;
+    align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:.4rem;font-weight:800;font-size:.86rem;
+    border-radius:999px;padding:.4rem .8rem}
+  .pill.xp{background:var(--xp-bg);color:var(--xp-ink)}
+  .pill.flame{background:var(--fl-bg);color:var(--fl-ink)}
+  .lvl{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-weight:800;color:#fff;
+    background:var(--lvl-bg);box-shadow:0 8px 18px -8px var(--lvl-sh)}
+  .badges{display:flex;gap:6px}
+  .badges i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.9rem;
+    background:var(--board);border:1px solid var(--c-line)}
+
+  /* ============ Direction A — Vibrant Premium ============ */
+  .A{--h-bg:linear-gradient(120deg,#1B2450 0%,#3A2E7A 55%,#5B3FA6 100%);--h-ink:#fff;
+    --k-bg:rgba(255,255,255,.14);--k-ink:#FFE59E;
+    --cta-bg:linear-gradient(100deg,#FFB400,#FFD24D);--cta-ink:#221a05;--cta-sh:#FFB400;
+    --c-bg:#fff;--c-ink:#1B2450;--c-line:#EAECF6;--thumb:linear-gradient(135deg,#5B3FA6,#7C6CFC);
+    --tag-bg:#EDE9FE;--tag-ink:#6D4BD8;--pb-track:#EEF0F8;--pb-fill:linear-gradient(90deg,#10B4A0,#37D9C4);
+    --g-bg:#fff;--xp-bg:#EDE9FE;--xp-ink:#6D4BD8;--fl-bg:#FFEAD6;--fl-ink:#D9720B;
+    --lvl-bg:linear-gradient(150deg,#FFB400,#FF7A59);--lvl-sh:#FF7A59}
+  /* ============ Direction B — Playful Bright ============ */
+  .B{--h-bg:linear-gradient(120deg,#FF6B6B 0%,#FF9F45 45%,#FFC93C 100%);--h-ink:#3a1200;
+    --k-bg:rgba(255,255,255,.5);--k-ink:#8a2b00;
+    --cta-bg:#12243F;--cta-ink:#fff;--cta-sh:rgba(18,36,63,.6);
+    --c-bg:#fff;--c-ink:#2b1a3f;--c-line:#F4E7DE;--thumb:linear-gradient(135deg,#8B5CF6,#EC5CC4);
+    --tag-bg:#FFE7CC;--tag-ink:#C2410C;--pb-track:#F3E9E2;--pb-fill:linear-gradient(90deg,#2DD4BF,#38BDF8);
+    --g-bg:#FFFBF6;--xp-bg:#EDE9FE;--xp-ink:#7C3AED;--fl-bg:#FFE0DE;--fl-ink:#E23B3B;
+    --lvl-bg:linear-gradient(150deg,#8B5CF6,#EC5CC4);--lvl-sh:#EC5CC4}
+  /* ============ Direction C — Fresh Calm ============ */
+  .C{--h-bg:linear-gradient(120deg,#EAFBF4 0%,#E7F0FF 60%,#F3ECFF 100%);--h-ink:#123141;
+    --k-bg:#fff;--k-ink:#0E9E7E;
+    --cta-bg:linear-gradient(100deg,#10B981,#34D399);--cta-ink:#04231a;--cta-sh:#10B981;
+    --c-bg:#fff;--c-ink:#123141;--c-line:#E7EEF3;--thumb:linear-gradient(135deg,#34D399,#5EEAD4);
+    --tag-bg:#E0F5EE;--tag-ink:#0E9E7E;--pb-track:#EDF2F5;--pb-fill:linear-gradient(90deg,#A78BFA,#818CF8);
+    --g-bg:#F8FBFC;--xp-bg:#EDEBFF;--xp-ink:#6D5AE0;--fl-bg:#FFF0DD;--fl-ink:#D98A1A;
+    --lvl-bg:linear-gradient(150deg,#34D399,#22C1A6);--lvl-sh:#22C1A6}
+
+  .note{color:var(--chrome-mut);font-size:.86rem;margin-top:14px;display:flex;gap:8px;align-items:flex-start}
+  .note b{color:var(--chrome-ink)}
+  footer{padding-block:34px;color:var(--chrome-mut);font-size:.85rem;text-align:center}
+  .reveal{opacity:0;transform:translateY(16px);transition:.6s}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+
+<header class="top"><div class="wrap top-in">
+  <div class="brand">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="bm" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFB400"/><stop offset="1" stop-color="#7C6CFC"/></linearGradient></defs>
+      <rect x="6" y="22" width="6" height="12" rx="3" fill="url(#bm)"/><rect x="17" y="14" width="6" height="20" rx="3" fill="url(#bm)"/><rect x="28" y="6" width="6" height="28" rx="3" fill="url(#bm)"/></svg>
+    <div>Restrack <span>اتجاهات التصميم</span></div>
+  </div>
+  <button class="tbtn" id="themeBtn">🌙 المود</button>
+</div></header>
+
+<div class="wrap intro">
+  <div class="ey">اختر الروح · Pick the vibe</div>
+  <h1>واجهات شبابية مبهجة — أيّها يعبّر عنك؟</h1>
+  <p>ثلاثة اتجاهات على طيف الحيوية، كلها عربية RTL وتحافظ على هويتك، لكن بدرجات مختلفة من «المرح». أشِّر على واحد (أو اخلط عناصر) وأبدأ التنفيذ على أساسه. كل الأمثلة بمحتوى حقيقي من برنامجك.</p>
+</div>
+
+<!-- ===================== A ===================== -->
+<div class="wrap"><div class="dir A reveal">
+  <div class="dir-head">
+    <div class="dir-title">
+      <h2>① نابض وأنيق</h2><span class="sub">Vibrant Premium — حيوية + مصداقية</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span class="rec">توصيتي ✦</span>
+      <div class="sws"><i style="background:#5B3FA6"></i><i style="background:#7C6CFC"></i><i style="background:#FFB400"></i><i style="background:#10B4A0"></i><i style="background:#FF7A59"></i></div>
+    </div>
+  </div>
+  <div class="mock">
+    <div class="hero">
+      <span class="blob" style="width:150px;height:150px;background:#7C6CFC;inset-block-start:-40px;inset-inline-start:-30px;opacity:.5"></span>
+      <span class="blob" style="width:90px;height:90px;background:#FFB400;inset-block-end:-20px;inset-inline-end:30px;opacity:.55"></span>
+      <span class="emoji-float" style="inset-block-start:18px;inset-inline-end:22px">🔬</span>
+      <span class="k">✨ محاضرات مسجّلة · محاولات لا محدودة</span>
+      <h3>من مبتدئ إلى باحث ينشر 🚀</h3>
+      <p>اشتراك واحد يفتح المسار كامل. تعلّم بمتعة، اختبر بلا خوف، واحصل على شهادتك.</p>
+      <button class="cta">ابدأ مجاناً</button>
+    </div>
+    <div class="side">
+      <div class="ccard">
+        <div class="thumb">▶</div>
+        <div class="m"><span class="tag">المستوى 1</span><b>أخلاقيات البحث ولجان IRB</b><div class="pb"><i style="width:64%"></i></div></div>
+      </div>
+      <div class="game">
+        <div style="display:flex;gap:8px"><span class="pill xp">⭐ 1٬240 XP</span><span class="pill flame">🔥 12</span></div>
+        <div class="lvl num">L1</div>
+        <div class="badges"><i>🏅</i><i>📊</i><i>✅</i></div>
+      </div>
+      <button class="cta" style="background:#EDE9FE;color:#6D4BD8;box-shadow:none;align-self:stretch;text-align:center">🎯 اختبار المستوى — محاولات لا محدودة</button>
+    </div>
+  </div>
+  <p class="note">💡 <span><b>الفكرة:</b> يبقي كحلي/بنفسجي فخماً كأساس، ويضيف نبضات ذهبية/تركوازية مرحة وتلعيباً بارزاً. شبابي لكنه يليق بـ«البحث الطبي». <b>الأنسب لك غالباً.</b></span></p>
+</div></div>
+
+<!-- ===================== B ===================== -->
+<div class="wrap"><div class="dir B reveal">
+  <div class="dir-head">
+    <div class="dir-title"><h2>② مرِح وجريء</h2><span class="sub">Playful Bright — أقصى بهجة وطاقة</span></div>
+    <div class="sws"><i style="background:#FF6B6B"></i><i style="background:#FF9F45"></i><i style="background:#FFC93C"></i><i style="background:#8B5CF6"></i><i style="background:#2DD4BF"></i></div>
+  </div>
+  <div class="mock">
+    <div class="hero">
+      <span class="blob" style="width:130px;height:130px;background:#fff;opacity:.25;inset-block-start:-30px;inset-inline-start:40px"></span>
+      <span class="emoji-float" style="inset-block-start:16px;inset-inline-end:20px;font-size:2.4rem">🎉</span>
+      <span class="emoji-float" style="inset-block-end:18px;inset-inline-start:24px;font-size:1.6rem">📈</span>
+      <span class="k">🎓 تعلّم • العب • أنجز</span>
+      <h3>خلّي البحث ممتع! 🥳</h3>
+      <p>سلاسل يومية، نقاط، وشارات — تعلّم البحث الطبي وكأنك في لعبة تحبّها.</p>
+      <button class="cta">يلّا نبدأ</button>
+    </div>
+    <div class="side">
+      <div class="ccard">
+        <div class="thumb">▶</div>
+        <div class="m"><span class="tag">المستوى 1</span><b>صياغة أسئلة البحث</b><div class="pb"><i style="width:40%"></i></div></div>
+      </div>
+      <div class="game">
+        <div style="display:flex;gap:8px"><span class="pill xp">⭐ 1٬240</span><span class="pill flame">🔥 12 يوم</span></div>
+        <div class="lvl num">L1</div>
+        <div class="badges"><i>🥇</i><i>🎯</i><i>🧪</i></div>
+      </div>
+      <button class="cta" style="background:#FFE7CC;color:#C2410C;box-shadow:none;align-self:stretch;text-align:center">🏆 لوحة المتصدّرين</button>
+    </div>
+  </div>
+  <p class="note">💡 <span><b>الفكرة:</b> ألوان حلوى دافئة، إيموجي، أشكال دائرية، وطاقة «Duolingo/Noon». الأكثر شباباً ومرحاً — لكن أقل «رسمية طبية».</span></p>
+</div></div>
+
+<!-- ===================== C ===================== -->
+<div class="wrap"><div class="dir C reveal">
+  <div class="dir-head">
+    <div class="dir-title"><h2>③ منعش وهادئ</h2><span class="sub">Fresh Calm — بهجة عبر الخفّة والمساحات</span></div>
+    <div class="sws"><i style="background:#34D399"></i><i style="background:#5EEAD4"></i><i style="background:#A78BFA"></i><i style="background:#818CF8"></i><i style="background:#FDBA74"></i></div>
+  </div>
+  <div class="mock">
+    <div class="hero">
+      <span class="blob" style="width:120px;height:120px;background:#A78BFA;opacity:.25;inset-block-start:-30px;inset-inline-start:-20px"></span>
+      <span class="blob" style="width:80px;height:80px;background:#34D399;opacity:.3;inset-block-end:10px;inset-inline-end:20px"></span>
+      <span class="emoji-float" style="inset-block-start:18px;inset-inline-end:22px">🌱</span>
+      <span class="k">هادئ · مرتّب · مريح للعين</span>
+      <h3>تعلّم البحث بصفاء ذهن</h3>
+      <p>واجهة خفيفة ومتنفّسة، ألوان باستيل مبهجة، وتركيز كامل على تقدّمك.</p>
+      <button class="cta">اكتشف البرنامج</button>
+    </div>
+    <div class="side">
+      <div class="ccard">
+        <div class="thumb">▶</div>
+        <div class="m"><span class="tag">المستوى 2</span><b>تصميم الدراسات والعيّنات</b><div class="pb"><i style="width:52%"></i></div></div>
+      </div>
+      <div class="game">
+        <div style="display:flex;gap:8px"><span class="pill xp">🌟 1٬240</span><span class="pill flame">🔥 12</span></div>
+        <div class="lvl num">L2</div>
+        <div class="badges"><i>🎖️</i><i>📚</i><i>✔️</i></div>
+      </div>
+      <button class="cta" style="background:#EDEBFF;color:#6D5AE0;box-shadow:none;align-self:stretch;text-align:center">📈 تابع تقدّمي</button>
+    </div>
+  </div>
+  <p class="note">💡 <span><b>الفكرة:</b> بهجة عبر الخفّة والباستيل والمساحات البيضاء لا عبر الصخب — أنيق وشبابي ومريح، ومثالي للجوال.</span></p>
+</div></div>
+
+<footer class="wrap">اختر رقماً (① / ② / ③) أو قل «اخلط ① مع دفء ②» — وأبدأ فوراً على أساسه. كل الاتجاهات تدعم العربية والإنجليزية والمود الليلي/النهاري.</footer>
+
+<script>
+  (function(){var r=document.documentElement,b=document.getElementById('themeBtn');
+    function sd(){return matchMedia('(prefers-color-scheme:dark)').matches}
+    function dk(){var t=r.getAttribute('data-theme');return t?t==='dark':sd()}
+    function pt(){b.textContent=(dk()?'☀️':'🌙')+' المود'}
+    b.onclick=function(){r.setAttribute('data-theme',dk()?'light':'dark');pt()};pt();})();
+  (function(){var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,e=document.querySelectorAll('.reveal');
+    if(rm||!('IntersectionObserver'in window)){e.forEach(function(x){x.classList.add('in')});return}
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});
+    e.forEach(function(x){io.observe(x)});})();
+</script>

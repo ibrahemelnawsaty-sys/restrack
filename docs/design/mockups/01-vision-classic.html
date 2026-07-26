@@ -1,0 +1,552 @@
+<title>Restrack — رؤية المنصة / Platform Vision</title>
+<meta name="description" content="الرؤية البصرية لمنصة ريستراك: أكاديمية البحث الطبي الفاخرة العربية للطلاب السعوديين.">
+<style>
+  :root{
+    /* ---- LIGHT (day) is the default; dark redefines tokens below ---- */
+    --canvas:#F7F5EF; --surface-1:#FFFFFF; --surface-2:#FBF9F4;
+    --ink:#16264b; --ink-strong:#0D1830; --muted:#5C6B85;
+    --hairline:#E7E1D3; --hairline-strong:#D8CFB8;
+    --gold:#af9136; --gold-text:#8A7028; --gold-a:#af9136; --gold-b:#cba14a;
+    --on-gold:#16264b; --success:#2E7D5B; --success-bg:#E4F1EA;
+    --shadow:0 18px 50px -20px rgba(22,38,75,.28);
+    --shadow-sm:0 4px 18px -8px rgba(22,38,75,.20);
+    --ring-track:#EDE7D8;
+    --hero-ink:#F4F1EA; --hero-muted:#A9B2C3;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --canvas:#0D1830; --surface-1:#16264b; --surface-2:#1D3160;
+      --ink:#F4F1EA; --ink-strong:#FFFFFF; --muted:#A9B2C3;
+      --hairline:rgba(212,180,90,.16); --hairline-strong:rgba(212,180,90,.30);
+      --gold:#af9136; --gold-text:#D4B45A; --gold-a:#af9136; --gold-b:#D4B45A;
+      --on-gold:#0D1830; --success:#35C48A; --success-bg:rgba(53,196,138,.12);
+      --shadow:0 30px 70px -30px rgba(0,0,0,.65);
+      --shadow-sm:0 10px 30px -14px rgba(0,0,0,.55);
+      --ring-track:#243a63;
+      --hero-ink:#F4F1EA; --hero-muted:#A9B2C3;
+      color-scheme:dark;
+    }
+  }
+  /* Explicit toggle wins over the media query, both directions */
+  :root[data-theme="light"]{
+    --canvas:#F7F5EF; --surface-1:#FFFFFF; --surface-2:#FBF9F4;
+    --ink:#16264b; --ink-strong:#0D1830; --muted:#5C6B85;
+    --hairline:#E7E1D3; --hairline-strong:#D8CFB8;
+    --gold:#af9136; --gold-text:#8A7028; --gold-a:#af9136; --gold-b:#cba14a;
+    --on-gold:#16264b; --success:#2E7D5B; --success-bg:#E4F1EA;
+    --shadow:0 18px 50px -20px rgba(22,38,75,.28);
+    --shadow-sm:0 4px 18px -8px rgba(22,38,75,.20);
+    --ring-track:#EDE7D8; color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --canvas:#0D1830; --surface-1:#16264b; --surface-2:#1D3160;
+    --ink:#F4F1EA; --ink-strong:#FFFFFF; --muted:#A9B2C3;
+    --hairline:rgba(212,180,90,.16); --hairline-strong:rgba(212,180,90,.30);
+    --gold:#af9136; --gold-text:#D4B45A; --gold-a:#af9136; --gold-b:#D4B45A;
+    --on-gold:#0D1830; --success:#35C48A; --success-bg:rgba(53,196,138,.12);
+    --shadow:0 30px 70px -30px rgba(0,0,0,.65);
+    --shadow-sm:0 10px 30px -14px rgba(0,0,0,.55);
+    --ring-track:#243a63; color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0; background:var(--canvas); color:var(--ink);
+    font-family:'Tajawal','Segoe UI','Noto Sans Arabic',Tahoma,system-ui,sans-serif;
+    font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased;
+    transition:background .4s ease,color .4s ease;
+  }
+  .wrap{max-width:1120px;margin-inline:auto;padding-inline:24px}
+  h1,h2,h3{color:var(--ink-strong);text-wrap:balance;line-height:1.2;margin:0}
+  p{margin:0}
+  a{color:inherit}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  .eyebrow{
+    font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold-text);display:inline-flex;align-items:center;gap:.6em;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);opacity:.7}
+  .gold-text{
+    background:linear-gradient(100deg,var(--gold-a),var(--gold-b) 60%,var(--gold-a));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* ---------- top bar ---------- */
+  header.bar{
+    position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);
+    background:color-mix(in srgb,var(--canvas) 78%,transparent);
+    border-bottom:1px solid var(--hairline);
+  }
+  .bar-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:.7rem;font-weight:800;letter-spacing:.01em}
+  .brand .mark{width:34px;height:34px;flex:none}
+  .brand b{color:var(--ink-strong);font-size:1.06rem}
+  .brand span{color:var(--muted);font-size:.78rem;font-weight:600}
+  .controls{display:flex;align-items:center;gap:.5rem}
+  .btn{
+    font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+    border-radius:11px;border:1px solid var(--hairline-strong);
+    background:var(--surface-1);color:var(--ink);padding:.5rem .85rem;
+    display:inline-flex;align-items:center;gap:.45rem;transition:.2s;
+  }
+  .btn:hover{border-color:var(--gold);color:var(--gold-text)}
+  .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .btn-gold{
+    background:linear-gradient(110deg,var(--gold-a),var(--gold-b));
+    color:var(--on-gold);border:none;box-shadow:var(--shadow-sm);
+  }
+  .btn-gold:hover{color:var(--on-gold);filter:brightness(1.05)}
+
+  /* ---------- hero (committed dark, both themes) ---------- */
+  .hero{position:relative;overflow:hidden;
+    background:radial-gradient(120% 95% at 82% -10%,#22386a 0%,#132449 45%,#0a1730 100%);
+    color:var(--hero-ink);border-bottom:1px solid rgba(212,180,90,.18)}
+  #net{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.55}
+  .hero-in{position:relative;z-index:2;padding-block:74px 84px;display:grid;
+    grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(2.5rem,6vw,4.35rem);font-weight:800;letter-spacing:-.01em;color:#fff}
+  .hero .sub{color:#fff;font-weight:700;font-size:clamp(1.15rem,2.4vw,1.7rem);margin-top:.5rem;opacity:.96}
+  .hero .ar{color:var(--hero-muted);font-size:1.06rem;margin-top:1.15rem;max-width:46ch}
+  .hero-cta{display:flex;gap:.8rem;margin-top:1.9rem;flex-wrap:wrap}
+  .hero .btn{background:rgba(255,255,255,.06);border-color:rgba(212,180,90,.32);color:#F4F1EA}
+  .hero .btn:hover{border-color:var(--gold);color:#fff}
+  .badge-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:2rem}
+  .chip{font-size:.76rem;font-weight:700;color:#E7DFC8;border:1px solid rgba(212,180,90,.28);
+    border-radius:999px;padding:.32rem .7rem;background:rgba(212,180,90,.06)}
+  .live{width:7px;height:7px;border-radius:50%;background:#35C48A;display:inline-block;margin-inline-end:.4rem;
+    box-shadow:0 0 0 0 rgba(53,196,138,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 7px rgba(53,196,138,0)}100%{box-shadow:0 0 0 0 rgba(53,196,138,0)}}
+
+  /* glass stat card in hero */
+  .glass{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
+    border:1px solid rgba(212,180,90,.25);border-radius:22px;padding:22px;
+    backdrop-filter:blur(10px);box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
+  .glass h3{color:#fff;font-size:.95rem;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+  .ring-row{display:flex;align-items:center;gap:16px;margin-top:14px}
+  .ring{width:96px;height:96px;flex:none}
+  .ring .tr{fill:none;stroke:rgba(255,255,255,.12);stroke-width:9}
+  .ring .pr{fill:none;stroke:url(#gg);stroke-width:9;stroke-linecap:round;
+    stroke-dasharray:264;stroke-dashoffset:264;transform:rotate(-90deg);transform-origin:50% 50%;
+    transition:stroke-dashoffset 1.5s cubic-bezier(.2,.7,.2,1)}
+  .ring.on .pr{stroke-dashoffset:79} /* ~70% */
+  .ring-lbl{color:#fff}
+  .ring-lbl b{font-size:1.5rem;font-weight:800}
+  .ring-lbl span{display:block;color:var(--hero-muted);font-size:.8rem}
+  .mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .mini div{background:rgba(255,255,255,.05);border:1px solid rgba(212,180,90,.16);border-radius:13px;padding:10px 12px}
+  .mini b{color:#fff;font-size:1.15rem;font-weight:800;display:block}
+  .mini span{color:var(--hero-muted);font-size:.72rem}
+
+  /* ---------- generic section ---------- */
+  section{padding-block:76px}
+  .sec-head{max-width:62ch;margin-bottom:40px}
+  .sec-head h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800;margin-top:.6rem}
+  .sec-head p{color:var(--muted);margin-top:.8rem;font-size:1.05rem}
+
+  /* positioning band */
+  .posit{background:var(--surface-1);border-block:1px solid var(--hairline)}
+  .posit .wrap{padding-block:56px}
+  .posit p{font-size:clamp(1.2rem,2.6vw,1.7rem);font-weight:700;color:var(--ink-strong);line-height:1.6;max-width:24ch}
+  .posit .en{color:var(--muted);font-weight:600;font-size:1.02rem;margin-top:1rem;max-width:60ch;line-height:1.7}
+
+  /* ladder */
+  .ladder{display:grid;gap:18px}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;
+    background:var(--surface-1);border:1px solid var(--hairline);border-radius:20px;
+    padding:24px 26px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .step::after{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:4px;
+    background:linear-gradient(var(--gold-a),var(--gold-b))}
+  .node{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;flex:none;
+    background:linear-gradient(150deg,var(--gold-a),var(--gold-b));color:var(--on-gold);
+    font-weight:800;font-size:1.5rem;box-shadow:0 10px 24px -10px var(--gold)}
+  .step h3{font-size:1.28rem;font-weight:800}
+  .step .focus{color:var(--gold-text);font-weight:700;font-size:.92rem;margin-top:.2rem}
+  .tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+  .tag{font-size:.78rem;color:var(--muted);background:var(--surface-2);border:1px solid var(--hairline);
+    border-radius:8px;padding:.28rem .6rem}
+  .step .out{color:var(--muted);font-size:.92rem;margin-top:.85rem;line-height:1.7}
+  .step .exam{display:inline-flex;align-items:center;gap:.5rem;margin-top:.9rem;font-size:.82rem;
+    font-weight:700;color:var(--success);background:var(--success-bg);border-radius:999px;padding:.3rem .7rem}
+
+  /* differentiators grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--surface-1);border:1px solid var(--hairline);border-radius:18px;
+    padding:24px;box-shadow:var(--shadow-sm);transition:.25s}
+  .card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:var(--shadow)}
+  .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;
+    background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold-text)}
+  .card h3{font-size:1.1rem;font-weight:800}
+  .card p{color:var(--muted);font-size:.94rem;margin-top:.5rem}
+
+  /* dashboard mock */
+  .dash{background:var(--surface-2);border:1px solid var(--hairline);border-radius:24px;
+    padding:26px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.3fr 1fr;gap:22px}
+  .panel{background:var(--surface-1);border:1px solid var(--hairline);border-radius:16px;padding:20px}
+  .panel h4{margin:0 0 14px;font-size:.95rem;font-weight:800;color:var(--ink-strong);display:flex;justify-content:space-between;align-items:center}
+  .lec{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--hairline)}
+  .lec:first-of-type{border-top:none}
+  .lec .thumb{width:52px;height:34px;border-radius:8px;flex:none;
+    background:linear-gradient(135deg,#1D3160,#16264b);display:grid;place-items:center;color:var(--gold-b)}
+  .lec .meta{flex:1;min-width:0}
+  .lec .meta b{font-size:.9rem;font-weight:700;display:block;color:var(--ink)}
+  .lec .meta span{font-size:.76rem;color:var(--muted)}
+  .bar-prog{height:5px;border-radius:99px;background:var(--ring-track);overflow:hidden;margin-top:6px}
+  .bar-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-a),var(--gold-b))}
+  .stat2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat2 .s{background:var(--surface-2);border:1px solid var(--hairline);border-radius:13px;padding:14px}
+  .stat2 .s b{font-size:1.5rem;font-weight:800;color:var(--ink-strong);display:block}
+  .stat2 .s span{font-size:.76rem;color:var(--muted)}
+  .streak{display:flex;gap:5px;margin-top:10px}
+  .streak i{width:100%;height:26px;border-radius:6px;background:var(--ring-track)}
+  .streak i.hit{background:linear-gradient(160deg,var(--gold-a),var(--gold-b))}
+
+  /* protection layers */
+  .layers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .layer{display:flex;gap:14px;align-items:flex-start;background:var(--surface-1);
+    border:1px solid var(--hairline);border-radius:14px;padding:16px 18px}
+  .layer .n{font-variant-numeric:tabular-nums;font-weight:800;color:var(--gold-text);font-size:1.05rem;flex:none;width:1.6em}
+  .layer b{font-size:.96rem;color:var(--ink-strong)}
+  .layer p{font-size:.86rem;color:var(--muted);margin-top:.2rem}
+  .honest{margin-top:20px;border:1px dashed var(--hairline-strong);border-radius:14px;padding:16px 18px;
+    color:var(--muted);font-size:.92rem;background:var(--surface-1)}
+  .honest b{color:var(--ink-strong)}
+
+  /* tokens */
+  .tokgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .sw-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .sw{border-radius:12px;border:1px solid var(--hairline);overflow:hidden;width:104px;font-size:.72rem}
+  .sw .c{height:52px}
+  .sw .l{padding:6px 8px;background:var(--surface-1);color:var(--muted);font-variant-numeric:tabular-nums}
+  .scale div{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--hairline);padding:10px 0}
+  .scale div:first-child{border-top:none}
+  .scale .lab{color:var(--muted);font-size:.75rem;width:64px;flex:none}
+
+  /* certificate */
+  .cert{max-width:640px;margin-inline:auto;background:
+    linear-gradient(160deg,var(--surface-1),var(--surface-2));border:1px solid var(--hairline-strong);
+    border-radius:20px;padding:40px;text-align:center;position:relative;box-shadow:var(--shadow)}
+  .cert::before{content:"";position:absolute;inset:12px;border:1px solid var(--gold);opacity:.4;border-radius:12px;pointer-events:none}
+  .cert .seal{width:64px;height:64px;border-radius:50%;margin-inline:auto;display:grid;place-items:center;
+    background:linear-gradient(150deg,var(--gold-a),var(--gold-b));color:var(--on-gold);font-size:1.6rem;
+    box-shadow:0 8px 22px -8px var(--gold)}
+  .cert .t{font-size:1.5rem;font-weight:800;color:var(--ink-strong);margin-top:16px}
+  .cert .ta{font-size:1.15rem;color:var(--gold-text);font-weight:700;margin-top:2px}
+  .cert .who{margin-top:18px;font-size:1.35rem;font-weight:800;color:var(--ink-strong)}
+  .cert .desc{color:var(--muted);font-size:.92rem;margin-top:8px}
+  .cert .foot{display:flex;justify-content:space-between;margin-top:24px;font-size:.76rem;color:var(--muted);
+    border-top:1px solid var(--hairline);padding-top:16px;font-variant-numeric:tabular-nums}
+
+  /* footer */
+  footer{background:var(--surface-1);border-top:1px solid var(--hairline);padding-block:44px;margin-top:20px}
+  .fgrid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;align-items:center}
+  footer .muted{color:var(--muted);font-size:.86rem}
+  .phase-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .phase{font-size:.74rem;color:var(--muted);border:1px solid var(--hairline);border-radius:999px;padding:.3rem .7rem}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  @media(max-width:860px){
+    .hero-in{grid-template-columns:1fr;gap:34px}
+    .grid{grid-template-columns:1fr}
+    .dash{grid-template-columns:1fr}
+    .layers{grid-template-columns:1fr}
+    .tokgrid{grid-template-columns:1fr}
+    .posit .wrap{padding-block:40px}
+  }
+</style>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="bm" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stop-color="#af9136"/><stop offset="1" stop-color="#D4B45A"/></linearGradient></defs>
+        <rect x="6" y="22" width="6" height="12" rx="2" fill="url(#bm)"/>
+        <rect x="17" y="14" width="6" height="20" rx="2" fill="url(#bm)"/>
+        <rect x="28" y="6" width="6" height="28" rx="2" fill="url(#bm)"/>
+      </svg>
+      <div><b>Restrack</b> <span>مؤسسة ريستراك للتدريب</span></div>
+    </div>
+    <div class="controls">
+      <span class="btn" aria-hidden="true" style="cursor:default">AR ⇄ EN</span>
+      <button class="btn" id="themeBtn" aria-label="تبديل الوضع الليلي/النهاري"><span id="themeIcon">🌙</span><span id="themeTxt">ليلي</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <div class="reveal in">
+      <span class="chip"><span class="live"></span>منصة تعليمية · محاضرات مسجّلة</span>
+      <h1 class="gold-text" style="margin-top:16px">Research Track Platform</h1>
+      <p class="sub">From Beginner to Expert in Medical Research</p>
+      <p class="ar">أفخر أكاديمية عربية لتعليم <b style="color:#fff">البحث الطبي</b> — اشتراك واحد يفتح سُلّماً كاملاً من المبتدئ إلى الباحث الناشر، بشهادات موثّقة ومحتوى محمي.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#ladder">ابدأ رحلتك البحثية</a>
+        <a class="btn" href="#program">اطّلع على البرنامج</a>
+      </div>
+      <div class="badge-row">
+        <span class="chip">🇸🇦 سعودية بامتياز</span>
+        <span class="chip">♾️ محاولات اختبار لا محدودة</span>
+        <span class="chip">🔒 فيديو محمي بعلامة مائية</span>
+        <span class="chip">⚡ خفيفة وسريعة</span>
+      </div>
+    </div>
+
+    <div class="glass reveal in" aria-label="لوحة الطالب — محاكاة">
+      <h3>لوحتي · Mission Control <span style="color:var(--hero-muted);font-weight:600;font-size:.72rem">اليوم</span></h3>
+      <div class="ring-row">
+        <svg class="ring" id="ring" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#af9136"/><stop offset="1" stop-color="#D4B45A"/></linearGradient></defs>
+          <circle class="tr" cx="50" cy="50" r="42"/>
+          <circle class="pr" cx="50" cy="50" r="42"/>
+        </svg>
+        <div class="ring-lbl">
+          <b class="num">70%</b><span>تقدّم المستوى الأول</span>
+        </div>
+      </div>
+      <div class="mini">
+        <div><b class="num">🔥 12</b><span>يوم متتالٍ</span></div>
+        <div><b class="num">3</b><span>مستويات في المسار</span></div>
+        <div><b>الاختبار التالي</b><span>أساسيات المنهجية</span></div>
+        <div><b>شهادتي</b><span>عند الإكمال</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="posit">
+  <div class="wrap">
+    <span class="eyebrow">التموضع · Positioning</span>
+    <p style="margin-top:14px">من «أريد أن أبحث» إلى باحث <span class="gold-text">منشور ومعتمد</span>.</p>
+    <p class="en">Restrack is a professional learning platform that develops medical research skills through structured programs, guiding learners from beginner to expert levels — Arabic-first, unmistakably Saudi, and unlike any Arabic education site your students have seen.</p>
+  </div>
+</div>
+
+<section id="program" class="wrap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">البرنامج · Research Track Programs (1)</span>
+    <h2>سُلّم واحد من المبتدئ إلى الخبير</h2>
+    <p>كل مستوى: محاضرات مسجّلة تُشاهد وتُعاد متى شئت ← تمارين تطبيقية ← اختبار بمحاولات <b>لا محدودة</b> (النجاح 70%) ← شهادة. إكمال المسار = مشروع/مخطوطة جاهزة للنشر.</p>
+  </div>
+  <div id="ladder" class="ladder">
+    <div class="step reveal">
+      <div class="node num">1</div>
+      <div>
+        <h3>Beginner Researcher — الباحث المبتدئ</h3>
+        <div class="focus">Foundations of Medical Research</div>
+        <div class="tags">
+          <span class="tag">Introduction to Research</span><span class="tag">Research Ethics & IRB</span>
+          <span class="tag">Literature Search</span><span class="tag">Research Questions</span>
+          <span class="tag">Study Types</span><span class="tag">Referencing Basics</span>
+        </div>
+        <p class="out">المخرجات: فهم أساسيات البحث · صياغة أسئلة بحثية سليمة · تطبيق مبادئ الأخلاقيات · إجراء مراجعات أدبية.</p>
+        <span class="exam">✔ اختبار المستوى — محاولات لا محدودة</span>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="node num">2</div>
+      <div>
+        <h3>Intermediate Researcher — الباحث المتوسط</h3>
+        <div class="focus">Research Design & Data Management</div>
+        <div class="tags">
+          <span class="tag">Study Design</span><span class="tag">Sampling Methods</span>
+          <span class="tag">Data Collection</span><span class="tag">Statistical Basics</span>
+          <span class="tag">Proposal Writing</span><span class="tag">Data Management</span><span class="tag">Bias & Confounding</span>
+        </div>
+        <p class="out">المخرجات: تصميم دراسات مُحكمة · تطوير مقترحات بحثية · إدارة البيانات · تطبيق الإحصاء الأساسي · تقليل التحيّز.</p>
+        <span class="exam">✔ اختبار المستوى — محاولات لا محدودة</span>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="node num">3</div>
+      <div>
+        <h3>Expert Researcher — الباحث الخبير</h3>
+        <div class="focus">Scientific Writing & Publication</div>
+        <div class="tags">
+          <span class="tag">Manuscript Writing</span><span class="tag">Journal Selection</span>
+          <span class="tag">Peer Review</span><span class="tag">Systematic Reviews</span>
+          <span class="tag">Publication Ethics</span><span class="tag">Research Impact</span><span class="tag">Grant Writing</span>
+        </div>
+        <p class="out">المخرجات: كتابة أوراق قابلة للنشر · النشر في مجلات مفهرسة · الرد على المُحكّمين · المراجعات المنهجية · قيادة مشاريع بحثية.</p>
+        <span class="exam">✔ اختبار المستوى — محاولات لا محدودة</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">لماذا نتفوّق · The Edge</span>
+    <h2>ما لا يقدّمه أي منافس مجتمعاً</h2>
+    <p>Negida مصري ويبيع بالكورس، MedONE كورس أساسيات واحد، Coursera بالإنجليزية وغير مُوطَّن. نحن نجمعها كلها.</p>
+  </div>
+  <div class="grid">
+    <div class="card reveal"><div class="ic">🇸🇦</div><h3>سعودية بالكامل</h3><p>ريال سعودي، مدى وApple Pay وSTC Pay وتابي/تمارا، فاتورة ZATCA، محتوى IRB سعودي (NCBE/KACST).</p></div>
+    <div class="card reveal"><div class="ic">♾️</div><h3>اشتراك واحد لكل شيء</h3><p>يفتح المسار كاملاً بلا دفع لكل كورس — أبسط وأفخم وأعلى قيمة على المدى.</p></div>
+    <div class="card reveal"><div class="ic">🎯</div><h3>سُلّم ممتحَن</h3><p>مستويات متسلسلة، اختبارات مصحّحة تلقائياً، ومحاولات لا محدودة تُزيل خوف «أدفع وما أنجح».</p></div>
+    <div class="card reveal"><div class="ic">🏅</div><h3>شهادات موثّقة</h3><p>ثنائية اللغة، بتحقّق عام عبر QR، وقابلة للمشاركة على واتساب/لينكدإن.</p></div>
+    <div class="card reveal"><div class="ic">🔬</div><h3>تعلّم بالممارسة</h3><p>مختبرات تفاعلية: احسب حجم العينة، شغّل اختبار t، قيّم ورقة، اقرأ مخطط الغابة — بتغذية راجعة فورية.</p></div>
+    <div class="card reveal"><div class="ic">🛡️</div><h3>فيديو محمي ذاتياً</h3><p>لا YouTube — بث مشفّر داخل المنصة، روابط موقّتة، وعلامة مائية باسم الطالب تجعل أي تسريب متتبَّعاً.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">تجربة الطالب · Student UX</span>
+    <h2>لوحة تحكّم يفخر بها الطالب</h2>
+    <p>مصمّمة للجوال أولاً، عربية RTL أصيلة، خفيفة وسريعة — «متابعة المشاهدة»، حلقة التقدّم، السلسلة اليومية، والاختبار القادم في لمحة.</p>
+  </div>
+  <div class="dash reveal">
+    <div class="panel">
+      <h4>تابع من حيث توقّفت <span style="color:var(--gold-text);font-size:.78rem;font-weight:700">المستوى 1</span></h4>
+      <div class="lec"><div class="thumb">▶</div><div class="meta"><b>أخلاقيات البحث ولجان IRB</b><span>8:24 دقيقة · مسجّلة</span><div class="bar-prog"><i style="width:64%"></i></div></div></div>
+      <div class="lec"><div class="thumb">▶</div><div class="meta"><b>صياغة أسئلة البحث</b><span>6:10 دقيقة · مسجّلة</span><div class="bar-prog"><i style="width:30%"></i></div></div></div>
+      <div class="lec"><div class="thumb">▶</div><div class="meta"><b>أنواع الدراسات</b><span>9:05 دقيقة · مسجّلة</span><div class="bar-prog"><i style="width:0"></i></div></div></div>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:16px">
+        <h4>هذا الأسبوع</h4>
+        <div class="stat2">
+          <div class="s"><b class="num">4.2</b><span>ساعة تعلّم</span></div>
+          <div class="s"><b class="num">86%</b><span>متوسط الاختبارات</span></div>
+        </div>
+        <p style="color:var(--muted);font-size:.78rem;margin:14px 0 6px">سلسلة 12 يوماً 🔥</p>
+        <div class="streak"><i class="hit"></i><i class="hit"></i><i class="hit"></i><i class="hit"></i><i class="hit"></i><i class="hit"></i><i></i></div>
+      </div>
+      <div class="panel">
+        <h4>الاختبار القادم</h4>
+        <p style="color:var(--ink);font-weight:700;font-size:.95rem">أساسيات المنهجية البحثية</p>
+        <p style="color:var(--muted);font-size:.82rem;margin-top:4px">15 سؤالاً · النجاح 70% · محاولات لا محدودة</p>
+        <a class="btn btn-gold" style="margin-top:12px" href="#">ابدأ الاختبار</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">حماية المحتوى · Content Protection</span>
+    <h2>حماية واقعية بطبقات — بصراحة</h2>
+    <p>الفيديوهات كلها داخل المنصة، لا روابط خارجية. نحمي بذكاء ونصارحك بالحدود.</p>
+  </div>
+  <div class="layers">
+    <div class="layer reveal"><span class="n num">1</span><div><b>روابط موقّعة قصيرة الأمد</b><p>كل مقطع/مفتاح خلف رابط ينتهي خلال دقائق — الرابط المسرّب يموت قبل أن يُشارَك.</p></div></div>
+    <div class="layer reveal"><span class="n num">2</span><div><b>HLS مشفّر (AES‑128)</b><p>ترميز تلقائي عند الرفع بمفاتيح متغيّرة — مفتاح مسرّب واحد لا يفكّ الفيديو كله.</p></div></div>
+    <div class="layer reveal"><span class="n num">3</span><div><b>مفتاح مُصادَق عليه</b><p>مفتاح فك التشفير يمرّ عبر تحقّق اشتراك وأحقية — لا يُخدَّم كملف ثابت أبداً.</p></div></div>
+    <div class="layer reveal"><span class="n num">4</span><div><b>علامة مائية متحركة</b><p>اسم الطالب العربي + معرّف مُقنّع يتحرك فوق الفيديو — يظهر في أي تسجيل شاشة ويربط التسريب بصاحبه.</p></div></div>
+    <div class="layer reveal"><span class="n num">5</span><div><b>حدود الأجهزة والجلسات</b><p>سقف للبث المتزامن + كشف المشاركة (سفر مستحيل/عدة عناوين) — يوقف تسريب الحسابات.</p></div></div>
+    <div class="layer reveal"><span class="n num">6</span><div><b>ردع قانوني سعودي</b><p>تنبيه داخل المشغّل يستند لنظام حقوق المؤلف السعودي 2026 (SAIP) — تحذير يُخيف فعلاً.</p></div></div>
+  </div>
+  <p class="honest reveal"><b>بصراحة تقنية:</b> لا يمكن لأي متصفح منع تصوير الشاشة 100% — الكاميرا الخارجية تتجاوز كل حيلة. لذلك نبني على <b>التتبّع</b> (العلامة المائية) و<b>تصعيب التحميل</b> (تشفير + توقيع)، لا على وعود مستحيلة. المنع الحقيقي لتسجيل الشاشة يحتاج تطبيقاً أصلياً (DRM) نضيفه لاحقاً عند الحاجة.</p>
+</section>
+
+<section class="posit">
+  <div class="wrap">
+    <span class="eyebrow">نظام التصميم · Design System</span>
+    <h2 style="font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800;margin-top:12px">كحلي فاخر × ذهب مُقتَّر — عربي أولاً</h2>
+    <div class="tokgrid" style="margin-top:26px">
+      <div class="panel">
+        <h4>الألوان — Light + Dark</h4>
+        <p style="color:var(--muted);font-size:.85rem;margin-bottom:6px">هذه الصفحة نفسها تبدّل بين المودين (جرّب الزر بالأعلى ↑)</p>
+        <div class="sw-row">
+          <div class="sw"><div class="c" style="background:#0D1830"></div><div class="l">Canvas 0D1830</div></div>
+          <div class="sw"><div class="c" style="background:#16264b"></div><div class="l">Navy 16264b</div></div>
+          <div class="sw"><div class="c" style="background:#1D3160"></div><div class="l">Surface 1D3160</div></div>
+          <div class="sw"><div class="c" style="background:#af9136"></div><div class="l">Gold af9136</div></div>
+          <div class="sw"><div class="c" style="background:#D4B45A"></div><div class="l">Gold+ D4B45A</div></div>
+          <div class="sw"><div class="c" style="background:#F4F1EA"></div><div class="l">Paper F4F1EA</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h4>مقياس الطباعة</h4>
+        <div class="scale">
+          <div><span class="lab num">44px</span><span style="font-size:1.7rem;font-weight:800;color:var(--ink-strong)">عنوان رئيسي</span></div>
+          <div><span class="lab num">24px</span><span style="font-size:1.25rem;font-weight:800;color:var(--ink-strong)">عنوان قسم</span></div>
+          <div><span class="lab num">17px</span><span style="color:var(--ink)">نص المتن — مريح للقراءة العربية</span></div>
+          <div><span class="lab num">12px</span><span class="eyebrow" style="margin:0">LABEL · عنوان صغير</span></div>
+        </div>
+        <p style="color:var(--muted);font-size:.82rem;margin-top:14px">IBM Plex Sans Arabic / Tajawal (مستضاف ذاتياً) · أرقام عربية-غربية 1‏2‏3 · RTL منطقي.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head reveal" style="text-align:center;margin-inline:auto">
+    <span class="eyebrow" style="justify-content:center">الشهادة · Credential</span>
+    <h2>شهادة تُشارَك بفخر</h2>
+  </div>
+  <div class="cert reveal">
+    <div class="seal">🏅</div>
+    <div class="t">Certificate of Completion</div>
+    <div class="ta">شهادة إكمال</div>
+    <div class="who">عبدالله محمد الأحمدي</div>
+    <div class="desc">أتمّ بنجاح مسار «Research Track Programs (1) — From Beginner to Expert in Medical Research»</div>
+    <div class="foot"><span>No. RST-2026-4F9A2C1B</span><span>تحقّق عبر QR ✅</span><span>2026 / 07 / 23</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fgrid">
+    <div>
+      <div class="brand"><b>Restrack</b> <span>مؤسسة ريستراك للتدريب</span></div>
+      <p class="muted" style="margin-top:8px">الرقم الوطني الموحّد: <span class="num">7053567603</span></p>
+      <div class="phase-row">
+        <span class="phase">① محتوى وثيمات</span><span class="phase">② SEO تلقائي</span><span class="phase">③ شهادات</span>
+        <span class="phase">④ اختبارات</span><span class="phase">⑤ مدفوعات KSA</span><span class="phase">⑥ بوابة المدربين</span>
+        <span class="phase">⑦ فيديو محمي</span><span class="phase">⑧ أمن وامتثال</span><span class="phase">⑨ نمو</span>
+      </div>
+    </div>
+    <p class="muted" style="max-width:30ch">رؤية بصرية — نظام تصميم حيّ. الأداء والأمن والامتثال (PDPL · ZATCA · NCA ECC) مبنية من الأساس.</p>
+  </div>
+</footer>
+
+<script>
+  // theme toggle (respects OS default; explicit choice wins both directions)
+  (function(){
+    var root=document.documentElement, btn=document.getElementById('themeBtn'),
+        ic=document.getElementById('themeIcon'), tx=document.getElementById('themeTxt');
+    function sysDark(){return window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches}
+    function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':sysDark()}
+    function paint(){var d=isDark();ic.textContent=d?'☀️':'🌙';tx.textContent=d?'نهاري':'ليلي'}
+    btn.addEventListener('click',function(){root.setAttribute('data-theme',isDark()?'light':'dark');paint()});
+    paint();
+  })();
+
+  // scroll reveal
+  (function(){
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var els=document.querySelectorAll('.reveal');
+    if(reduce||!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('in')});}
+    else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.14});
+      els.forEach(function(e){if(!e.classList.contains('in'))io.observe(e)});}
+    var ring=document.getElementById('ring');
+    if(ring){setTimeout(function(){ring.classList.add('on')},450);}
+  })();
+
+  // hero research-network canvas (subtle, gold on navy)
+  (function(){
+    var c=document.getElementById('net'); if(!c)return;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var ctx=c.getContext('2d'),W,H,pts=[],raf;
+    function size(){var r=c.getBoundingClientRect();W=c.width=r.width*devicePixelRatio;H=c.height=r.height*devicePixelRatio;}
+    function init(){size();pts=[];var n=Math.min(46,Math.floor(W/38));for(var i=0;i<n;i++){pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.14*devicePixelRatio,vy:(Math.random()-.5)*.14*devicePixelRatio});}}
+    function draw(){ctx.clearRect(0,0,W,H);
+      for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+        for(var j=i+1;j<pts.length;j++){var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy),m=140*devicePixelRatio;
+          if(d<m){ctx.strokeStyle='rgba(212,180,90,'+(.16*(1-d/m))+')';ctx.lineWidth=devicePixelRatio;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}
+        ctx.fillStyle='rgba(212,180,90,.55)';ctx.beginPath();ctx.arc(p.x,p.y,1.5*devicePixelRatio,0,6.283);ctx.fill();}
+      raf=requestAnimationFrame(draw);}
+    init();
+    if(reduce){draw();cancelAnimationFrame(raf);/*one static frame*/draw();cancelAnimationFrame(raf);}
+    else{draw();}
+    var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(init,200);});
+  })();
+</script>
