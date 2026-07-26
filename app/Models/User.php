@@ -96,6 +96,16 @@ class User extends Authenticatable
         return $this->role === self::ROLE_SUPER_ADMIN;
     }
 
+    /** The landing route name for this user's role (used after login and in the navbar). */
+    public function homeRoute(): string
+    {
+        return match (true) {
+            $this->isAdmin() => 'admin.dashboard',
+            $this->isInstructor() => 'instructor.dashboard',
+            default => 'dashboard',
+        };
+    }
+
     // ----- subscription gate: one active, non-expired subscription unlocks everything -----
 
     public function activeSubscription(): ?Subscription

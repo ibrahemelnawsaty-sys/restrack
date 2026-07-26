@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Instructor;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
@@ -77,4 +78,14 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 
     Route::get('subscriptions', [Admin\SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::patch('subscriptions/{subscription}/activate', [Admin\SubscriptionController::class, 'activate'])->name('subscriptions.activate');
+});
+
+// ---------- Instructor portal (scoped to own content) ----------
+Route::middleware(['auth', 'role:instructor'])->prefix('instructor')->name('instructor.')->group(function () {
+    Route::get('/', [Instructor\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('lectures', [Instructor\LectureController::class, 'index'])->name('lectures.index');
+    Route::get('lectures/create', [Instructor\LectureController::class, 'create'])->name('lectures.create');
+    Route::post('lectures', [Instructor\LectureController::class, 'store'])->name('lectures.store');
+    Route::get('lectures/{lecture}/edit', [Instructor\LectureController::class, 'edit'])->name('lectures.edit');
+    Route::put('lectures/{lecture}', [Instructor\LectureController::class, 'update'])->name('lectures.update');
 });

@@ -119,4 +119,42 @@ class SmokeTest extends TestCase
         $this->assertNotNull($lecture->video_path);
         \Illuminate\Support\Facades\Storage::disk('videos')->assertExists($lecture->video_path);
     }
+
+    public function test_instructor_has_own_portal_and_scoping(): void
+    {
+        $instructor = User::where('email', 'instructor@restrack.sa')->firstOrFail();
+
+        // login sends an instructor to their portal (not the student dashboard)
+        $this->post('/login', ['email' => 'instructor@restrack.sa', 'password' => 'password'])
+            ->assertRedirect(route('instructor.dashboard'));
+
+        $this->actingAs($instructor)->get('/instructor')->assertOk();
+        $this->actingAs($instructor)->get('/instructor/lectures')->assertOk();
+
+        // instructor cannot reach the admin area
+        $this->actingAs($instructor)->get('/admin')->assertForbidden();
+
+        // creating a lecture is force-scoped to the instructor's own speaker
+        $this->actingAs($instructor)->post('/instructor/lectures', [
+            'level_id' => \App\Models\Level::first()->id,
+            'title_ar' => 'محاضرة المدرّب',
+            'duration_seconds' => 90,
+            'sort_order' => 50,
+            'is_published' => '1',
+        ])->assertRedirect(route('instructor.lectures.index'));
+        $this->assertDatabaseHas('lectures', [
+            'title_ar' => 'محاضرة المدرّب',
+            'speaker_id' => $instructor->speaker->id,
+        ]);
+
+        // instructor may NOT edit a lecture that isn't theirs (deny-by-default)
+        $unowned = \App\Models\Lecture::create([
+            'level_id' => \App\Models\Level::first()->id,
+            'speaker_id' => null,
+            'title_ar' => 'ليست له',
+            'sort_order' => 999,
+            'is_published' => true,
+        ]);
+        $this->actingAs($instructor)->get(route('instructor.lectures.edit', $unowned))->assertForbidden();
+    }
 }

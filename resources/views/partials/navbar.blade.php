@@ -15,10 +15,8 @@
         <div class="bar-actions">
             <button class="tbtn" id="themeBtn" aria-label="تبديل الوضع الليلي والنهاري"><svg class="ico" id="themeIco" aria-hidden="true"><use href="#i-moon"/></svg><span id="themeTxt">ليلي</span></button>
             @auth
-                @if (auth()->user()->isAdmin())
-                    <a class="login" href="{{ route('admin.dashboard') }}">لوحة الإدارة</a>
-                @endif
-                <a class="btn btn-gold-line btn-sm bar-cta" href="{{ route('dashboard') }}">لوحتي</a>
+                @php($u = auth()->user())
+                <a class="btn btn-gold-line btn-sm bar-cta" href="{{ route($u->homeRoute()) }}">{{ $u->isAdmin() ? 'لوحة الإدارة' : ($u->isInstructor() ? 'بوّابة المدرّب' : 'لوحتي') }}</a>
                 <form method="POST" action="{{ route('logout') }}" class="bar-cta" style="display:inline">
                     @csrf
                     <button type="submit" class="login" style="background:none;border:none;cursor:pointer;font-family:inherit">خروج</button>
@@ -36,8 +34,8 @@
         <a href="{{ $home }}#pricing">الأسعار</a>
         <a href="{{ $home }}#faq">الأسئلة</a>
         @auth
-            <a href="{{ route('dashboard') }}">لوحتي</a>
-            @if (auth()->user()->isAdmin())<a href="{{ route('admin.dashboard') }}">لوحة الإدارة</a>@endif
+            @php($u = auth()->user())
+            <a href="{{ route($u->homeRoute()) }}">{{ $u->isAdmin() ? 'لوحة الإدارة' : ($u->isInstructor() ? 'بوّابة المدرّب' : 'لوحتي') }}</a>
             <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit" class="btn btn-ghost full" style="font-family:inherit;cursor:pointer">تسجيل الخروج</button></form>
         @else
             <a href="{{ route('login') }}">تسجيل الدخول</a>
