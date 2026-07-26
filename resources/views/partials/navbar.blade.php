@@ -28,7 +28,7 @@
             <button class="tbtn menuBtn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="القائمة"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
         </div>
     </div>
-    <div class="mobile-menu glass" id="mobileMenu">
+    <div class="mobile-menu glass" id="mobileMenu" hidden>
         <a href="{{ $home }}#features">المميزات</a>
         <a href="{{ $home }}#program">البرنامج</a>
         <a href="{{ $home }}#pricing">الأسعار</a>

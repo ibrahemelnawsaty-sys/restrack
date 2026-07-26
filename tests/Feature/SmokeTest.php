@@ -131,6 +131,9 @@ class SmokeTest extends TestCase
         $this->actingAs($instructor)->get('/instructor')->assertOk();
         $this->actingAs($instructor)->get('/instructor/lectures')->assertOk();
 
+        // hitting the student dashboard bounces an instructor to their own
+        $this->actingAs($instructor)->get('/dashboard')->assertRedirect(route('instructor.dashboard'));
+
         // instructor cannot reach the admin area
         $this->actingAs($instructor)->get('/admin')->assertForbidden();
 

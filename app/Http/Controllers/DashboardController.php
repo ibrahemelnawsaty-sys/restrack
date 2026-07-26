@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Level;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
         $user = auth()->user();
+
+        // Every role lands on its OWN dashboard (admins/instructors never see the student view).
+        if (! $user->isStudent()) {
+            return redirect()->route($user->homeRoute());
+        }
 
         $levels = Level::published()
             ->with(['lectures' => fn ($q) => $q->where('is_published', true)->orderBy('sort_order')])

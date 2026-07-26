@@ -160,8 +160,8 @@
   .btn-gold-line:hover{transform:translateY(-2px);background:var(--g-fill-1)}
   .menuBtn{display:none;padding:.5rem}
   .menuBtn .ico{width:18px;height:18px;stroke-width:2}
-  .mobile-menu{display:none;flex-direction:column;gap:2px;margin-top:10px;padding:12px}
-  .mobile-menu.open{display:flex}
+  .mobile-menu{display:flex;flex-direction:column;gap:2px;margin-top:10px;padding:12px}
+  .mobile-menu[hidden]{display:none}
   .mobile-menu a{font-size:.92rem;font-weight:700;color:var(--ink);text-decoration:none;padding:.7rem .8rem;border-radius:11px}
   .mobile-menu a:hover{background:var(--g-fill-3)}
   .mobile-menu .btn{margin-top:6px}

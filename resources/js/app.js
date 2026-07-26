@@ -64,12 +64,15 @@ var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
     a.addEventListener('click',function(){set(true)});
   })();
 
-  /* mobile menu disclosure */
+  /* mobile menu disclosure — the [hidden] attribute keeps it closed by default */
   (function(){
     var btn=document.getElementById('menuBtn'),menu=document.getElementById('mobileMenu');
     if(!btn||!menu)return;
-    btn.addEventListener('click',function(){
-      var open=menu.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));
-    });
-    menu.addEventListener('click',function(e){if(e.target.closest('a')){menu.classList.remove('open');btn.setAttribute('aria-expanded','false');}});
+    function setOpen(open){
+      if(open){menu.removeAttribute('hidden');}else{menu.setAttribute('hidden','');}
+      btn.setAttribute('aria-expanded',String(open));
+    }
+    setOpen(false);
+    btn.addEventListener('click',function(){setOpen(menu.hasAttribute('hidden'));});
+    menu.addEventListener('click',function(e){if(e.target.closest('a')){setOpen(false);}});
   })();
