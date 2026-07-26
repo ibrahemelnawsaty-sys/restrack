@@ -1,6 +1,6 @@
 var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  /* theme toggle — cooperates with the viewer's data-theme; never forces on load */
+  /* theme toggle — persists the choice across pages (localStorage) */
   (function(){
     var r=document.documentElement,b=document.getElementById('themeBtn'),
         u=document.querySelector('#themeIco use'),t=document.getElementById('themeTxt');
@@ -8,7 +8,12 @@ var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
     function sysDark(){return matchMedia('(prefers-color-scheme:dark)').matches}
     function isDark(){var v=r.getAttribute('data-theme');return v?v==='dark':sysDark()}
     function paint(){var d=isDark();u.setAttribute('href',d?'#i-moon':'#i-sun');t.textContent=d?'ليلي':'نهاري'}
-    b.addEventListener('click',function(){r.setAttribute('data-theme',isDark()?'light':'dark');paint()});
+    b.addEventListener('click',function(){
+      var next=isDark()?'light':'dark';
+      r.setAttribute('data-theme',next);
+      try{localStorage.setItem('theme',next);}catch(e){}
+      paint();
+    });
     paint();
   })();
 
