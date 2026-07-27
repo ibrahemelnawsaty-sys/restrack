@@ -11,6 +11,8 @@ class DashboardController extends Controller
     public function index(): View
     {
         $speaker = self::resolveSpeaker();
+        $user = auth()->user();
+        $user->ensureReferralCode();
 
         $lectures = $speaker->lectures()->with('level')
             ->orderBy('level_id')->orderBy('sort_order')->get();
@@ -22,7 +24,13 @@ class DashboardController extends Controller
             'minutes' => (int) round($lectures->sum('duration_seconds') / 60),
         ];
 
-        return view('instructor.dashboard', compact('speaker', 'lectures', 'stats'));
+        $referral = [
+            'url' => $user->referralUrl(),
+            'registered' => $user->referrals()->count(),
+            'subscribers' => $user->referrals()->subscribedActive()->count(),
+        ];
+
+        return view('instructor.dashboard', compact('speaker', 'lectures', 'stats', 'referral'));
     }
 
     /** Ensure the logged-in instructor has a Speaker profile (self-heals a newly promoted instructor). */

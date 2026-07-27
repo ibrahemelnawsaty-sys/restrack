@@ -8,8 +8,13 @@
       <h1>ابدأ رحلتك</h1>
       <p class="sub">أنشئ حسابك المجاني وابدأ من المستوى الأول.</p>
 
+      @if (!empty($referrer))
+        <div class="flash rise in" role="status" style="margin-bottom:14px">أنت مدعوٌّ من <b>{{ $referrer->name }}</b></div>
+      @endif
+
       <form method="POST" action="{{ route('register') }}">
         @csrf
+        @if (!empty($refCode))<input type="hidden" name="ref" value="{{ $refCode }}">@endif
         <div class="field">
           <label for="name">الاسم الكامل</label>
           <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus>

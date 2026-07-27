@@ -5,10 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -27,6 +29,8 @@ class User extends Authenticatable
         'role',
         'locale',
         'theme',
+        'referral_code',
+        'referred_by',
     ];
 
     protected $hidden = [
@@ -127,5 +131,47 @@ class User extends Authenticatable
         }
 
         return $this->activeSubscription() !== null;
+    }
+
+    // ----- referrals (a doctor/instructor invites students) -----
+
+    public function referrer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'referred_by');
+    }
+
+    public function referrals(): HasMany
+    {
+        return $this->hasMany(User::class, 'referred_by');
+    }
+
+    /** Generate (once) and return this user's unique referral code. */
+    public function ensureReferralCode(): string
+    {
+        if (! $this->referral_code) {
+            do {
+                $code = 'DR'.strtoupper(Str::random(6));
+            } while (static::where('referral_code', $code)->exists());
+
+            $this->forceFill(['referral_code' => $code])->save();
+        }
+
+        return $this->referral_code;
+    }
+
+    public function referralUrl(): string
+    {
+        return url('/r/'.$this->ensureReferralCode());
+    }
+
+    /** Scope: users who currently hold an active, non-expired subscription. */
+    public function scopeSubscribedActive($query)
+    {
+        return $query->whereHas('subscriptions', function ($q) {
+            $q->where('status', Subscription::STATUS_ACTIVE)
+                ->where(function ($q) {
+                    $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
+                });
+        });
     }
 }

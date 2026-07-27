@@ -10,6 +10,7 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/pricing', [HomeController::class, 'index'])->name('pricing');
 Route::get('/certificates/verify/{uuid}', [CertificateController::class, 'verify'])->name('certificates.verify');
 Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
+Route::get('/r/{code}', [ReferralController::class, 'capture'])->name('referral.capture');
 
 // ---------- Guest auth ----------
 Route::middleware('guest')->group(function () {
@@ -78,6 +80,8 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 
     Route::get('subscriptions', [Admin\SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::patch('subscriptions/{subscription}/activate', [Admin\SubscriptionController::class, 'activate'])->name('subscriptions.activate');
+
+    Route::get('referrals', [Admin\ReferralController::class, 'index'])->name('referrals.index');
 });
 
 // ---------- Instructor portal (scoped to own content) ----------

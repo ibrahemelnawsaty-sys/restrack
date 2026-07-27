@@ -160,4 +160,29 @@ class SmokeTest extends TestCase
         ]);
         $this->actingAs($instructor)->get(route('instructor.lectures.edit', $unowned))->assertForbidden();
     }
+
+    public function test_referral_attribution_and_admin_overview(): void
+    {
+        $doctor = User::where('email', 'instructor@restrack.sa')->firstOrFail();
+        $code = $doctor->ensureReferralCode();
+
+        // /r/{code} sends the visitor to registration carrying the ref
+        $this->get('/r/'.$code)->assertRedirect(route('register', ['ref' => $code]));
+
+        // registering with the ref attributes the new user to the doctor
+        $this->post('/register', [
+            'name' => 'طالب محال',
+            'email' => 'referred@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'ref' => $code,
+        ])->assertRedirect();
+
+        $newUser = User::where('email', 'referred@example.com')->firstOrFail();
+        $this->assertEquals($doctor->id, $newUser->referred_by);
+
+        // admin overview lists the doctor
+        $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
+        $this->actingAs($admin)->get('/admin/referrals')->assertOk()->assertSee($doctor->name);
+    }
 }

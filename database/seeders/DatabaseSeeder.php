@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             'role' => User::ROLE_INSTRUCTOR,
             'password' => 'password',
         ]);
+        $instructor->ensureReferralCode();
 
         Speaker::updateOrCreate(['user_id' => $instructor->id], [
             'name_ar' => 'د. سارة العتيبي',
@@ -60,6 +61,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'عبدالله محمد الأحمدي',
             'role' => User::ROLE_STUDENT,
             'password' => 'password',
+            'referred_by' => $instructor->id,
         ]);
 
         // Give the demo student an active subscription so they can explore content.

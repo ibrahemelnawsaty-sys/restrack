@@ -11,11 +11,12 @@
     <div class="glass tile rise in">
       <div class="table-wrap">
         <table class="tbl">
-          <thead><tr><th>المستخدم</th><th>الخطة</th><th>المبلغ</th><th>الحالة</th><th>ينتهي</th><th></th></tr></thead>
+          <thead><tr><th>المستخدم</th><th>عبر (دكتور)</th><th>الخطة</th><th>المبلغ</th><th>الحالة</th><th>ينتهي</th><th></th></tr></thead>
           <tbody>
             @foreach ($subscriptions as $sub)
               <tr>
                 <td>{{ optional($sub->user)->name }}</td>
+                <td>{{ optional(optional($sub->user)->referrer)->name ?? '—' }}</td>
                 <td>{{ optional($sub->plan)->name_ar ?? '—' }}</td>
                 <td class="num">{{ (int) $sub->amount }} ر.س</td>
                 <td>

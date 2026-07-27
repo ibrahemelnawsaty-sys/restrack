@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -35,9 +36,15 @@ class AuthController extends Controller
         return redirect()->intended(route(Auth::user()->homeRoute()));
     }
 
-    public function showRegister(): View
+    public function showRegister(Request $request): View
     {
-        return view('auth.register');
+        $refCode = $request->query('ref') ?: $request->cookie('restrack_ref');
+        $referrer = $refCode ? User::where('referral_code', $refCode)->first() : null;
+
+        return view('auth.register', [
+            'referrer' => $referrer,
+            'refCode' => $referrer?->referral_code,
+        ]);
     }
 
     public function register(Request $request): RedirectResponse
@@ -48,13 +55,20 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::min(8)],
         ]);
 
+        // Referral attribution: which doctor invited this student?
+        $refCode = $request->input('ref') ?: $request->cookie('restrack_ref');
+        $referredBy = $refCode ? User::where('referral_code', $refCode)->value('id') : null;
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'role' => User::ROLE_STUDENT,
             'locale' => 'ar',
+            'referred_by' => $referredBy,
         ]);
+
+        Cookie::queue(Cookie::forget('restrack_ref'));
 
         Auth::login($user);
         $request->session()->regenerate();

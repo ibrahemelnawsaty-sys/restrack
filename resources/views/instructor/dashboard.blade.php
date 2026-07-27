@@ -20,6 +20,20 @@
     </div>
 
     <div class="glass tile rise in">
+      <h3 style="margin-bottom:6px">رابط الدعوة الخاص بك</h3>
+      <p style="color:var(--ink-2);font-size:.9rem;margin-bottom:12px">شارك هذا الرابط مع طلابك — كل من يسجّل عبره يُحسب لك.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="refUrl" value="{{ $referral['url'] }}" readonly dir="ltr" onclick="this.select()"
+               style="flex:1;min-width:220px;padding:.6rem .8rem;border-radius:10px;border:1px solid var(--g-border);background:var(--g-fill-2);color:var(--ink);text-align:start;font-size:.85rem">
+        <button type="button" class="btn btn-gold-line btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('refUrl').value);this.textContent='نُسِخ'">نسخ الرابط</button>
+      </div>
+      <div class="stat-row" style="margin-top:14px">
+        <div class="glass stat"><div class="v num">{{ $referral['registered'] }}</div><div class="k">مسجّل عبرك</div></div>
+        <div class="glass stat"><div class="v num">{{ $referral['subscribers'] }}</div><div class="k">مشترك فعّال</div></div>
+      </div>
+    </div>
+
+    <div class="glass tile rise in">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
         <h3>أحدث محاضراتك</h3>
         <a class="btn btn-gold btn-sm" href="{{ route('instructor.lectures.create') }}"><span class="sheen"></span>محاضرة جديدة</a>

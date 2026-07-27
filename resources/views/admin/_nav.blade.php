@@ -8,6 +8,7 @@
     'admin.faqs.index' => 'الأسئلة',
     'admin.users.index' => 'المستخدمون',
     'admin.subscriptions.index' => 'الاشتراكات',
+    'admin.referrals.index' => 'الإحالات',
   ];
 @endphp
 <nav class="glass tile rise in" style="display:flex;gap:6px;flex-wrap:wrap;padding:10px;margin-bottom:20px">

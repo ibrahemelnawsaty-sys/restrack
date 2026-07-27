@@ -11,7 +11,7 @@ class SubscriptionController extends Controller
 {
     public function index(): View
     {
-        $subscriptions = Subscription::with('user', 'plan')->latest()->paginate(20);
+        $subscriptions = Subscription::with('user.referrer', 'plan')->latest()->paginate(20);
 
         return view('admin.subscriptions.index', compact('subscriptions'));
     }
