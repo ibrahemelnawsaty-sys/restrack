@@ -185,4 +185,24 @@ class SmokeTest extends TestCase
         $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
         $this->actingAs($admin)->get('/admin/referrals')->assertOk()->assertSee($doctor->name);
     }
+
+    public function test_ambassador_portal_is_invite_only(): void
+    {
+        $amb = User::where('email', 'ambassador@restrack.sa')->firstOrFail();
+
+        // login lands the ambassador on their own portal
+        $this->post('/login', ['email' => 'ambassador@restrack.sa', 'password' => 'password'])
+            ->assertRedirect(route('ambassador.dashboard'));
+
+        $this->actingAs($amb)->get('/ambassador')->assertOk();
+
+        // invite-only: no teaching, no admin
+        $this->actingAs($amb)->get('/instructor')->assertForbidden();
+        $this->actingAs($amb)->get('/admin')->assertForbidden();
+
+        // appears in the admin referrals overview
+        $this->assertNotEmpty($amb->ensureReferralCode());
+        $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
+        $this->actingAs($admin)->get('/admin/referrals')->assertOk()->assertSee($amb->name);
+    }
 }

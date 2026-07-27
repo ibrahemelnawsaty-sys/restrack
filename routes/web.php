@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Ambassador;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Instructor;
 use App\Http\Controllers\CertificateController;
@@ -92,4 +93,9 @@ Route::middleware(['auth', 'role:instructor'])->prefix('instructor')->name('inst
     Route::post('lectures', [Instructor\LectureController::class, 'store'])->name('lectures.store');
     Route::get('lectures/{lecture}/edit', [Instructor\LectureController::class, 'edit'])->name('lectures.edit');
     Route::put('lectures/{lecture}', [Instructor\LectureController::class, 'update'])->name('lectures.update');
+});
+
+// ---------- Ambassador portal (invite-only doctors — no teaching) ----------
+Route::middleware(['auth', 'role:ambassador'])->prefix('ambassador')->name('ambassador.')->group(function () {
+    Route::get('/', [Ambassador\DashboardController::class, 'index'])->name('dashboard');
 });

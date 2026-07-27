@@ -18,7 +18,7 @@ class UserController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        $roles = [User::ROLE_STUDENT, User::ROLE_INSTRUCTOR, User::ROLE_ADMIN, User::ROLE_SUPER_ADMIN];
+        $roles = User::roleLabels();   // [key => arabic label]
 
         return view('admin.users.index', compact('users', 'roles'));
     }
@@ -33,7 +33,7 @@ class UserController extends Controller
         }
 
         $data = $request->validate([
-            'role' => 'required|in:student,instructor,admin,super_admin',
+            'role' => 'required|in:student,ambassador,instructor,admin,super_admin',
         ]);
 
         // Only a super admin may grant elevated (admin/super-admin) roles.

@@ -6,7 +6,7 @@
   <section class="page">
     @include('admin._nav')
 
-    <div class="page-head rise in"><h1>المستخدمون</h1><p>إدارة الأدوار (الطالب · المدرّب · المدير).</p></div>
+    <div class="page-head rise in"><h1>المستخدمون</h1><p>إدارة الأدوار (طالب · سفير · مدرّب · مدير).</p></div>
 
     <form method="GET" class="rise in" style="margin-bottom:16px">
       <div class="field" style="max-width:360px;margin-bottom:0">
@@ -23,12 +23,12 @@
               <tr>
                 <td>{{ $u->name }}</td>
                 <td style="direction:ltr;text-align:start">{{ $u->email }}</td>
-                <td><span class="badge muted">{{ $u->role }}</span></td>
+                <td><span class="badge muted">{{ $roles[$u->role] ?? $u->role }}</span></td>
                 <td>
                   <form method="POST" action="{{ route('admin.users.role', $u) }}" style="display:flex;gap:6px;align-items:center">
                     @csrf @method('PATCH')
                     <select name="role" style="padding:.4rem .6rem;border-radius:10px;background:var(--g-fill-2);border:1px solid var(--g-border);color:var(--ink);font-family:inherit">
-                      @foreach ($roles as $r)<option value="{{ $r }}" @selected($u->role === $r)>{{ $r }}</option>@endforeach
+                      @foreach ($roles as $key => $label)<option value="{{ $key }}" @selected($u->role === $key)>{{ $label }}</option>@endforeach
                     </select>
                     <button class="btn btn-ghost btn-sm">حفظ</button>
                   </form>

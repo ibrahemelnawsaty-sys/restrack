@@ -75,6 +75,21 @@ class DatabaseSeeder extends Seeder
                 'expires_at' => now()->addYear(),
             ]
         );
+
+        // Demo ambassador (a doctor who only invites students) + one student referred by them.
+        $ambassador = User::updateOrCreate(['email' => 'ambassador@restrack.sa'], [
+            'name' => 'د. خالد الشمري',
+            'role' => User::ROLE_AMBASSADOR,
+            'password' => 'password',
+        ]);
+        $ambassador->ensureReferralCode();
+
+        User::updateOrCreate(['email' => 'student2@restrack.sa'], [
+            'name' => 'نورة سعد القحطاني',
+            'role' => User::ROLE_STUDENT,
+            'password' => 'password',
+            'referred_by' => $ambassador->id,
+        ]);
     }
 
     private function seedLevels(): void

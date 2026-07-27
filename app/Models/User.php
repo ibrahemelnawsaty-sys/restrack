@@ -18,9 +18,22 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     public const ROLE_STUDENT = 'student';
+    public const ROLE_AMBASSADOR = 'ambassador';   // doctor who only invites students (no teaching)
     public const ROLE_INSTRUCTOR = 'instructor';
     public const ROLE_ADMIN = 'admin';
     public const ROLE_SUPER_ADMIN = 'super_admin';
+
+    /** Role keys → Arabic labels for the admin UI. */
+    public static function roleLabels(): array
+    {
+        return [
+            self::ROLE_STUDENT => 'طالب',
+            self::ROLE_AMBASSADOR => 'سفير (دعوة فقط)',
+            self::ROLE_INSTRUCTOR => 'مدرّب',
+            self::ROLE_ADMIN => 'مدير',
+            self::ROLE_SUPER_ADMIN => 'مدير عام',
+        ];
+    }
 
     protected $fillable = [
         'name',
@@ -90,6 +103,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_INSTRUCTOR;
     }
 
+    public function isAmbassador(): bool
+    {
+        return $this->role === self::ROLE_AMBASSADOR;
+    }
+
     public function isAdmin(): bool
     {
         return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPER_ADMIN], true);
@@ -106,6 +124,7 @@ class User extends Authenticatable
         return match (true) {
             $this->isAdmin() => 'admin.dashboard',
             $this->isInstructor() => 'instructor.dashboard',
+            $this->isAmbassador() => 'ambassador.dashboard',
             default => 'dashboard',
         };
     }

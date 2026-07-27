@@ -10,8 +10,8 @@ class ReferralController extends Controller
 {
     public function index(): View
     {
-        // Doctors (instructors): how many they referred, and how many became active subscribers.
-        $doctors = User::where('role', User::ROLE_INSTRUCTOR)
+        // Doctors — instructors AND ambassadors: how many they referred, and how many converted.
+        $doctors = User::whereIn('role', [User::ROLE_INSTRUCTOR, User::ROLE_AMBASSADOR])
             ->withCount([
                 'referrals',
                 'referrals as subscribers_count' => fn ($q) => $q->subscribedActive(),
