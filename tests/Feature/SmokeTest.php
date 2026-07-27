@@ -161,15 +161,16 @@ class SmokeTest extends TestCase
         $this->actingAs($instructor)->get(route('instructor.lectures.edit', $unowned))->assertForbidden();
     }
 
-    public function test_referral_attribution_and_admin_overview(): void
+    public function test_referral_link_attribution_and_admin_directory(): void
     {
         $doctor = User::where('email', 'instructor@restrack.sa')->firstOrFail();
-        $code = $doctor->ensureReferralCode();
+        $profile = $doctor->ensureReferrerProfile();
+        $code = $profile->referral_code;
 
         // /r/{code} sends the visitor to registration carrying the ref
         $this->get('/r/'.$code)->assertRedirect(route('register', ['ref' => $code]));
 
-        // registering with the ref attributes the new user to the doctor
+        // registering with the ref attributes the new user to the doctor's directory row
         $this->post('/register', [
             'name' => 'طالب محال',
             'email' => 'referred@example.com',
@@ -179,11 +180,41 @@ class SmokeTest extends TestCase
         ])->assertRedirect();
 
         $newUser = User::where('email', 'referred@example.com')->firstOrFail();
-        $this->assertEquals($doctor->id, $newUser->referred_by);
+        $this->assertEquals($profile->id, $newUser->referrer_id);
 
-        // admin overview lists the doctor
+        // admin directory lists the doctor
         $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
-        $this->actingAs($admin)->get('/admin/referrals')->assertOk()->assertSee($doctor->name);
+        $this->actingAs($admin)->get('/admin/referrers')->assertOk()->assertSee($doctor->name);
+    }
+
+    public function test_admin_adds_account_less_doctor_to_directory(): void
+    {
+        $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
+
+        $this->actingAs($admin)->post('/admin/referrers', ['name' => 'د. بدون حساب'])->assertRedirect();
+
+        $ref = \App\Models\Referrer::where('name', 'د. بدون حساب')->firstOrFail();
+        $this->assertNull($ref->user_id);
+        $this->assertNotEmpty($ref->referral_code);
+    }
+
+    public function test_registration_can_pick_a_doctor_from_the_directory(): void
+    {
+        // a seeded account-less directory doctor
+        $ref = \App\Models\Referrer::whereNull('user_id')->firstOrFail();
+
+        // a guest registers picking that doctor from the searchable list
+        $this->post('/register', [
+            'name' => 'طالب مختار',
+            'email' => 'picked@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'invited' => 'yes',
+            'referrer_id' => $ref->id,
+        ])->assertRedirect();
+
+        $u = User::where('email', 'picked@example.com')->firstOrFail();
+        $this->assertEquals($ref->id, $u->referrer_id);
     }
 
     public function test_ambassador_portal_is_invite_only(): void
@@ -200,9 +231,9 @@ class SmokeTest extends TestCase
         $this->actingAs($amb)->get('/instructor')->assertForbidden();
         $this->actingAs($amb)->get('/admin')->assertForbidden();
 
-        // appears in the admin referrals overview
-        $this->assertNotEmpty($amb->ensureReferralCode());
+        // appears in the admin directory
+        $this->assertNotEmpty($amb->ensureReferrerProfile()->referral_code);
         $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
-        $this->actingAs($admin)->get('/admin/referrals')->assertOk()->assertSee($amb->name);
+        $this->actingAs($admin)->get('/admin/referrers')->assertOk()->assertSee($amb->name);
     }
 }

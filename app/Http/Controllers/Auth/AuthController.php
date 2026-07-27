@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Referrer;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,11 +40,12 @@ class AuthController extends Controller
     public function showRegister(Request $request): View
     {
         $refCode = $request->query('ref') ?: $request->cookie('restrack_ref');
-        $referrer = $refCode ? User::where('referral_code', $refCode)->first() : null;
+        $referrer = $refCode ? Referrer::where('referral_code', $refCode)->where('is_active', true)->first() : null;
 
         return view('auth.register', [
             'referrer' => $referrer,
             'refCode' => $referrer?->referral_code,
+            'referrers' => Referrer::active()->get(['id', 'name']),
         ]);
     }
 
@@ -55,9 +57,15 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::min(8)],
         ]);
 
-        // Referral attribution: which doctor invited this student?
-        $refCode = $request->input('ref') ?: $request->cookie('restrack_ref');
-        $referredBy = $refCode ? User::where('referral_code', $refCode)->value('id') : null;
+        // Referral attribution: a manual pick from the directory wins; else the invite-link code.
+        $referrerId = null;
+        if ($request->filled('referrer_id')) {
+            $referrerId = Referrer::where('id', $request->input('referrer_id'))->where('is_active', true)->value('id');
+        }
+        if (! $referrerId) {
+            $refCode = $request->input('ref') ?: $request->cookie('restrack_ref');
+            $referrerId = $refCode ? Referrer::where('referral_code', $refCode)->value('id') : null;
+        }
 
         $user = User::create([
             'name' => $data['name'],
@@ -65,7 +73,7 @@ class AuthController extends Controller
             'password' => $data['password'],
             'role' => User::ROLE_STUDENT,
             'locale' => 'ar',
-            'referred_by' => $referredBy,
+            'referrer_id' => $referrerId,
         ]);
 
         Cookie::queue(Cookie::forget('restrack_ref'));

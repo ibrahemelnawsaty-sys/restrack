@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Referrer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cookie;
 
@@ -11,7 +11,7 @@ class ReferralController extends Controller
     /** /r/{code} — remember the inviting doctor, then send the visitor to registration. */
     public function capture(string $code): RedirectResponse
     {
-        $referrer = User::where('referral_code', $code)->first();
+        $referrer = Referrer::where('referral_code', $code)->where('is_active', true)->first();
 
         if (! $referrer) {
             return redirect()->route('register');

@@ -82,7 +82,10 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
     Route::get('subscriptions', [Admin\SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::patch('subscriptions/{subscription}/activate', [Admin\SubscriptionController::class, 'activate'])->name('subscriptions.activate');
 
-    Route::get('referrals', [Admin\ReferralController::class, 'index'])->name('referrals.index');
+    Route::get('referrers', [Admin\ReferrerController::class, 'index'])->name('referrers.index');
+    Route::post('referrers', [Admin\ReferrerController::class, 'store'])->name('referrers.store');
+    Route::put('referrers/{referrer}', [Admin\ReferrerController::class, 'update'])->name('referrers.update');
+    Route::delete('referrers/{referrer}', [Admin\ReferrerController::class, 'destroy'])->name('referrers.destroy');
 });
 
 // ---------- Instructor portal (scoped to own content) ----------

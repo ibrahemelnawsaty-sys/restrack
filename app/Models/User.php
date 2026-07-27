@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -42,8 +41,7 @@ class User extends Authenticatable
         'role',
         'locale',
         'theme',
-        'referral_code',
-        'referred_by',
+        'referrer_id',
     ];
 
     protected $hidden = [
@@ -152,35 +150,28 @@ class User extends Authenticatable
         return $this->activeSubscription() !== null;
     }
 
-    // ----- referrals (a doctor/instructor invites students) -----
+    // ----- referrals (a doctor invites students) -----
 
+    /** The referrer (from the directory) this user came through. */
     public function referrer(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'referred_by');
+        return $this->belongsTo(Referrer::class, 'referrer_id');
     }
 
-    public function referrals(): HasMany
+    /** This user's own directory row (instructors/ambassadors act as referrers). */
+    public function referrerProfile(): HasOne
     {
-        return $this->hasMany(User::class, 'referred_by');
+        return $this->hasOne(Referrer::class, 'user_id');
     }
 
-    /** Generate (once) and return this user's unique referral code. */
-    public function ensureReferralCode(): string
+    public function ensureReferrerProfile(): Referrer
     {
-        if (! $this->referral_code) {
-            do {
-                $code = 'DR'.strtoupper(Str::random(6));
-            } while (static::where('referral_code', $code)->exists());
+        $referrer = $this->referrerProfile()->first()
+            ?: $this->referrerProfile()->create(['name' => $this->name, 'is_active' => true]);
 
-            $this->forceFill(['referral_code' => $code])->save();
-        }
+        $referrer->ensureCode();
 
-        return $this->referral_code;
-    }
-
-    public function referralUrl(): string
-    {
-        return url('/r/'.$this->ensureReferralCode());
+        return $referrer;
     }
 
     /** Scope: users who currently hold an active, non-expired subscription. */

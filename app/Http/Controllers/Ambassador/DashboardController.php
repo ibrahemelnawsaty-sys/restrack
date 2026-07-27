@@ -10,17 +10,17 @@ class DashboardController extends Controller
     public function index(): View
     {
         $user = auth()->user();
-        $user->ensureReferralCode();
+        $profile = $user->ensureReferrerProfile();
 
-        $students = $user->referrals()
+        $students = $profile->referredUsers()
             ->with(['subscriptions' => fn ($q) => $q->latest()])
             ->latest()
             ->get();
 
         $referral = [
-            'url' => $user->referralUrl(),
+            'url' => $profile->referralUrl(),
             'registered' => $students->count(),
-            'subscribers' => $user->referrals()->subscribedActive()->count(),
+            'subscribers' => $profile->referredUsers()->subscribedActive()->count(),
         ];
 
         return view('ambassador.dashboard', compact('user', 'students', 'referral'));

@@ -12,7 +12,7 @@ class DashboardController extends Controller
     {
         $speaker = self::resolveSpeaker();
         $user = auth()->user();
-        $user->ensureReferralCode();
+        $profile = $user->ensureReferrerProfile();
 
         $lectures = $speaker->lectures()->with('level')
             ->orderBy('level_id')->orderBy('sort_order')->get();
@@ -25,9 +25,9 @@ class DashboardController extends Controller
         ];
 
         $referral = [
-            'url' => $user->referralUrl(),
-            'registered' => $user->referrals()->count(),
-            'subscribers' => $user->referrals()->subscribedActive()->count(),
+            'url' => $profile->referralUrl(),
+            'registered' => $profile->referredUsers()->count(),
+            'subscribers' => $profile->referredUsers()->subscribedActive()->count(),
         ];
 
         return view('instructor.dashboard', compact('speaker', 'lectures', 'stats', 'referral'));

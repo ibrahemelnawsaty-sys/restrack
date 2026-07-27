@@ -9,6 +9,7 @@ use App\Models\Level;
 use App\Models\PageSection;
 use App\Models\Plan;
 use App\Models\Question;
+use App\Models\Referrer;
 use App\Models\SeoMeta;
 use App\Models\Speaker;
 use App\Models\Subscription;
@@ -47,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'role' => User::ROLE_INSTRUCTOR,
             'password' => 'password',
         ]);
-        $instructor->ensureReferralCode();
+        $instructorRef = $instructor->ensureReferrerProfile();
 
         Speaker::updateOrCreate(['user_id' => $instructor->id], [
             'name_ar' => 'د. سارة العتيبي',
@@ -61,7 +62,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'عبدالله محمد الأحمدي',
             'role' => User::ROLE_STUDENT,
             'password' => 'password',
-            'referred_by' => $instructor->id,
+            'referrer_id' => $instructorRef->id,
         ]);
 
         // Give the demo student an active subscription so they can explore content.
@@ -82,14 +83,19 @@ class DatabaseSeeder extends Seeder
             'role' => User::ROLE_AMBASSADOR,
             'password' => 'password',
         ]);
-        $ambassador->ensureReferralCode();
+        $ambassadorRef = $ambassador->ensureReferrerProfile();
 
         User::updateOrCreate(['email' => 'student2@restrack.sa'], [
             'name' => 'نورة سعد القحطاني',
             'role' => User::ROLE_STUDENT,
             'password' => 'password',
-            'referred_by' => $ambassador->id,
+            'referrer_id' => $ambassadorRef->id,
         ]);
+
+        // Account-less doctors the admin manages — these appear in the registration picker.
+        foreach (['د. أحمد الغامدي', 'د. منى الحربي', 'د. سلطان الدوسري'] as $i => $name) {
+            Referrer::updateOrCreate(['name' => $name], ['is_active' => true, 'sort_order' => $i + 1])->ensureCode();
+        }
     }
 
     private function seedLevels(): void
