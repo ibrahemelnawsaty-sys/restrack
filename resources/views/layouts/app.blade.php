@@ -31,5 +31,7 @@
 </div>
 
 @stack('scripts')
+<script>/* fail-safe: if the JS bundle didn't load, reveal content instead of a blank page */
+setTimeout(function(){if(!window.__rt){document.querySelectorAll('.rise,.stagger').forEach(function(e){e.classList.add('in');});}},1200);</script>
 </body>
 </html>
