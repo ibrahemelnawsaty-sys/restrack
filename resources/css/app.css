@@ -89,7 +89,8 @@
   }
 
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  /* the header is sticky — keep anchor targets clear of it instead of under it */
+  html{scroll-behavior:smooth;scroll-padding-top:104px}
   body{margin:0;background:var(--bg-1);color:var(--ink);overflow-x:hidden;
     font-family:'IBM Plex Sans Arabic',"Segoe UI","Noto Sans Arabic","Noto Kufi Arabic","Geeza Pro","Tahoma",system-ui,sans-serif;
     font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;

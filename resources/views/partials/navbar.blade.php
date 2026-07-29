@@ -8,6 +8,7 @@
             <div><b>Restrack</b><span>{{ __('مؤسسة ريستراك للتدريب') }}</span></div>
         </a>
         <nav class="links" aria-label="{{ __('التنقل الرئيسي') }}">
+            <a href="{{ $home }}#about">{{ __('من نحن') }}</a>
             <a href="{{ $home }}#features">{{ __('المميزات') }}</a>
             <a href="{{ $home }}#program">{{ __('البرنامج') }}</a>
             <a href="{{ $home }}#pricing">{{ __('الأسعار') }}</a>
@@ -31,6 +32,7 @@
         </div>
     </div>
     <div class="mobile-menu glass" id="mobileMenu" hidden>
+        <a href="{{ $home }}#about">{{ __('من نحن') }}</a>
         <a href="{{ $home }}#features">{{ __('المميزات') }}</a>
         <a href="{{ $home }}#program">{{ __('البرنامج') }}</a>
         <a href="{{ $home }}#pricing">{{ __('الأسعار') }}</a>
