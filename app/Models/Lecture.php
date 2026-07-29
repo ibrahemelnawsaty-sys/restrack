@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BustsHomeCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Lecture extends Model
 {
+    use BustsHomeCache;
+
     protected $fillable = [
         'level_id', 'speaker_id', 'sort_order', 'title_ar', 'title_en',
         'description_ar', 'description_en', 'duration_seconds',

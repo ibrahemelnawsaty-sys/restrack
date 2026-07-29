@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BustsHomeCache;
 use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
 {
+    use BustsHomeCache;
+
     protected $fillable = [
         'question_ar', 'question_en', 'answer_ar', 'answer_en',
         'sort_order', 'is_published',

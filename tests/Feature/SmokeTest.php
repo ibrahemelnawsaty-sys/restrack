@@ -30,6 +30,56 @@ class SmokeTest extends TestCase
         $this->get('/certificates/verify/does-not-exist')->assertOk();
     }
 
+    /** The landing page must carry the owner's deck content — docs/plan/CONTENT-PLAN.md §3. */
+    public function test_home_shows_the_deck_content(): void
+    {
+        $home = $this->get('/')->assertOk();
+
+        // identity: who we are, vision, mission, goals, values, audience
+        $home->assertSee('من نحن', false);
+        $home->assertSee('رؤيتنا', false);
+        $home->assertSee('رسالتنا', false);
+        $home->assertSee('بناء منظومة بحثية سعودية مستدامة', false);
+        $home->assertSee('النزاهة الأكاديمية', false);
+        $home->assertSee('طلاب الطب', false);
+
+        // credibility: the standards, all four groups
+        $home->assertSee('PRISMA', false);
+        $home->assertSee('NCBE', false);
+        $home->assertSee('Declaration of Helsinki', false);
+        $home->assertSee('ICMJE', false);
+
+        // the program, its five inclusions, and the speakers section
+        $home->assertSee('Research Track 1', false);
+        $home->assertSee('شهادة إتمام نهائية للمسار الكامل', false);
+        $home->assertSee('متحدثونا', false);
+        $home->assertSee('ضمان الجودة', false);
+
+        // one annual plan at 899 SAR, with the no-risk promise stated before the button
+        $home->assertSee('899', false);
+        $home->assertSee('محاولات الاختبار غير محدودة', false);
+
+        // and none of the old product-brochure copy survives
+        $home->assertDontSee('زجاج راقٍ', false);
+        $home->assertDontSee('الأرقام توضيحية', false);
+    }
+
+    /** Owner note م9: the learner must read "unlimited attempts" before paying. */
+    public function test_checkout_states_unlimited_attempts_before_paying(): void
+    {
+        $student = User::where('email', 'student@restrack.sa')->firstOrFail();
+        $plan = Plan::where('slug', 'track-1')->firstOrFail();
+
+        $body = $this->actingAs($student)->get('/checkout/'.$plan->id)->assertOk()->getContent();
+
+        $notice = mb_strpos($body, 'محاولات الاختبار غير محدودة');
+        $button = mb_strpos($body, 'ادفع واشترك');
+
+        $this->assertNotFalse($notice, 'صفحة الدفع لا تذكر أن المحاولات غير محدودة.');
+        $this->assertNotFalse($button);
+        $this->assertLessThan($button, $notice, 'التوكيد يجب أن يسبق زر الدفع، لا أن يليه.');
+    }
+
     public function test_student_area_renders(): void
     {
         $student = User::where('email', 'student@restrack.sa')->firstOrFail();
@@ -71,7 +121,79 @@ class SmokeTest extends TestCase
             'user_id' => $student->id, 'level_id' => $level->id, 'type' => 'level',
         ]);
 
+        // owner note م10: the certificate carries the score it was earned with
+        $certificate = \App\Models\Certificate::where('user_id', $student->id)
+            ->where('level_id', $level->id)->firstOrFail();
+        $this->assertEquals(100, (float) $certificate->score);
+        $this->get(route('certificates.show', $certificate))->assertOk()->assertSee('بدرجة', false);
+        $this->get(route('certificates.verify', $certificate->verify_uuid))->assertOk()->assertSee('بدرجة', false);
+
         $this->get('/exam-attempts/'.$attempt->id)->assertOk();
+    }
+
+    /** Owner note م12 — the post-level survey feeds the Quality Assurance claim. */
+    public function test_survey_opens_only_after_passing_and_stores_once(): void
+    {
+        $student = User::where('email', 'student@restrack.sa')->firstOrFail();
+        $level = Level::where('slug', 'beginner')->firstOrFail();
+        $this->actingAs($student);
+
+        // locked before the level is passed
+        $this->get(route('survey.show', $level))->assertRedirect(route('levels.show', $level));
+
+        $svc = app(ExamService::class);
+        $attempt = $svc->start($student, $level);
+        $answers = [];
+        foreach ($svc->questionsFor($attempt) as $q) {
+            $answers[$q->id] = $q->correct_index;
+        }
+        $svc->grade($attempt, $answers);
+
+        $this->get(route('survey.show', $level))->assertOk()->assertSee('جودة شرح المتحدث', false);
+
+        $payload = [
+            'content_quality' => 5, 'clarity' => 4, 'speaker_quality' => 5,
+            'technical_quality' => 4, 'ease_of_use' => 5, 'recommend' => 5,
+            'notes' => 'محتوى ممتاز.',
+        ];
+        $this->post(route('survey.store', $level), $payload)->assertRedirect(route('levels.show', $level));
+
+        $this->assertDatabaseHas('survey_responses', [
+            'user_id' => $student->id, 'level_id' => $level->id, 'content_quality' => 5,
+        ]);
+
+        // re-submitting updates the same row rather than creating a second one
+        $this->post(route('survey.store', $level), array_merge($payload, ['content_quality' => 3]))->assertRedirect();
+        $this->assertSame(1, \App\Models\SurveyResponse::where('user_id', $student->id)->where('level_id', $level->id)->count());
+        $this->assertSame(3, (int) \App\Models\SurveyResponse::where('user_id', $student->id)->where('level_id', $level->id)->value('content_quality'));
+
+        // the admin sees the aggregate
+        $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
+        $this->actingAs($admin)->get('/admin/surveys')->assertOk()->assertSee('محتوى ممتاز.', false);
+    }
+
+    public function test_admin_manages_speakers_and_guidelines(): void
+    {
+        $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
+        $this->actingAs($admin);
+
+        $this->post('/admin/speakers', [
+            'name_ar' => 'د. خالد',
+            'credential_ar' => 'استشاري أمراض وراثية',
+            'highlight_ar' => 'ناشر أكثر من 150 ورقة علمية',
+            'is_active' => '1',
+        ])->assertRedirect(route('admin.speakers.index'));
+
+        $this->assertDatabaseHas('speakers', ['name_ar' => 'د. خالد', 'is_active' => true]);
+        $this->get('/')->assertOk()->assertSee('ناشر أكثر من 150 ورقة علمية', false);
+
+        // a guideline must belong to one of the deck's four groups
+        $this->post('/admin/guidelines', ['name_ar' => 'SPIRIT', 'group_key' => 'nope'])
+            ->assertSessionHasErrors('group_key');
+
+        $this->post('/admin/guidelines', ['name_ar' => 'SPIRIT', 'group_key' => 'reporting', 'is_active' => '1'])
+            ->assertRedirect(route('admin.guidelines.index'));
+        $this->get('/')->assertOk()->assertSee('SPIRIT', false);
     }
 
     public function test_admin_area_renders_for_admin(): void
@@ -82,6 +204,9 @@ class SmokeTest extends TestCase
         foreach ([
             '/admin', '/admin/content', '/admin/levels', '/admin/levels/create',
             '/admin/lectures', '/admin/plans', '/admin/faqs', '/admin/users', '/admin/subscriptions',
+            '/admin/speakers', '/admin/speakers/create',
+            '/admin/guidelines', '/admin/guidelines/create',
+            '/admin/surveys',
         ] as $url) {
             $this->get($url)->assertOk();
         }

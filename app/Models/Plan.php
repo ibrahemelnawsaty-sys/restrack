@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BustsHomeCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plan extends Model
 {
+    use BustsHomeCache;
+
     protected $fillable = [
         'slug', 'name_ar', 'name_en', 'price', 'interval',
         'features_ar', 'features_en', 'is_active', 'is_featured', 'sort_order',
