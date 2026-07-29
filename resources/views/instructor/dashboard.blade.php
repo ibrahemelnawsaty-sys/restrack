@@ -1,58 +1,58 @@
 @extends('layouts.app')
 
-@section('title', 'بوّابة المدرّب — Restrack')
+@section('title', __('بوّابة المدرّب — Restrack'))
 
 @section('content')
   <section class="page">
     @include('instructor._nav')
 
     <div class="page-head rise in">
-      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-research"/></svg>بوّابة المدرّب</span>
+      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-research"/></svg>{{ __('بوّابة المدرّب') }}</span>
       <h1>مرحباً، {{ $speaker->name_ar }}</h1>
-      <p>من هنا تدير محاضراتك وترفع فيديوهاتك — يظهر لك محتواك أنت فقط.</p>
+      <p>{{ __('من هنا تدير محاضراتك وترفع فيديوهاتك — يظهر لك محتواك أنت فقط.') }}</p>
     </div>
 
     <div class="stat-row rise in">
-      <div class="glass stat"><div class="v num">{{ $stats['lectures'] }}</div><div class="k">محاضرة</div></div>
-      <div class="glass stat"><div class="v num">{{ $stats['published'] }}</div><div class="k">منشورة</div></div>
-      <div class="glass stat"><div class="v num">{{ $stats['levels'] }}</div><div class="k">مستوى</div></div>
-      <div class="glass stat"><div class="v num">{{ $stats['minutes'] }}</div><div class="k">دقيقة محتوى</div></div>
+      <div class="glass stat"><div class="v num">{{ $stats['lectures'] }}</div><div class="k">{{ __('محاضرة') }}</div></div>
+      <div class="glass stat"><div class="v num">{{ $stats['published'] }}</div><div class="k">{{ __('منشورة') }}</div></div>
+      <div class="glass stat"><div class="v num">{{ $stats['levels'] }}</div><div class="k">{{ __('مستوى') }}</div></div>
+      <div class="glass stat"><div class="v num">{{ $stats['minutes'] }}</div><div class="k">{{ __('دقيقة محتوى') }}</div></div>
     </div>
 
     <div class="glass tile rise in">
-      <h3 style="margin-bottom:6px">رابط الدعوة الخاص بك</h3>
-      <p style="color:var(--ink-2);font-size:.9rem;margin-bottom:12px">شارك هذا الرابط مع طلابك — كل من يسجّل عبره يُحسب لك.</p>
+      <h3 style="margin-bottom:6px">{{ __('رابط الدعوة الخاص بك') }}</h3>
+      <p style="color:var(--ink-2);font-size:.9rem;margin-bottom:12px">{{ __('شارك هذا الرابط مع طلابك — كل من يسجّل عبره يُحسب لك.') }}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <input id="refUrl" value="{{ $referral['url'] }}" readonly dir="ltr" onclick="this.select()"
                style="flex:1;min-width:220px;padding:.6rem .8rem;border-radius:10px;border:1px solid var(--g-border);background:var(--g-fill-2);color:var(--ink);text-align:start;font-size:.85rem">
-        <button type="button" class="btn btn-gold-line btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('refUrl').value);this.textContent='نُسِخ'">نسخ الرابط</button>
+        <button type="button" class="btn btn-gold-line btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('refUrl').value);this.textContent='نُسِخ'">{{ __('نسخ الرابط') }}</button>
       </div>
       <div class="stat-row" style="margin-top:14px">
-        <div class="glass stat"><div class="v num">{{ $referral['registered'] }}</div><div class="k">مسجّل عبرك</div></div>
-        <div class="glass stat"><div class="v num">{{ $referral['subscribers'] }}</div><div class="k">مشترك فعّال</div></div>
+        <div class="glass stat"><div class="v num">{{ $referral['registered'] }}</div><div class="k">{{ __('مسجّل عبرك') }}</div></div>
+        <div class="glass stat"><div class="v num">{{ $referral['subscribers'] }}</div><div class="k">{{ __('مشترك فعّال') }}</div></div>
       </div>
     </div>
 
     <div class="glass tile rise in">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
-        <h3>أحدث محاضراتك</h3>
-        <a class="btn btn-gold btn-sm" href="{{ route('instructor.lectures.create') }}"><span class="sheen"></span>محاضرة جديدة</a>
+        <h3>{{ __('أحدث محاضراتك') }}</h3>
+        <a class="btn btn-gold btn-sm" href="{{ route('instructor.lectures.create') }}"><span class="sheen"></span>{{ __('محاضرة جديدة') }}</a>
       </div>
 
       @if ($lectures->isEmpty())
-        <p style="color:var(--ink-2)">لا محاضرات بعد — ابدأ بإضافة أولى محاضراتك ورفع فيديوها.</p>
+        <p style="color:var(--ink-2)">{{ __('لا محاضرات بعد — ابدأ بإضافة أولى محاضراتك ورفع فيديوها.') }}</p>
       @else
         <div class="table-wrap">
           <table class="tbl">
-            <thead><tr><th>العنوان</th><th>المستوى</th><th>المدة</th><th>الحالة</th><th></th></tr></thead>
+            <thead><tr><th>{{ __('العنوان') }}</th><th>{{ __('المستوى') }}</th><th>{{ __('المدة') }}</th><th>{{ __('الحالة') }}</th><th></th></tr></thead>
             <tbody>
               @foreach ($lectures->take(8) as $lec)
                 <tr>
                   <td>{{ $lec->title_ar }}</td>
                   <td>{{ $lec->level?->name_ar }}</td>
                   <td class="num">{{ $lec->duration_label }}</td>
-                  <td><span class="badge {{ $lec->is_published ? '' : 'muted' }}">{{ $lec->is_published ? 'منشورة' : 'مسودّة' }}</span></td>
-                  <td><a href="{{ route('instructor.lectures.edit', $lec) }}" style="color:var(--violet);font-weight:700">تعديل</a></td>
+                  <td><span class="badge {{ $lec->is_published ? '' : 'muted' }}">{{ $lec->is_published ? __('منشورة') : __('مسودّة') }}</span></td>
+                  <td><a href="{{ route('instructor.lectures.edit', $lec) }}" style="color:var(--violet);font-weight:700">{{ __('تعديل') }}</a></td>
                 </tr>
               @endforeach
             </tbody>

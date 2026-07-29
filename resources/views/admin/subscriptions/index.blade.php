@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'الاشتراكات — الإدارة')
+@section('title', __('الاشتراكات — الإدارة'))
 
 @section('content')
   <section class="page">
     @include('admin._nav')
 
-    <div class="page-head rise in"><h1>الاشتراكات</h1><p>يمكنك التفعيل اليدوي (مثل التحويل البنكي).</p></div>
+    <div class="page-head rise in"><h1>{{ __('الاشتراكات') }}</h1><p>{{ __('يمكنك التفعيل اليدوي (مثل التحويل البنكي).') }}</p></div>
 
     <div class="glass tile rise in">
       <div class="table-wrap">
         <table class="tbl">
-          <thead><tr><th>المستخدم</th><th>عبر (دكتور)</th><th>الخطة</th><th>المبلغ</th><th>الحالة</th><th>ينتهي</th><th></th></tr></thead>
+          <thead><tr><th>{{ __('المستخدم') }}</th><th>{{ __('عبر (دكتور)') }}</th><th>{{ __('الخطة') }}</th><th>{{ __('المبلغ') }}</th><th>{{ __('الحالة') }}</th><th>{{ __('ينتهي') }}</th><th></th></tr></thead>
           <tbody>
             @foreach ($subscriptions as $sub)
               <tr>
@@ -26,7 +26,7 @@
                 <td class="num">{{ optional($sub->expires_at)->format('Y-m-d') ?? '—' }}</td>
                 <td>
                   @if ($sub->status !== 'active')
-                    <form method="POST" action="{{ route('admin.subscriptions.activate', $sub) }}">@csrf @method('PATCH')<button class="btn btn-gold-line btn-sm">تفعيل</button></form>
+                    <form method="POST" action="{{ route('admin.subscriptions.activate', $sub) }}">@csrf @method('PATCH')<button class="btn btn-gold-line btn-sm">{{ __('تفعيل') }}</button></form>
                   @endif
                 </td>
               </tr>

@@ -1,6 +1,6 @@
 # CLAUDE.md — دستور مشروع Restrack (كيف نعمل)
 
-> **ماذا نبني:** [`docs/plan/MASTER_PLAN.md`](docs/plan/MASTER_PLAN.md) · **العمل الحالي:** [`docs/plan/ROADMAP.md`](docs/plan/ROADMAP.md) · **التصميم:** [`docs/design/DESIGN-SYSTEM.md`](docs/design/DESIGN-SYSTEM.md) · **النشر:** [`DEPLOY.md`](DEPLOY.md).
+> **ماذا نبني:** [`docs/plan/MASTER_PLAN.md`](docs/plan/MASTER_PLAN.md) · **العمل الحالي:** [`docs/plan/ROADMAP.md`](docs/plan/ROADMAP.md) · **ماذا نكتب ونعرض:** [`docs/plan/CONTENT-PLAN.md`](docs/plan/CONTENT-PLAN.md) · **التصميم:** [`docs/design/DESIGN-SYSTEM.md`](docs/design/DESIGN-SYSTEM.md) · **النشر:** [`DEPLOY.md`](DEPLOY.md).
 
 ## 1. ما هو المشروع
 منصّة تعليمية **Laravel 12**، عربية RTL أولاً، لتعليم **البحث الطبي** من المبتدئ إلى الباحث الناشر — مؤسسة ريستراك للتدريب (الرقم الموحّد 7053567603، النطاق restrack.sa). تعمل على **Hostinger شيرنج (LiteSpeed · MySQL)**.

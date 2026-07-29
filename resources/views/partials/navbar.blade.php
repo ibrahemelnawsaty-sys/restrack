@@ -15,7 +15,7 @@
         </nav>
         <div class="bar-actions">
             <button class="tbtn" id="themeBtn" aria-label="{{ __('تبديل الوضع') }}"><svg class="ico" id="themeIco" aria-hidden="true"><use href="#i-moon"/></svg></button>
-            <a class="tbtn" href="{{ route('lang.switch', $otherLocale) }}" aria-label="{{ __('تبديل اللغة') }}" title="{{ __('تبديل اللغة') }}"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg><span>{{ $otherLocale === 'en' ? 'EN' : 'ع' }}</span></a>
+            <a class="tbtn" href="{{ route('lang.switch', $otherLocale) }}" aria-label="{{ __('تبديل اللغة') }}" title="{{ __('تبديل اللغة') }}"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg><span>{{ $otherLocale === 'en' ? 'EN' : __('ع') }}</span></a>
             @auth
                 @php($u = auth()->user())
                 <a class="btn btn-gold-line btn-sm bar-cta" href="{{ route($u->homeRoute()) }}">{{ $u->isAdmin() ? __('لوحة الإدارة') : ($u->isInstructor() ? __('بوّابة المدرّب') : ($u->isAmbassador() ? __('لوحة السفير') : __('لوحتي'))) }}</a>

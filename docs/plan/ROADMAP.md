@@ -188,6 +188,20 @@ Full rationale in [`MASTER_PLAN.md`](MASTER_PLAN.md). Net-new work beyond §1–
 - **10.12 Audit log + CI security automation** ☐ — tamper-evident log; composer/npm audit, SCA, SAST, WAF/CDN. (Master Plan §8.)
 - **10.13 B2B seat-license portal** ☐ — sub-accounts, cohort reporting, bulk enrollment. (Master Plan §4.3.)
 
+---
+
+## 11. Content overhaul — from the owner's presentation ☐ (supersedes §1 copy items)
+
+**Source:** `Presentation - Research Track Platform.pdf` (owner deck, 2026-07-29) — the institutional identity deck, including the owner's handwritten Arabic notes.
+
+**Full blueprint:** [`CONTENT-PLAN.md`](CONTENT-PLAN.md) — gap analysis, single-page IA, ready-to-paste AR/EN copy deck, schema + `PageSection` key tables, phased execution with acceptance criteria, and the owner's open decisions.
+
+Net-new surfaces the deck requires that §1–§10 never covered: **Who We Are · Vision & Mission · Goals · Core Values · Target Audience · Guidelines (18 standards in 4 groups, logo marquee) · Speakers · Learning Delivery Model · Quality Assurance · post-level Survey · certificate score**. Pricing moves to a **single 899 SAR** program.
+
+> ⚠️ **Naming conflict to resolve:** the deck says the three levels are «تأسيسي – متوسط – متقدّم», while §0 above adopts *Beginner / Intermediate / Expert Researcher* from `Program 2.pdf`. Owner decides — see `CONTENT-PLAN.md` §9.
+
+---
+
 ## Suggested sequencing (owner decides final order)
 
 1. **§9 setup/safety** → **§1 copy/content** (fast, visible wins, low risk).

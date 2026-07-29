@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'نتيجة الاختبار — Restrack')
+@section('title', __('نتيجة الاختبار — Restrack'))
 
 @section('content')
   @php($answers = $attempt->answers ?? [])
@@ -11,19 +11,19 @@
       </div>
       <h1 style="font-size:2.4rem;margin-top:14px" class="num">{{ $attempt->score }}%</h1>
       @if ($attempt->passed)
-        <p class="badge ok" style="font-size:.85rem">مبروك — اجتزت المستوى!</p>
-        <p style="color:var(--ink-2);margin-top:10px">تم إصدار شهادتك. تابع إلى المستوى التالي.</p>
+        <p class="badge ok" style="font-size:.85rem">{{ __('مبروك — اجتزت المستوى!') }}</p>
+        <p style="color:var(--ink-2);margin-top:10px">{{ __('تم إصدار شهادتك. تابع إلى المستوى التالي.') }}</p>
       @else
         <p class="badge warn" style="font-size:.85rem">لم تجتز هذه المرة — حدّ النجاح {{ $attempt->level->pass_threshold }}%</p>
-        <p style="color:var(--ink-2);margin-top:10px">لا بأس — <b>المحاولات غير محدودة</b>، وستأتيك أسئلة مختلفة في المحاولة القادمة.</p>
+        <p style="color:var(--ink-2);margin-top:10px">{{ __('لا بأس —') }} <b>{{ __('المحاولات غير محدودة') }}</b>{{ __('، وستأتيك أسئلة مختلفة في المحاولة القادمة.') }}</p>
       @endif
       <div class="cta-row" style="justify-content:center;margin-top:18px">
-        <a class="btn btn-gold" href="{{ route('exam.start', $attempt->level) }}"><span class="sheen"></span>إعادة المحاولة</a>
-        <a class="btn btn-ghost" href="{{ route('levels.show', $attempt->level) }}">العودة للمستوى</a>
+        <a class="btn btn-gold" href="{{ route('exam.start', $attempt->level) }}"><span class="sheen"></span>{{ __('إعادة المحاولة') }}</a>
+        <a class="btn btn-ghost" href="{{ route('levels.show', $attempt->level) }}">{{ __('العودة للمستوى') }}</a>
       </div>
     </div>
 
-    <div class="shead rise in" style="margin-block:24px 14px"><h2 style="font-size:1.2rem;font-weight:800">مراجعة الإجابات</h2></div>
+    <div class="shead rise in" style="margin-block:24px 14px"><h2 style="font-size:1.2rem;font-weight:800">{{ __('مراجعة الإجابات') }}</h2></div>
     @foreach ($questions as $i => $q)
       @php($chosen = $answers[$q->id] ?? null)
       <div class="glass q-card rise in">

@@ -12,13 +12,14 @@ class Certificate extends Model
     public const TYPE_FINAL = 'final';
 
     protected $fillable = [
-        'user_id', 'level_id', 'type', 'number', 'verify_uuid', 'issued_at',
+        'user_id', 'level_id', 'type', 'score', 'number', 'verify_uuid', 'issued_at',
     ];
 
     protected function casts(): array
     {
         return [
             'issued_at' => 'datetime',
+            'score' => 'decimal:2',
         ];
     }
 

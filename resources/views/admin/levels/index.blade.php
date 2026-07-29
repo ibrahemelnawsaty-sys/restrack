@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'المستويات — الإدارة')
+@section('title', __('المستويات — الإدارة'))
 
 @section('content')
   <section class="page">
     @include('admin._nav')
 
     <div class="page-head rise in" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <div><h1>المستويات</h1><p>أضِف وعدّل مستويات المسار.</p></div>
-      <a class="btn btn-gold" href="{{ route('admin.levels.create') }}"><span class="sheen"></span>مستوى جديد</a>
+      <div><h1>{{ __('المستويات') }}</h1><p>{{ __('أضِف وعدّل مستويات المسار.') }}</p></div>
+      <a class="btn btn-gold" href="{{ route('admin.levels.create') }}"><span class="sheen"></span>{{ __('مستوى جديد') }}</a>
     </div>
 
     <div class="glass tile rise in">
       <div class="table-wrap">
         <table class="tbl">
-          <thead><tr><th>#</th><th>الاسم</th><th>المحاضرات</th><th>الأسئلة</th><th>النجاح</th><th>الحالة</th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>{{ __('الاسم') }}</th><th>{{ __('المحاضرات') }}</th><th>{{ __('الأسئلة') }}</th><th>{{ __('النجاح') }}</th><th>{{ __('الحالة') }}</th><th></th></tr></thead>
           <tbody>
             @foreach ($levels as $level)
               <tr>
@@ -23,12 +23,12 @@
                 <td class="num">{{ $level->lectures_count }}</td>
                 <td class="num">{{ $level->questions_count }}</td>
                 <td class="num">{{ $level->pass_threshold }}%</td>
-                <td>@if ($level->is_published)<span class="badge ok">منشور</span>@else<span class="badge muted">مسودّة</span>@endif</td>
+                <td>@if ($level->is_published)<span class="badge ok">{{ __('منشور') }}</span>@else<span class="badge muted">{{ __('مسودّة') }}</span>@endif</td>
                 <td style="display:flex;gap:6px">
-                  <a class="btn btn-ghost btn-sm" href="{{ route('admin.levels.edit', $level) }}">تعديل</a>
+                  <a class="btn btn-ghost btn-sm" href="{{ route('admin.levels.edit', $level) }}">{{ __('تعديل') }}</a>
                   <form method="POST" action="{{ route('admin.levels.destroy', $level) }}" onsubmit="return confirm('حذف المستوى وكل محتواه؟')">
                     @csrf @method('DELETE')
-                    <button class="btn btn-ghost btn-sm" style="color:#F0506E">حذف</button>
+                    <button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button>
                   </form>
                 </td>
               </tr>

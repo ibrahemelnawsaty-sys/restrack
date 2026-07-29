@@ -5,7 +5,7 @@
 @section('content')
   <section class="page">
     <div class="crumb rise in">
-      <a href="{{ route('dashboard') }}">لوحتي</a><span>/</span>
+      <a href="{{ route('dashboard') }}">{{ __('لوحتي') }}</a><span>/</span>
       <a href="{{ route('levels.show', $level) }}">{{ $level->name_ar }}</a><span>/</span>
       <span>{{ $lecture->title_ar }}</span>
     </div>
@@ -18,7 +18,7 @@
           @else
             <div style="text-align:center;color:var(--ink-3)">
               <span class="chip violet" style="margin-inline:auto"><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg></span>
-              <p style="margin-top:10px;font-size:.9rem">سيُرفع الفيديو قريباً — البثّ محميّ داخل المنصة.</p>
+              <p style="margin-top:10px;font-size:.9rem">{{ __('سيُرفع الفيديو قريباً — البثّ محميّ داخل المنصة.') }}</p>
             </div>
           @endif
           <div class="wm" id="wm">{{ auth()->user()->name }} · <span class="num">{{ substr(sha1(auth()->id().config('app.key')), 0, 6) }}</span></div>
@@ -30,7 +30,7 @@
         <form method="POST" action="{{ route('lectures.progress', $lecture) }}" style="margin-top:14px">
           @csrf
           <input type="hidden" name="completed" value="1">
-          <button type="submit" class="btn btn-gold-line btn-sm"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>وضع علامة كمكتملة</button>
+          <button type="submit" class="btn btn-gold-line btn-sm"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ __('وضع علامة كمكتملة') }}</button>
         </form>
       </div>
 
@@ -44,7 +44,7 @@
             </a>
           @endforeach
         </div>
-        <a class="btn btn-gold-line btn-sm full" href="{{ route('exam.start', $level) }}" style="margin-top:14px">اختبار المستوى</a>
+        <a class="btn btn-gold-line btn-sm full" href="{{ route('exam.start', $level) }}" style="margin-top:14px">{{ __('اختبار المستوى') }}</a>
       </div>
     </div>
   </section>

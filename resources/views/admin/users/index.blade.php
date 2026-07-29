@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'المستخدمون — الإدارة')
+@section('title', __('المستخدمون — الإدارة'))
 
 @section('content')
   <section class="page">
     @include('admin._nav')
 
-    <div class="page-head rise in"><h1>المستخدمون</h1><p>إدارة الأدوار (طالب · سفير · مدرّب · مدير).</p></div>
+    <div class="page-head rise in"><h1>{{ __('المستخدمون') }}</h1><p>{{ __('إدارة الأدوار (طالب · سفير · مدرّب · مدير).') }}</p></div>
 
     <form method="GET" class="rise in" style="margin-bottom:16px">
       <div class="field" style="max-width:360px;margin-bottom:0">
-        <input name="q" value="{{ request('q') }}" placeholder="ابحث بالاسم أو البريد…">
+        <input name="q" value="{{ request('q') }}" placeholder="{{ __('ابحث بالاسم أو البريد…') }}">
       </div>
     </form>
 
     <div class="glass tile rise in">
       <div class="table-wrap">
         <table class="tbl">
-          <thead><tr><th>الاسم</th><th>البريد</th><th>الدور</th><th>تغيير الدور</th></tr></thead>
+          <thead><tr><th>{{ __('الاسم') }}</th><th>{{ __('البريد') }}</th><th>{{ __('الدور') }}</th><th>{{ __('تغيير الدور') }}</th></tr></thead>
           <tbody>
             @foreach ($users as $u)
               <tr>
@@ -30,7 +30,7 @@
                     <select name="role" style="padding:.4rem .6rem;border-radius:10px;background:var(--g-fill-2);border:1px solid var(--g-border);color:var(--ink);font-family:inherit">
                       @foreach ($roles as $key => $label)<option value="{{ $key }}" @selected($u->role === $key)>{{ $label }}</option>@endforeach
                     </select>
-                    <button class="btn btn-ghost btn-sm">حفظ</button>
+                    <button class="btn btn-ghost btn-sm">{{ __('حفظ') }}</button>
                   </form>
                 </td>
               </tr>

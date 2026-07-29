@@ -13,18 +13,27 @@ class CertificateService
      */
     public function issueForLevel(User $user, Level $level): ?Certificate
     {
-        $passed = $user->examAttempts()
+        // The score the learner passed with — their best passing attempt (owner note م10).
+        $best = $user->examAttempts()
             ->where('level_id', $level->id)
             ->where('passed', true)
-            ->exists();
+            ->max('score');
 
-        if (! $passed) {
+        if ($best === null) {
             return null;
         }
 
-        return Certificate::firstOrCreate(
+        $certificate = Certificate::firstOrCreate(
             ['user_id' => $user->id, 'level_id' => $level->id, 'type' => Certificate::TYPE_LEVEL],
+            ['score' => $best],
         );
+
+        // A later, better attempt should upgrade the printed score.
+        if ((float) $certificate->score < (float) $best) {
+            $certificate->update(['score' => $best]);
+        }
+
+        return $certificate;
     }
 
     /**
@@ -48,8 +57,18 @@ class CertificateService
             return null;
         }
 
+        // Final certificate carries the average of the best passing score per level.
+        $average = $user->examAttempts()
+            ->where('passed', true)
+            ->whereIn('level_id', $publishedLevelIds)
+            ->selectRaw('level_id, MAX(score) as best')
+            ->groupBy('level_id')
+            ->pluck('best')
+            ->avg();
+
         return Certificate::firstOrCreate(
             ['user_id' => $user->id, 'type' => Certificate::TYPE_FINAL, 'level_id' => null],
+            ['score' => $average !== null ? round($average, 2) : null],
         );
     }
 }
