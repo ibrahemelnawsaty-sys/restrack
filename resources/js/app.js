@@ -4,10 +4,10 @@ var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
   (function(){
     var r=document.documentElement,b=document.getElementById('themeBtn'),
         u=document.querySelector('#themeIco use'),t=document.getElementById('themeTxt');
-    if(!b||!u||!t){return;}
+    if(!b||!u){return;}
     function sysDark(){return matchMedia('(prefers-color-scheme:dark)').matches}
     function isDark(){var v=r.getAttribute('data-theme');return v?v==='dark':sysDark()}
-    function paint(){var d=isDark();u.setAttribute('href',d?'#i-moon':'#i-sun');t.textContent=d?'ليلي':'نهاري'}
+    function paint(){var d=isDark();u.setAttribute('href',d?'#i-moon':'#i-sun');if(t){t.textContent=d?'ليلي':'نهاري';}}
     b.addEventListener('click',function(){
       var next=isDark()?'light':'dark';
       r.setAttribute('data-theme',next);
@@ -64,15 +64,18 @@ var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
     a.addEventListener('click',function(){set(true)});
   })();
 
-  /* mobile menu disclosure — the [hidden] attribute keeps it closed by default */
+  /* mobile menu disclosure — CSS keeps it closed; the .open class is the only thing that shows it */
   (function(){
     var btn=document.getElementById('menuBtn'),menu=document.getElementById('mobileMenu');
     if(!btn||!menu)return;
+    function isOpen(){return menu.classList.contains('open')}
     function setOpen(open){
+      menu.classList.toggle('open',open);
       if(open){menu.removeAttribute('hidden');}else{menu.setAttribute('hidden','');}
       btn.setAttribute('aria-expanded',String(open));
     }
     setOpen(false);
-    btn.addEventListener('click',function(){setOpen(menu.hasAttribute('hidden'));});
+    btn.addEventListener('click',function(){setOpen(!isOpen());});
     menu.addEventListener('click',function(e){if(e.target.closest('a')){setOpen(false);}});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen()){setOpen(false);btn.focus();}});
   })();

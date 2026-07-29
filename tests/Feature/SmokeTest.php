@@ -236,4 +236,17 @@ class SmokeTest extends TestCase
         $admin = User::where('email', 'admin@restrack.sa')->firstOrFail();
         $this->actingAs($admin)->get('/admin/referrers')->assertOk()->assertSee($amb->name);
     }
+
+    public function test_language_switch(): void
+    {
+        $this->get('/lang/en')->assertRedirect()->assertSessionHas('locale', 'en');
+
+        // a logged-in user's language preference is persisted
+        $student = User::where('email', 'student@restrack.sa')->firstOrFail();
+        $this->actingAs($student)->get('/lang/ar');
+        $this->assertSame('ar', $student->fresh()->locale);
+
+        // an invalid locale falls back to Arabic
+        $this->get('/lang/zz')->assertSessionHas('locale', 'ar');
+    }
 }

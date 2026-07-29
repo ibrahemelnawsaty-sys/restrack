@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ReferralController;
@@ -22,6 +23,7 @@ Route::get('/pricing', [HomeController::class, 'index'])->name('pricing');
 Route::get('/certificates/verify/{uuid}', [CertificateController::class, 'verify'])->name('certificates.verify');
 Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 Route::get('/r/{code}', [ReferralController::class, 'capture'])->name('referral.capture');
+Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
 
 // ---------- Guest auth ----------
 Route::middleware('guest')->group(function () {
