@@ -17,13 +17,13 @@
     <div class="split" style="grid-template-columns:1.5fr .9fr;align-items:start">
       <div class="glass tile rise in">
         <h3 style="margin-bottom:6px">{{ __('ماذا يفتح لك هذا الاشتراك؟') }}</h3>
-        <p style="color:var(--ink-2);font-size:.9rem">{{ __('المسار كامل بمستوياته، محاضرات مسجّلة، اختبارات بمحاولات لا محدودة، وشهادة إكمال.') }}</p>
+        <p style="color:var(--ink-2);font-size:.9rem">{{ __('المسار كامل بمستوياته، محاضرات مسجّلة، اختبارات بمحاولات لا محدودة، وشهادة إتمام لكل مستوى تحمل درجتك.') }}</p>
         <div style="margin-top:14px;display:grid;gap:12px">
           @foreach ($levels as $level)
             <div style="border-top:1px solid var(--g-border);padding-top:12px">
-              <b>المستوى {{ $level->sort_order }} — {{ $level->name_ar }}</b>
-              <span class="badge muted" style="margin-inline-start:6px">{{ $level->lectures->count() }} محاضرات</span>
-              <p style="color:var(--ink-3);font-size:.84rem;margin-top:4px">{{ $level->focus_ar }} · ينتهي باختبار (70%، محاولات لا محدودة).</p>
+              <b>{{ __('المستوى') }} {{ $level->sort_order }} — {{ $level->name_ar }}</b>
+              <span class="badge muted" style="margin-inline-start:6px"><span class="num">0/{{ $level->lectures->count() }}</span> {{ __('محاضرة') }}</span>
+              <p style="color:var(--ink-3);font-size:.84rem;margin-top:4px">{{ $level->focus_ar }} · {{ __('ينتهي باختبار') }} ({{ $level->pass_threshold }}%، {{ __('محاولات لا محدودة') }}).</p>
             </div>
           @endforeach
         </div>
@@ -44,6 +44,11 @@
             <li style="display:flex;gap:.5rem;padding-block:6px;color:var(--ink-2);font-size:.88rem"><svg class="ico" style="width:17px;height:17px;color:var(--success)" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $f }}</li>
           @endforeach
         </ul>
+        {{-- Owner note م9: the learner must know attempts are unlimited BEFORE paying. --}}
+        <p class="reassure">
+          <svg class="ico" aria-hidden="true"><use href="#i-infinity"/></svg>
+          <span>{{ \App\Models\PageSection::text('home', 'pricing', 'note_unlimited', __('محاولات الاختبار غير محدودة. حدّ النجاح 70%، وتُطرح أسئلةٌ مختلفة في كل محاولة — لن تخسر ما دفعته إن لم تنجح من المرة الأولى.')) }}</span>
+        </p>
         <form method="POST" action="{{ route('checkout.process', $plan) }}" style="margin-top:16px">
           @csrf
           <button type="submit" class="btn btn-gold full"><span class="sheen"></span>{{ __('ادفع واشترك') }}</button>

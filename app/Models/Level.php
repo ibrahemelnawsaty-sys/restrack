@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BustsHomeCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Level extends Model
 {
+    use BustsHomeCache;
+
     protected $fillable = [
         'sort_order', 'slug', 'name_ar', 'name_en', 'focus_ar', 'focus_en',
         'topics_ar', 'topics_en', 'outcomes_ar', 'outcomes_en',

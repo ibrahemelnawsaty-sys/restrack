@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BustsHomeCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Speaker extends Model
 {
+    use BustsHomeCache;
+
     protected $fillable = [
         'user_id', 'name_ar', 'name_en', 'title_ar', 'title_en',
         'credential_ar', 'credential_en', 'highlight_ar', 'highlight_en',

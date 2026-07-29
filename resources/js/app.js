@@ -1,3 +1,4 @@
+window.__rt = 1; // signals the bundle loaded (a layout fallback reveals content if it didn't)
 var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
   /* theme toggle — persists the choice across pages (localStorage) */

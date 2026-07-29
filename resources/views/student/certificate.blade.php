@@ -33,6 +33,11 @@
         @endif
       </div>
 
+      {{-- owner note م10: the certificate states the score it was earned with --}}
+      @if ($certificate->score !== null)
+        <div class="cert-score"><span>{{ __('بدرجة') }}</span><b class="num">{{ rtrim(rtrim(number_format((float) $certificate->score, 2, '.', ''), '0'), '.') }}%</b></div>
+      @endif
+
       <div style="display:flex;justify-content:center;margin-top:18px">
         @if ($qr)
           <div style="background:#fff;padding:8px;border-radius:12px;width:132px;height:132px">{!! $qr !!}</div>

@@ -17,6 +17,9 @@
           @endif
           — {{ __('مؤسسة ريستراك للتدريب.') }}
         </div>
+        @if ($certificate->score !== null)
+          <div class="cert-score"><span>{{ __('بدرجة') }}</span><b class="num">{{ rtrim(rtrim(number_format((float) $certificate->score, 2, '.', ''), '0'), '.') }}%</b></div>
+        @endif
         <div class="foot">
           <span class="num" style="direction:ltr;unicode-bidi:isolate">{{ $certificate->number }}</span>
           <span>{{ __('Certificate of Completion / شهادة إكمال') }}</span>

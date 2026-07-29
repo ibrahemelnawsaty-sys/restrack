@@ -19,7 +19,11 @@
 
     <div class="split" style="align-items:start">
       <div class="glass tile rise in">
-        <h3 style="margin-bottom:12px">{{ __('المحاضرات') }}</h3>
+        {{-- owner note م8: "1/6" — how far along this level the learner is --}}
+        <h3 style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <span>{{ __('المحاضرات') }}</span>
+          <span class="badge muted"><span class="num">{{ $level->lectures->whereIn('id', $completedLectureIds)->count() }}/{{ $level->lectures->count() }}</span> {{ __('محاضرة') }}</span>
+        </h3>
         <div class="lesson-list" style="display:grid;gap:4px">
           @forelse ($level->lectures as $lec)
             <a href="{{ route('lectures.show', $lec) }}">
@@ -45,6 +49,12 @@
           <p class="alert" style="margin-top:14px">{{ __('أفضل نتيجة سابقة:') }} <b class="num">{{ $bestAttempt->score }}%</b> — {{ $bestAttempt->passed ? __('ناجح') : __('حاوِل مجدداً') }}.</p>
         @endif
         <a class="btn btn-gold full" href="{{ route('exam.start', $level) }}" style="margin-top:12px"><span class="sheen"></span>{{ $bestAttempt ? __('إعادة الاختبار') : __('ابدأ الاختبار') }}</a>
+
+        @if ($passed)
+          {{-- owner note م12: the survey opens once the level is passed --}}
+          <a class="btn btn-ghost full" href="{{ route('survey.show', $level) }}" style="margin-top:8px">{{ __('قيّم هذا المستوى') }}</a>
+        @endif
+
         <div style="margin-top:14px">
           <div class="topics">
             @foreach (($level->topics_ar ?? []) as $t)<span>{{ $t }}</span>@endforeach

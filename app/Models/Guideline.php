@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BustsHomeCache;
 use Illuminate\Database\Eloquent\Model;
 
 class Guideline extends Model
 {
+    use BustsHomeCache;
+
     /** The four groups from the owner's deck (slides 9–11), in display order. */
     public const GROUPS = ['saudi', 'reporting', 'ethics', 'publication'];
 

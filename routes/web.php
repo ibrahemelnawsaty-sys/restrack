@@ -13,6 +13,7 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/levels/{level:slug}/exam', [ExamController::class, 'start'])->name('exam.start');
         Route::post('/levels/{level:slug}/exam', [ExamController::class, 'submit'])->name('exam.submit');
         Route::get('/exam-attempts/{attempt}', [ExamController::class, 'result'])->name('exam.result');
+
+        // Post-level survey (owner note م12) — opens once the level is passed.
+        Route::get('/levels/{level:slug}/survey', [SurveyController::class, 'show'])->name('survey.show');
+        Route::post('/levels/{level:slug}/survey', [SurveyController::class, 'store'])->name('survey.store');
     });
 });
 
@@ -77,6 +82,9 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
     Route::post('lectures/{lecture}/move/{dir}', [Admin\LectureController::class, 'move'])->name('lectures.move');
     Route::resource('plans', Admin\PlanController::class)->except('show');
     Route::resource('faqs', Admin\FaqController::class)->except('show');
+    Route::resource('speakers', Admin\SpeakerController::class)->except('show');
+    Route::resource('guidelines', Admin\GuidelineController::class)->except('show');
+    Route::get('surveys', [Admin\SurveyController::class, 'index'])->name('surveys.index');
 
     Route::get('users', [Admin\UserController::class, 'index'])->name('users.index');
     Route::patch('users/{user}/role', [Admin\UserController::class, 'updateRole'])->name('users.role');
