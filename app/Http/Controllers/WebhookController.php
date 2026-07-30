@@ -8,20 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WebhookController extends Controller
 {
-    public function moyasar(Request $request, PaymentService $payments): Response
+    /** Paymob "Transaction processed" callback — HMAC-verified, authoritative activation. */
+    public function paymob(Request $request, PaymentService $payments): Response
     {
-        $payload = $request->all();
+        $obj = (array) $request->input('obj', []);
+        $hmac = $request->query('hmac') ?? $request->input('hmac');
 
-        if (! $payments->verifyWebhook($payload)) {
+        if (! $payments->verifyWebhook($obj, $hmac)) {
             return response('invalid signature', 403);
         }
 
-        $data = (array) ($payload['data'] ?? []);
-
-        if (($data['status'] ?? null) === 'paid') {
-            $payments->activateByPaymentId($data['id'] ?? null);
-            $payments->activateByPaymentId($data['invoice_id'] ?? null);
-        }
+        $payments->activateFromTransaction($obj);
 
         return response('ok', 200);
     }

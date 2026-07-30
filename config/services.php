@@ -35,10 +35,14 @@ return [
         ],
     ],
 
-    'moyasar' => [
-        'public' => env('MOYASAR_PUBLIC_KEY'),
-        'secret' => env('MOYASAR_SECRET_KEY'),
-        'webhook_secret' => env('MOYASAR_WEBHOOK_SECRET'),
+    'paymob' => [
+        // KSA region. Unified/Intention API on https://ksa.paymob.com
+        'base_url' => env('PAYMOB_BASE_URL', 'https://ksa.paymob.com'),
+        'public_key' => env('PAYMOB_PUBLIC_KEY'),
+        'secret_key' => env('PAYMOB_SECRET_KEY'),
+        'hmac' => env('PAYMOB_HMAC'),
+        // Comma-separated integration IDs of the enabled payment methods (card / mada / Apple Pay …).
+        'integration_ids' => array_values(array_filter(array_map('trim', explode(',', (string) env('PAYMOB_INTEGRATION_IDS'))))),
     ],
 
 ];

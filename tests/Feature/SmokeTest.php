@@ -374,4 +374,51 @@ class SmokeTest extends TestCase
         // an invalid locale falls back to Arabic
         $this->get('/lang/zz')->assertSessionHas('locale', 'ar');
     }
+
+    public function test_paymob_webhook_activates_subscription_only_with_a_valid_hmac(): void
+    {
+        config(['services.paymob.hmac' => 'test_hmac_secret']);
+
+        $user = User::create([
+            'name' => 'دافع تجريبي', 'email' => 'payer@example.com',
+            'password' => 'password123', 'role' => User::ROLE_STUDENT,
+        ]);
+        $plan = Plan::firstOrFail();
+        $sub = \App\Models\Subscription::create([
+            'user_id' => $user->id, 'plan_id' => $plan->id,
+            'status' => \App\Models\Subscription::STATUS_PENDING, 'amount' => $plan->price,
+        ]);
+
+        $obj = [
+            'amount_cents' => (int) round(((float) $plan->price) * 100),
+            'created_at' => '2026-07-30T10:00:00',
+            'currency' => 'SAR',
+            'error_occured' => false, 'has_parent_transaction' => false,
+            'id' => 987654, 'integration_id' => 111,
+            'is_3d_secure' => true, 'is_auth' => false, 'is_capture' => false, 'is_refunded' => false,
+            'is_standalone_payment' => true, 'is_voided' => false,
+            'order' => ['id' => 555, 'merchant_order_id' => $sub->payment_id],
+            'owner' => 42, 'pending' => false,
+            'source_data' => ['pan' => '2345', 'sub_type' => 'MasterCard', 'type' => 'card'],
+            'success' => true,
+            'payment_key_claims' => ['extra' => ['subscription_id' => $sub->id]],
+        ];
+
+        // same canonical order the service hashes
+        $concat = implode('', [
+            $obj['amount_cents'], $obj['created_at'], $obj['currency'], 'false', 'false',
+            $obj['id'], $obj['integration_id'], 'true', 'false', 'false', 'false',
+            'true', 'false', $obj['order']['id'], $obj['owner'], 'false',
+            '2345', 'MasterCard', 'card', 'true',
+        ]);
+        $hmac = hash_hmac('sha512', $concat, 'test_hmac_secret');
+
+        // wrong signature → rejected, nothing activated
+        $this->postJson('/webhooks/paymob?hmac=deadbeef', ['type' => 'TRANSACTION', 'obj' => $obj])->assertForbidden();
+        $this->assertSame('pending', $sub->fresh()->status);
+
+        // valid signature → activated
+        $this->postJson('/webhooks/paymob?hmac='.$hmac, ['type' => 'TRANSACTION', 'obj' => $obj])->assertOk();
+        $this->assertSame('active', $sub->fresh()->status);
+    }
 }

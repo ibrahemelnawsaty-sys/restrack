@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // ---------- Payment webhook (CSRF-exempt in bootstrap/app.php; verified by signature) ----------
-Route::post('/webhooks/moyasar', [WebhookController::class, 'moyasar'])->name('webhooks.moyasar');
+Route::post('/webhooks/paymob', [WebhookController::class, 'paymob'])->name('webhooks.paymob');
 
 // ---------- Admin ----------
 Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function () {

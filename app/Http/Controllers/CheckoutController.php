@@ -43,26 +43,28 @@ class CheckoutController extends Controller
             'amount' => $plan->price,
         ]);
 
-        $url = $payments->createInvoice($subscription, route('checkout.callback', $plan));
+        $url = $payments->createCheckout(
+            $subscription,
+            route('webhooks.paymob'),
+            route('checkout.callback', $plan),
+        );
 
         if ($url) {
             return redirect()->away($url);
         }
 
-        // Gateway not configured yet — never auto-activate a paid plan.
+        // Gateway not fully configured yet — never auto-activate a paid plan.
         return redirect()->route('pricing')->with(
             'status',
-            'بوابة الدفع Moyasar غير مفعّلة بعد. أضِف مفاتيح الـ API في إعدادات السيرفر لتفعيل الدفع.'
+            'بوابة الدفع (Paymob) غير مكتملة الإعداد بعد. تُضاف المفاتيح ومعرّفات وسائل الدفع في إعدادات السيرفر.'
         );
     }
 
-    /** Return URL from Moyasar. The webhook remains the authoritative activation. */
-    public function callback(Request $request, Plan $plan, PaymentService $payments): RedirectResponse
+    /** Return URL from Paymob. The signed webhook remains the authoritative activation. */
+    public function callback(Request $request, Plan $plan): RedirectResponse
     {
-        if ($request->query('status') === 'paid') {
-            $payments->activateByPaymentId($request->query('id') ?? $request->query('invoice_id'));
-
-            return redirect()->route('dashboard')->with('status', 'تم تفعيل اشتراكك بنجاح — أهلاً بك!');
+        if ($request->boolean('success')) {
+            return redirect()->route('dashboard')->with('status', 'تم استلام دفعتك — يُفعّل اشتراكك خلال لحظات.');
         }
 
         return redirect()->route('pricing')->with('status', 'لم تكتمل عملية الدفع. يمكنك المحاولة مرة أخرى.');
