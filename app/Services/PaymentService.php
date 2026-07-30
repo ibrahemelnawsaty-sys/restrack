@@ -70,7 +70,8 @@ class PaymentService
             'redirection_url' => $redirectUrl,
         ];
 
-        $response = Http::withToken(config('services.paymob.secret_key'))
+        // Paymob's Intention API expects "Authorization: Token <secret_key>" (not Bearer).
+        $response = Http::withToken(config('services.paymob.secret_key'), 'Token')
             ->acceptJson()
             ->post($this->base().'/v1/intention/', $payload);
 
