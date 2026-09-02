@@ -15,10 +15,10 @@
         <div class="glass tile">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
             <div>
-              <span class="badge muted">المستوى {{ $level->sort_order }}</span>
+              <span class="badge muted">{{ __('المستوى :n', ['n' => $level->sort_order]) }}</span>
               @if ($passedLevelIds->contains($level->id))<span class="badge ok"><svg class="ico" style="width:13px;height:13px" aria-hidden="true"><use href="#i-check-s"/></svg>{{ __('مجتاز') }}</span>@endif
-              <h3 style="margin-top:8px">{{ $level->name_ar }} <span style="color:var(--ink-3);font-size:.85rem;direction:ltr;unicode-bidi:isolate">· {{ $level->name_en }}</span></h3>
-              <p style="color:var(--ink-2);font-size:.9rem;margin-top:4px">{{ $level->focus_ar }}</p>
+              <h3 style="margin-top:8px">{{ $level->name }} @if ($level->name !== $level->name_en)<span style="color:var(--ink-3);font-size:.85rem;direction:ltr;unicode-bidi:isolate">· {{ $level->name_en }}</span>@endif</h3>
+              <p style="color:var(--ink-2);font-size:.9rem;margin-top:4px">{{ $level->focus }}</p>
             </div>
             <a class="btn btn-gold-line btn-sm" href="{{ route('exam.start', $level) }}"><svg class="ico" aria-hidden="true"><use href="#i-infinity"/></svg>{{ __('اختبار المستوى') }}</a>
           </div>
@@ -27,7 +27,7 @@
             @forelse ($level->lectures as $lec)
               <a href="{{ route('lectures.show', $lec) }}">
                 <span class="chip violet" style="width:34px;height:34px;border-radius:10px"><svg class="ico" style="width:16px;height:16px" aria-hidden="true"><use href="#i-video"/></svg></span>
-                <span style="flex:1">{{ $lec->title_ar }}</span>
+                <span style="flex:1">{{ $lec->title }}</span>
                 <span class="num" style="color:var(--ink-3);font-size:.8rem">{{ $lec->duration_label }}</span>
               </a>
             @empty

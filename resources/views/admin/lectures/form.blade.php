@@ -20,12 +20,12 @@
         <div class="field">
           <label>{{ __('المستوى') }}</label>
           <select name="level_id" required>
-            @foreach ($levels as $l)<option value="{{ $l->id }}" @selected(old('level_id', $lecture->level_id) == $l->id)>{{ $l->name_ar }}</option>@endforeach
+            @foreach ($levels as $l)<option value="{{ $l->id }}" @selected(old('level_id', $lecture->level_id) == $l->id)>{{ $l->name }}</option>@endforeach
           </select>
         </div>
         <div class="field">
           <label>{{ __('المدرّب') }}</label>
-          <select name="speaker_id"><option value="">—</option>@foreach ($speakers as $s)<option value="{{ $s->id }}" @selected(old('speaker_id', $lecture->speaker_id) == $s->id)>{{ $s->name_ar }}</option>@endforeach</select>
+          <select name="speaker_id"><option value="">—</option>@foreach ($speakers as $s)<option value="{{ $s->id }}" @selected(old('speaker_id', $lecture->speaker_id) == $s->id)>{{ $s->name }}</option>@endforeach</select>
         </div>
         <div class="field"><label>{{ __('العنوان (عربي)') }}</label><input name="title_ar" value="{{ old('title_ar', $lecture->title_ar) }}" required></div>
         <div class="field"><label>Title (English)</label><input name="title_en" value="{{ old('title_en', $lecture->title_en) }}" dir="ltr" style="text-align:start"></div>

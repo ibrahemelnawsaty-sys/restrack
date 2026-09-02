@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Restrack">
+  <title>Restrack</title>
+  <defs>
+    <linearGradient id="rt-tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f1c3a"/>
+      <stop offset="1" stop-color="#070d1c"/>
+    </linearGradient>
+    <linearGradient id="rt-bar" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#B9932F"/>
+      <stop offset="1" stop-color="#8B7CFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="url(#rt-tile)"/>
+  <g fill="url(#rt-bar)">
+    <rect x="5" y="18" width="5" height="8" rx="2.5"/>
+    <rect x="13.5" y="12" width="5" height="14" rx="2.5"/>
+    <rect x="22" y="6" width="5" height="20" rx="2.5"/>
+  </g>
+</svg>

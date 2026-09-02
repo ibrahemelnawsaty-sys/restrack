@@ -19,14 +19,14 @@
             @foreach ($levels as $level)
               <tr>
                 <td class="num">{{ $level->sort_order }}</td>
-                <td>{{ $level->name_ar }} <span style="color:var(--ink-3);font-size:.8rem;direction:ltr;unicode-bidi:isolate">· {{ $level->name_en }}</span></td>
+                <td>{{ $level->name }} @if ($level->name !== $level->name_en)<span style="color:var(--ink-3);font-size:.8rem;direction:ltr;unicode-bidi:isolate">· {{ $level->name_en }}</span>@endif</td>
                 <td class="num">{{ $level->lectures_count }}</td>
                 <td class="num">{{ $level->questions_count }}</td>
                 <td class="num">{{ $level->pass_threshold }}%</td>
                 <td>@if ($level->is_published)<span class="badge ok">{{ __('منشور') }}</span>@else<span class="badge muted">{{ __('مسودّة') }}</span>@endif</td>
                 <td style="display:flex;gap:6px">
                   <a class="btn btn-ghost btn-sm" href="{{ route('admin.levels.edit', $level) }}">{{ __('تعديل') }}</a>
-                  <form method="POST" action="{{ route('admin.levels.destroy', $level) }}" onsubmit="return confirm('حذف المستوى وكل محتواه؟')">
+                  <form method="POST" action="{{ route('admin.levels.destroy', $level) }}" data-confirm="حذف المستوى وكل محتواه؟">
                     @csrf @method('DELETE')
                     <button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button>
                   </form>

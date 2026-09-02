@@ -8,7 +8,7 @@
 
     <div class="page-head rise in">
       <h1>{{ __('استبيانات المتعلّمين') }}</h1>
-      <p>{{ __('المتوسّط من 5 لكل محور. هذه هي الأرقام التي يقوم عليها ادّعاء «التحسين المستمر» في قسم ضمان الجودة.') }}</p>
+      <p>{{ __('المتوسّط من 5 لكل محور. نقرأ هذه الأرقام عند مراجعة المحتوى وتحديثه.') }}</p>
     </div>
 
     <div class="stat-row rise in">
@@ -31,7 +31,7 @@
           <tbody>
             @foreach ($levels as $level)
               <tr>
-                <td>{{ $level->name_ar }}</td>
+                <td>{{ $level->name }}</td>
                 <td class="num">{{ $byLevel[$level->id]['count'] }}</td>
                 @foreach (array_keys(\App\Models\SurveyResponse::AXES) as $key)
                   <td class="num">{{ $byLevel[$level->id]['count'] ? number_format($byLevel[$level->id]['scores'][$key], 1) : '—' }}</td>
@@ -48,7 +48,7 @@
       @forelse ($responses->whereNotNull('notes')->where('notes', '!=', '') as $r)
         <div style="border-top:1px solid var(--g-border);padding-top:12px;margin-top:12px">
           <b style="font-size:.9rem">{{ $r->user?->name }}</b>
-          <span class="badge muted" style="margin-inline-start:6px">{{ $r->level?->name_ar ?? __('المسار') }}</span>
+          <span class="badge muted" style="margin-inline-start:6px">{{ $r->level?->name ?? __('المسار') }}</span>
           <p style="color:var(--ink-2);font-size:.88rem;margin-top:6px;white-space:pre-line">{{ $r->notes }}</p>
         </div>
       @empty

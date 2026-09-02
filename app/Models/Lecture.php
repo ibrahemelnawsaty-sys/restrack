@@ -24,6 +24,22 @@ class Lecture extends Model
         ];
     }
 
+    /**
+     * Locale accessors — English only when that column actually has content,
+     * otherwise the Arabic original (same rule as PageSection::text()).
+     */
+    public function getTitleAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->title_en) ? $this->title_en : $this->title_ar;
+    }
+
+    public function getDescriptionAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->description_en)
+            ? $this->description_en
+            : $this->description_ar;
+    }
+
     public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class);

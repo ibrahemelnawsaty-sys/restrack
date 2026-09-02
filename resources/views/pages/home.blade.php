@@ -58,11 +58,11 @@
       <div class="strip glass rise">
         <div class="strip-track">
           @foreach ($allGuidelines->concat($allGuidelines) as $g)
-            <span class="glogo" @if ($g->note_ar) title="{{ $g->note_ar }}" @endif aria-hidden="{{ $loop->index >= $allGuidelines->count() ? 'true' : 'false' }}">
+            <span class="glogo" @if ($g->note_ar) title="{{ __($g->note_ar) }}" @endif aria-hidden="{{ $loop->index >= $allGuidelines->count() ? 'true' : 'false' }}">
               @if ($g->logo)
-                <img src="{{ asset('storage/'.$g->logo) }}" alt="{{ $g->name_en ?: $g->name_ar }}" width="112" height="40" loading="lazy" decoding="async">
+                <img src="{{ asset('storage/'.$g->logo) }}" alt="{{ $g->name }}" width="112" height="40" loading="lazy" decoding="async">
               @else
-                <bdi>{{ $g->name_en ?: $g->name_ar }}</bdi>
+                <bdi>{{ $g->name }}</bdi>
               @endif
             </span>
           @endforeach
@@ -189,10 +189,10 @@
         <div class="glass sheen lvl">
           <div class="node num">{{ $level->sort_order }}</div>
           <div class="en"><bdi>{{ $level->name_en }}</bdi></div>
-          <div class="ar">{{ $level->name_ar }}</div>
-          <div class="focus">{{ $level->focus_ar }}</div>
+          @if ($level->name !== $level->name_en)<div class="ar">{{ $level->name }}</div>@endif
+          <div class="focus">{{ $level->focus }}</div>
           <div class="topics">
-            @foreach (array_slice($level->topics_ar ?? [], 0, 5) as $topic)
+            @foreach (array_slice($level->topics, 0, 5) as $topic)
               <span>{{ $topic }}</span>
             @endforeach
           </div>
@@ -219,11 +219,11 @@
             <h3>{{ \App\Models\Guideline::groupLabel($group) }}</h3>
             <div class="gl-items">
               @foreach ($guidelines[$group] as $g)
-                <span class="glogo sm" @if ($g->note_ar) title="{{ $g->note_ar }}" @endif>
+                <span class="glogo sm" @if ($g->note_ar) title="{{ __($g->note_ar) }}" @endif>
                   @if ($g->logo)
-                    <img src="{{ asset('storage/'.$g->logo) }}" alt="{{ $g->name_en ?: $g->name_ar }}" width="96" height="34" loading="lazy" decoding="async">
+                    <img src="{{ asset('storage/'.$g->logo) }}" alt="{{ $g->name }}" width="96" height="34" loading="lazy" decoding="async">
                   @else
-                    <bdi>{{ $g->name_en ?: $g->name_ar }}</bdi>
+                    <bdi>{{ $g->name }}</bdi>
                   @endif
                 </span>
               @endforeach
@@ -248,14 +248,14 @@
           <div class="glass sheen spk-card">
             <div class="ava">
               @if ($s->avatar)
-                <img src="{{ asset('storage/'.$s->avatar) }}" alt="{{ $s->name_ar }}" width="72" height="72" loading="lazy" decoding="async">
+                <img src="{{ asset('storage/'.$s->avatar) }}" alt="{{ $s->name }}" width="72" height="72" loading="lazy" decoding="async">
               @else
                 <span aria-hidden="true">{{ $s->initials() }}</span>
               @endif
             </div>
-            <b>{{ $s->name_ar }}</b>
-            <span class="cred">{{ $s->credential_ar ?: $s->title_ar }}</span>
-            @if ($s->highlight_ar)<span class="hl"><svg class="ico" aria-hidden="true"><use href="#i-award"/></svg>{{ $s->highlight_ar }}</span>@endif
+            <b>{{ $s->name }}</b>
+            <span class="cred">{{ $s->credential ?: $s->title }}</span>
+            @if ($s->highlight)<span class="hl"><svg class="ico" aria-hidden="true"><use href="#i-award"/></svg>{{ $s->highlight }}</span>@endif
           </div>
         @endforeach
       </div>
@@ -265,27 +265,6 @@
       @foreach (['c1', 'c2', 'c3'] as $key)
         <span class="vchip glass"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $t('speakers', $key) }}</span>
       @endforeach
-    </div>
-  </section>
-
-  {{-- ===== 11 + 12. delivery model & quality assurance (deck slides 12 & 14) ===== --}}
-  <section style="padding-top:0">
-    <div class="split">
-      <div class="glass tile rise">
-        <div class="chip violet"><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg></div>
-        <h3 style="margin-top:12px">{{ $t('delivery', 'title', __('نموذج التعلّم')) }}</h3>
-        <p style="color:var(--ink-2);margin-top:8px">{{ $t('delivery', 'body') }}</p>
-      </div>
-      <div class="glass tile rise">
-        <div class="chip teal"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></div>
-        <h3 style="margin-top:12px">{{ $t('quality', 'title', __('ضمان الجودة')) }}</h3>
-        <p style="color:var(--ink-2);margin-top:8px">{{ $t('quality', 'body') }}</p>
-        <div class="aud" style="margin-top:14px">
-          @foreach (['q1', 'q2', 'q3', 'q4', 'q5'] as $key)
-            <span class="achip sm">{{ $t('quality', $key) }}</span>
-          @endforeach
-        </div>
-      </div>
     </div>
   </section>
 
@@ -311,10 +290,10 @@
     <div class="plans stagger rise" style="max-width:520px;margin-inline:auto">
       @foreach ($plans as $plan)
         <div class="glass sheen plan @if ($plan->is_featured) feat @endif">
-          <div class="pt"><b><bdi>{{ $plan->name_ar }}</bdi></b></div>
+          <div class="pt"><b><bdi>{{ $plan->name }}</bdi></b></div>
           <div class="amt"><span class="num n">{{ (int) $plan->price }}</span><span class="cur">{{ __('ر.س') }}</span><span class="per">/ {{ $plan->interval === 'annual' ? __('سنوياً') : __('شهرياً') }}</span></div>
           <ul>
-            @foreach (($plan->features_ar ?? []) as $feature)
+            @foreach ($plan->features as $feature)
               <li><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $feature }}</li>
             @endforeach
           </ul>
@@ -336,8 +315,8 @@
     <div class="glass detail faq rise">
       @foreach ($faqs as $i => $faq)
         <details class="acc" @if ($i === 0) open @endif>
-          <summary><span class="qmark"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg></span>{{ $faq->question_ar }}<span class="cv"><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></span></summary>
-          <div class="body">{{ $faq->answer_ar }}</div>
+          <summary><span class="qmark"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg></span>{{ $faq->question }}<span class="cv"><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></span></summary>
+          <div class="body">{{ $faq->answer }}</div>
         </details>
       @endforeach
     </div>
@@ -376,7 +355,7 @@
                 'description' => $t('program', 'about'),
                 'provider' => ['@id' => route('home').'#org'],
                 'inLanguage' => 'ar',
-                'teaches' => $levels->pluck('name_ar')->all(),
+                'teaches' => $levels->map(fn ($l) => $l->name)->all(),
                 'offers' => $plans->map(fn ($p) => [
                     '@type' => 'Offer',
                     'price' => (string) (int) $p->price,
@@ -392,8 +371,8 @@
                     'position' => $i + 1,
                     'item' => array_filter([
                         '@type' => 'Person',
-                        'name' => $s->name_ar,
-                        'jobTitle' => $s->credential_ar ?: $s->title_ar,
+                        'name' => $s->name,
+                        'jobTitle' => $s->credential ?: $s->title,
                     ]),
                 ])->all(),
             ],
@@ -401,8 +380,8 @@
                 '@type' => 'FAQPage',
                 'mainEntity' => $faqs->map(fn ($f) => [
                     '@type' => 'Question',
-                    'name' => $f->question_ar,
-                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f->answer_ar],
+                    'name' => $f->question,
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f->answer],
                 ])->all(),
             ],
         ])),

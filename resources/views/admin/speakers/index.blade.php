@@ -22,13 +22,13 @@
             @forelse ($speakers as $speaker)
               <tr>
                 <td class="num">{{ $speaker->sort_order }}</td>
-                <td>{{ $speaker->name_ar }}</td>
-                <td style="white-space:normal">{{ $speaker->credential_ar ?: $speaker->title_ar }}</td>
-                <td style="white-space:normal">{{ $speaker->highlight_ar ?: '—' }}</td>
+                <td>{{ $speaker->name }}</td>
+                <td style="white-space:normal">{{ $speaker->credential ?: $speaker->title }}</td>
+                <td style="white-space:normal">{{ $speaker->highlight ?: '—' }}</td>
                 <td>@if ($speaker->is_active)<span class="badge ok">{{ __('ظاهر') }}</span>@else<span class="badge muted">{{ __('مخفي') }}</span>@endif</td>
                 <td style="display:flex;gap:6px">
                   <a class="btn btn-ghost btn-sm" href="{{ route('admin.speakers.edit', $speaker) }}">{{ __('تعديل') }}</a>
-                  <form method="POST" action="{{ route('admin.speakers.destroy', $speaker) }}" onsubmit="return confirm('{{ __('حذف المتحدث؟') }}')">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
+                  <form method="POST" action="{{ route('admin.speakers.destroy', $speaker) }}" data-confirm="{{ __('حذف المتحدث؟') }}">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
                 </td>
               </tr>
             @empty

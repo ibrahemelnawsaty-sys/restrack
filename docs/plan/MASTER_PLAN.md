@@ -326,7 +326,7 @@ Tactical detail & status live in `ROADMAP.md`. Strategic phases:
 
 1. **Accreditation:** pursue SCFHS CME now / later, or launch on NELC-licensed certificates first? (Gates the "certified" claim.)
 2. **NELC licensing:** does a private paid non-degree platform need a NeLC license + FutureX to issue certificates? (Confirm with Saudi counsel — potentially launch-blocking; make no "accredited" claim until then.)
-3. **Payment gateway:** Moyasar (fast launch, DIY subscriptions) vs. HyperPay (turnkey recurring + ZATCA Phase-2)?
+3. ~~**Payment gateway:** Moyasar vs. HyperPay?~~ — **RESOLVED 2026-07-30: Paymob (KSA)**, Intention API + HMAC-verified webhook. Shipped in `d5fa040`/`ed97476`; see [`ROADMAP.md`](ROADMAP.md) §4 and [`DEPLOY.md`](../../DEPLOY.md) §7. ZATCA invoicing is still outstanding.
 4. **Pricing:** monthly vs. annual SAR price points (VAT-inclusive), student discount, trial length, optional live-cohort premium tier?
 5. **Video-protection budget:** launch lean (AES-128 HLS + watermark + concurrency, ~90% of the threat) and escalate on leak data — recommended.
 6. **Content supply:** single hero instructors vs. vetted faculty marketplace; revenue-share/role model; initial library size to justify the subscription.

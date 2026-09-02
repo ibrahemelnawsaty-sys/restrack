@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certificate;
+use App\Services\CertificatePdfService;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 class CertificateController extends Controller
 {
@@ -24,6 +26,26 @@ class CertificateController extends Controller
         $certificate->load('user', 'level');
 
         return view('student.certificate', compact('certificate'));
+    }
+
+    /** PDF export of one certificate — same ownership rule as show(). */
+    public function download(Certificate $certificate, CertificatePdfService $pdf): Response
+    {
+        abort_unless(
+            $certificate->user_id === auth()->id() || auth()->user()->isAdmin(),
+            403
+        );
+
+        $certificate->load('user', 'level');
+
+        // No PDF engine on this deployment yet (vendor/ not refreshed after composer install):
+        // hand the student back to the certificate page, which prints itself to PDF in the
+        // browser, rather than failing the download outright.
+        if (! $pdf->available()) {
+            return redirect()->route('certificates.show', $certificate)->with('print', true);
+        }
+
+        return $pdf->download($certificate);
     }
 
     /** Public QR verification page. */

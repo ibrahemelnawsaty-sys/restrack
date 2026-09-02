@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\Route;
 // ---------- Public ----------
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/pricing', [HomeController::class, 'index'])->name('pricing');
-Route::get('/certificates/verify/{uuid}', [CertificateController::class, 'verify'])->name('certificates.verify');
+// Unauthenticated + DB-backed: rate-limited so the QR page cannot be hammered or enumerated.
+Route::get('/certificates/verify/{uuid}', [CertificateController::class, 'verify'])
+    ->middleware('throttle:30,1')
+    ->name('certificates.verify');
 Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 Route::get('/r/{code}', [ReferralController::class, 'capture'])->name('referral.capture');
 Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
@@ -47,6 +50,7 @@ Route::middleware('auth')->group(function () {
     // Certificates (own)
     Route::get('/certificates', [CertificateController::class, 'index'])->name('certificates.index');
     Route::get('/certificates/{certificate}', [CertificateController::class, 'show'])->name('certificates.show');
+    Route::get('/certificates/{certificate}/download', [CertificateController::class, 'download'])->name('certificates.download');
 
     // Subscription-gated content
     Route::middleware('subscribed')->group(function () {

@@ -26,6 +26,20 @@ class PaymentService
     }
 
     /**
+     * True while the account is wired with Paymob TEST credentials.
+     *
+     * This matters on a public site: in test mode Paymob accepts test cards, and the
+     * webhook still activates a real subscription — so a live site running test keys
+     * hands out free access to anyone who knows a test card number. The checkout page
+     * shows a banner while this is true; swap in the sau_*_live_ pair before launch.
+     */
+    public function isTestMode(): bool
+    {
+        return str_contains((string) config('services.paymob.public_key'), '_test_')
+            || str_contains((string) config('services.paymob.secret_key'), '_test_');
+    }
+
+    /**
      * Create a payment intention for a pending subscription and return the Unified
      * Checkout URL to redirect the learner to. Null if not configured / the call failed.
      */

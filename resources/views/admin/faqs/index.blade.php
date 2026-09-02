@@ -19,11 +19,11 @@
             @foreach ($faqs as $faq)
               <tr>
                 <td class="num">{{ $faq->sort_order }}</td>
-                <td style="white-space:normal">{{ $faq->question_ar }}</td>
+                <td style="white-space:normal">{{ $faq->question }}</td>
                 <td>@if ($faq->is_published)<span class="badge ok">{{ __('منشور') }}</span>@else<span class="badge muted">{{ __('مخفي') }}</span>@endif</td>
                 <td style="display:flex;gap:6px">
                   <a class="btn btn-ghost btn-sm" href="{{ route('admin.faqs.edit', $faq) }}">{{ __('تعديل') }}</a>
-                  <form method="POST" action="{{ route('admin.faqs.destroy', $faq) }}" onsubmit="return confirm('حذف السؤال؟')">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
+                  <form method="POST" action="{{ route('admin.faqs.destroy', $faq) }}" data-confirm="حذف السؤال؟">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
                 </td>
               </tr>
             @endforeach

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', $lecture->title_ar.' — Restrack')
+@section('title', $lecture->title.' — Restrack')
 
 @section('content')
   <section class="page">
     <div class="crumb rise in">
       <a href="{{ route('dashboard') }}">{{ __('لوحتي') }}</a><span>/</span>
-      <a href="{{ route('levels.show', $level) }}">{{ $level->name_ar }}</a><span>/</span>
-      <span>{{ $lecture->title_ar }}</span>
+      <a href="{{ route('levels.show', $level) }}">{{ $level->name }}</a><span>/</span>
+      <span>{{ $lecture->title }}</span>
     </div>
 
     <div class="split" style="grid-template-columns:1.7fr .9fr;align-items:start">
@@ -24,8 +24,8 @@
           <div class="wm" id="wm">{{ auth()->user()->name }} · <span class="num">{{ substr(sha1(auth()->id().config('app.key')), 0, 6) }}</span></div>
         </div>
 
-        <h1 style="font-size:1.4rem;font-weight:800;margin-top:16px">{{ $lecture->title_ar }}</h1>
-        @if ($lecture->description_ar)<p style="color:var(--ink-2);margin-top:6px">{{ $lecture->description_ar }}</p>@endif
+        <h1 style="font-size:1.4rem;font-weight:800;margin-top:16px">{{ $lecture->title }}</h1>
+        @if ($lecture->description)<p style="color:var(--ink-2);margin-top:6px">{{ $lecture->description }}</p>@endif
 
         <form method="POST" action="{{ route('lectures.progress', $lecture) }}" style="margin-top:14px">
           @csrf
@@ -35,11 +35,11 @@
       </div>
 
       <div class="glass tile rise in">
-        <h3 style="margin-bottom:10px">محاضرات {{ $level->name_ar }}</h3>
+        <h3 style="margin-bottom:10px">{{ __('محاضرات :level', ['level' => $level->name]) }}</h3>
         <div class="lesson-list" style="display:grid;gap:4px">
           @foreach ($lectures as $lec)
             <a href="{{ route('lectures.show', $lec) }}" class="{{ $lec->id === $lecture->id ? 'active' : '' }}">
-              <span style="flex:1">{{ $lec->title_ar }}</span>
+              <span style="flex:1">{{ $lec->title }}</span>
               <span class="num" style="color:var(--ink-3);font-size:.78rem">{{ $lec->duration_label }}</span>
             </a>
           @endforeach
@@ -50,7 +50,7 @@
   </section>
 
   @push('scripts')
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
       (function () {
         var wm = document.getElementById('wm');
         if (!wm) return;

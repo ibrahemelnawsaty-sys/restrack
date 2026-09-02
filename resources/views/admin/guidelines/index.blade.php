@@ -25,13 +25,13 @@
               @foreach ($guidelines[$group] as $g)
                 <tr>
                   <td class="num">{{ $g->sort_order }}</td>
-                  <td><bdi>{{ $g->name_en ?: $g->name_ar }}</bdi></td>
+                  <td><bdi>{{ $g->name }}</bdi></td>
                   <td style="white-space:normal">{{ $g->note_ar ?: '—' }}</td>
                   <td>@if ($g->logo)<span class="badge ok">{{ __('مرفوع') }}</span>@else<span class="badge muted">{{ __('نصّي') }}</span>@endif</td>
                   <td>@if ($g->is_active)<span class="badge ok">{{ __('ظاهر') }}</span>@else<span class="badge muted">{{ __('مخفي') }}</span>@endif</td>
                   <td style="display:flex;gap:6px">
                     <a class="btn btn-ghost btn-sm" href="{{ route('admin.guidelines.edit', $g) }}">{{ __('تعديل') }}</a>
-                    <form method="POST" action="{{ route('admin.guidelines.destroy', $g) }}" onsubmit="return confirm('{{ __('حذف المعيار؟') }}')">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
+                    <form method="POST" action="{{ route('admin.guidelines.destroy', $g) }}" data-confirm="{{ __('حذف المعيار؟') }}">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
                   </td>
                 </tr>
               @endforeach

@@ -18,13 +18,13 @@
           <tbody>
             @foreach ($plans as $plan)
               <tr>
-                <td>{{ $plan->name_ar }} @if ($plan->is_featured)<span class="badge ok">{{ __('مميّزة') }}</span>@endif</td>
+                <td>{{ $plan->name }} @if ($plan->is_featured)<span class="badge ok">{{ __('مميّزة') }}</span>@endif</td>
                 <td class="num">{{ (int) $plan->price }} ر.س</td>
                 <td>{{ $plan->interval === 'annual' ? __('سنوي') : __('شهري') }}</td>
                 <td>@if ($plan->is_active)<span class="badge ok">{{ __('فعّالة') }}</span>@else<span class="badge muted">{{ __('موقوفة') }}</span>@endif</td>
                 <td style="display:flex;gap:6px">
                   <a class="btn btn-ghost btn-sm" href="{{ route('admin.plans.edit', $plan) }}">{{ __('تعديل') }}</a>
-                  <form method="POST" action="{{ route('admin.plans.destroy', $plan) }}" onsubmit="return confirm('حذف الخطة؟')">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
+                  <form method="POST" action="{{ route('admin.plans.destroy', $plan) }}" data-confirm="حذف الخطة؟">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
                 </td>
               </tr>
             @endforeach

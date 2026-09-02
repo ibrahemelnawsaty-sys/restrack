@@ -20,7 +20,7 @@
         @foreach ($certificates as $cert)
           <a class="glass sheen tile" href="{{ route('certificates.show', $cert) }}" style="text-decoration:none">
             <div class="chip gold"><svg class="ico" aria-hidden="true"><use href="#i-award"/></svg></div>
-            <h3 style="margin-top:10px">{{ $cert->type === 'final' ? __('شهادة إكمال المسار') : __('شهادة ').optional($cert->level)->name_ar }}</h3>
+            <h3 style="margin-top:10px">{{ $cert->type === 'final' ? __('شهادة إكمال المسار') : __('شهادة ').optional($cert->level)->name }}</h3>
             <p class="num" style="color:var(--ink-3);font-size:.8rem;direction:ltr;text-align:start">{{ $cert->number }}</p>
             <p style="color:var(--ink-3);font-size:.78rem;margin-top:4px">{{ optional($cert->issued_at)->format('Y / m / d') }}</p>
           </a>

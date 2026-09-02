@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img"
+     aria-label="Restrack — مؤسسة ريستراك للتدريب · Research Track Platform">
+  <title>Restrack — مؤسسة ريستراك للتدريب</title>
+  <defs>
+    <linearGradient id="og-ground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f1c3a"/>
+      <stop offset=".55" stop-color="#0b1428"/>
+      <stop offset="1" stop-color="#070d1c"/>
+    </linearGradient>
+    <radialGradient id="og-orb-violet">
+      <stop offset="0" stop-color="#8B7CFF" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#8B7CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="og-orb-gold">
+      <stop offset="0" stop-color="#B9932F" stop-opacity=".20"/>
+      <stop offset="1" stop-color="#B9932F" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="og-orb-teal">
+      <stop offset="0" stop-color="#2FD6BE" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#2FD6BE" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="og-bar" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#B9932F"/>
+      <stop offset="1" stop-color="#8B7CFF"/>
+    </linearGradient>
+    <linearGradient id="og-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#B9932F" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#D9B458"/>
+      <stop offset="1" stop-color="#B9932F" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#og-ground)"/>
+  <circle cx="230" cy="110" r="380" fill="url(#og-orb-violet)"/>
+  <circle cx="980" cy="70" r="320" fill="url(#og-orb-gold)"/>
+  <circle cx="1010" cy="590" r="340" fill="url(#og-orb-teal)"/>
+  <rect x="40" y="40" width="1120" height="550" rx="32" fill="none" stroke="#B9932F" stroke-opacity=".26" stroke-width="1"/>
+
+  <!-- brand mark: the three ascending bars, identical geometry to the site header -->
+  <g transform="translate(520,98) scale(4)" fill="url(#og-bar)">
+    <rect x="6" y="22" width="6" height="12" rx="3"/>
+    <rect x="17" y="13" width="6" height="21" rx="3"/>
+    <rect x="28" y="5" width="6" height="29" rx="3"/>
+  </g>
+
+  <g text-anchor="middle" font-family="'IBM Plex Sans Arabic','Segoe UI','Noto Sans Arabic',Tahoma,system-ui,sans-serif">
+    <text x="600" y="330" font-size="84" font-weight="700" letter-spacing="1" fill="#F3F6FF">Restrack</text>
+    <rect x="540" y="364" width="120" height="3" rx="1.5" fill="url(#og-rule)"/>
+    <text x="600" y="442" font-size="46" font-weight="600" fill="#D9B458" direction="rtl">مؤسسة ريستراك للتدريب</text>
+    <text x="600" y="500" font-size="27" font-weight="500" letter-spacing=".6" fill="#AEB9D6">Research Track Platform · Restrack Training Institute</text>
+  </g>
+</svg>

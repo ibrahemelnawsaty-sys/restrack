@@ -80,3 +80,30 @@ var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
     menu.addEventListener('click',function(e){if(e.target.closest('a')){setOpen(false);}});
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen()){setOpen(false);btn.focus();}});
   })();
+
+  /* delegated handlers — replace inline on* attributes, which the nonce-based CSP blocks
+     (a nonce can whitelist a <script> block, never an event-handler attribute).
+     data-confirm="…"  on a <form>    → ask before submitting
+     data-autosubmit   on a control   → submit its form on change
+     data-select-all   on an input    → select the text on click
+     data-copy="#sel"  on a button    → copy that field, then show data-copied */
+  (function(){
+    document.addEventListener('submit',function(e){
+      var f=e.target,msg=f&&f.getAttribute&&f.getAttribute('data-confirm');
+      if(msg&&!window.confirm(msg)){e.preventDefault();}
+    });
+    document.addEventListener('change',function(e){
+      var el=e.target;
+      if(el&&el.matches&&el.matches('[data-autosubmit]')&&el.form){el.form.submit();}
+    });
+    document.addEventListener('click',function(e){
+      var el=e.target&&e.target.closest?e.target.closest('[data-select-all],[data-copy]'):null;
+      if(!el)return;
+      if(el.hasAttribute('data-select-all')){if(el.select)el.select();return;}
+      var src=document.querySelector(el.getAttribute('data-copy'));
+      if(!src)return;
+      if(navigator.clipboard){navigator.clipboard.writeText(src.value);}
+      var done=el.getAttribute('data-copied');
+      if(done){el.textContent=done;}
+    });
+  })();

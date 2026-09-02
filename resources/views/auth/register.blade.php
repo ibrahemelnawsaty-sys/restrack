@@ -63,7 +63,7 @@
   </div>
 
   @push('scripts')
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
       (function(){
         var yes=document.querySelector('input[name=invited][value=yes]');
         var no=document.querySelector('input[name=invited][value=no]');

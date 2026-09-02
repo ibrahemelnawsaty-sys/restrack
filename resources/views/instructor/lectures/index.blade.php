@@ -26,8 +26,8 @@
               @foreach ($lectures as $lec)
                 <tr>
                   <td class="num">{{ $lec->sort_order }}</td>
-                  <td>{{ $lec->title_ar }}</td>
-                  <td>{{ $lec->level?->name_ar }}</td>
+                  <td>{{ $lec->title }}</td>
+                  <td>{{ $lec->level?->name }}</td>
                   <td class="num">{{ $lec->duration_label }}</td>
                   <td>{{ $lec->video_path ? __('نعم') : '—' }}</td>
                   <td><span class="badge {{ $lec->is_published ? '' : 'muted' }}">{{ $lec->is_published ? __('منشورة') : __('مسودّة') }}</span></td>

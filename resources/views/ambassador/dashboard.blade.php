@@ -19,9 +19,9 @@
       <h3 style="margin-bottom:6px">{{ __('رابط الدعوة الخاص بك') }}</h3>
       <p style="color:var(--ink-2);font-size:.9rem;margin-bottom:12px">{{ __('انسخه وأرسله لطلابك عبر واتساب أو غيره.') }}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input id="refUrl" value="{{ $referral['url'] }}" readonly dir="ltr" onclick="this.select()"
+        <input id="refUrl" value="{{ $referral['url'] }}" readonly dir="ltr" data-select-all
                style="flex:1;min-width:220px;padding:.6rem .8rem;border-radius:10px;border:1px solid var(--g-border);background:var(--g-fill-2);color:var(--ink);text-align:start;font-size:.85rem">
-        <button type="button" class="btn btn-gold-line btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('refUrl').value);this.textContent='نُسِخ'">{{ __('نسخ الرابط') }}</button>
+        <button type="button" class="btn btn-gold-line btn-sm" data-copy="#refUrl" data-copied="نُسِخ">{{ __('نسخ الرابط') }}</button>
       </div>
       <div class="stat-row" style="margin-top:14px">
         <div class="glass stat"><div class="v num">{{ $referral['registered'] }}</div><div class="k">{{ __('طالب سجّل عبرك') }}</div></div>

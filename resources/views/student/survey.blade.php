@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', __('استبيان المستوى').' — '.$level->name_ar.' — Restrack')
+@section('title', __('استبيان المستوى').' — '.$level->name.' — Restrack')
 
 @section('content')
   <section class="page">
     <div class="crumb rise in">
       <a href="{{ route('dashboard') }}">{{ __('لوحتي') }}</a><span>/</span>
-      <a href="{{ route('levels.show', $level) }}">{{ $level->name_ar }}</a><span>/</span>
+      <a href="{{ route('levels.show', $level) }}">{{ $level->name }}</a><span>/</span>
       <span>{{ __('الاستبيان') }}</span>
     </div>
 
     <div class="page-head rise in">
       <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>{{ __('رأيك يطوّر المحتوى') }}</span>
-      <h1>{{ __('استبيان') }} — {{ $level->name_ar }}</h1>
+      <h1>{{ __('استبيان') }} — {{ $level->name }}</h1>
       <p>{{ __('دقيقة واحدة. نقرأ كل إجابة ونستخدمها في مراجعة المحتوى وتحديثه.') }}</p>
     </div>
 

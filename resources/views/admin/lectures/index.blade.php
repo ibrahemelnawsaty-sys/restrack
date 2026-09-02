@@ -14,9 +14,9 @@
     <form method="GET" class="rise in" style="margin-bottom:16px">
       <div class="field" style="max-width:320px">
         <label>{{ __('المستوى') }}</label>
-        <select name="level" onchange="this.form.submit()">
+        <select name="level" data-autosubmit>
           @foreach ($levels as $l)
-            <option value="{{ $l->id }}" @selected($levelId == $l->id)>{{ $l->name_ar }}</option>
+            <option value="{{ $l->id }}" @selected($levelId == $l->id)>{{ $l->name }}</option>
           @endforeach
         </select>
       </div>
@@ -34,13 +34,13 @@
                   <form method="POST" action="{{ route('admin.lectures.move', ['lecture' => $lec, 'dir' => 'up']) }}">@csrf<button class="tbtn" style="padding:.2rem .4rem" title="{{ __('أعلى') }}">▲</button></form>
                   <form method="POST" action="{{ route('admin.lectures.move', ['lecture' => $lec, 'dir' => 'down']) }}">@csrf<button class="tbtn" style="padding:.2rem .4rem" title="{{ __('أسفل') }}">▼</button></form>
                 </td>
-                <td>{{ $lec->title_ar }}</td>
+                <td>{{ $lec->title }}</td>
                 <td class="num">{{ $lec->duration_label }}</td>
                 <td>@if ($lec->is_preview)<span class="badge ok">{{ __('مجانية') }}</span>@else<span class="badge muted">{{ __('مدفوعة') }}</span>@endif</td>
                 <td>@if ($lec->is_published)<span class="badge ok">{{ __('منشور') }}</span>@else<span class="badge muted">{{ __('مسودّة') }}</span>@endif</td>
                 <td style="display:flex;gap:6px">
                   <a class="btn btn-ghost btn-sm" href="{{ route('admin.lectures.edit', $lec) }}">{{ __('تعديل') }}</a>
-                  <form method="POST" action="{{ route('admin.lectures.destroy', $lec) }}" onsubmit="return confirm('حذف المحاضرة؟')">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
+                  <form method="POST" action="{{ route('admin.lectures.destroy', $lec) }}" data-confirm="حذف المحاضرة؟">@csrf @method('DELETE')<button class="btn btn-ghost btn-sm" style="color:#F0506E">{{ __('حذف') }}</button></form>
                 </td>
               </tr>
             @empty

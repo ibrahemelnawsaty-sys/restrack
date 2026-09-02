@@ -14,7 +14,7 @@
         <p class="badge ok" style="font-size:.85rem">{{ __('مبروك — اجتزت المستوى!') }}</p>
         <p style="color:var(--ink-2);margin-top:10px">{{ __('تم إصدار شهادتك. تابع إلى المستوى التالي.') }}</p>
       @else
-        <p class="badge warn" style="font-size:.85rem">لم تجتز هذه المرة — حدّ النجاح {{ $attempt->level->pass_threshold }}%</p>
+        <p class="badge warn" style="font-size:.85rem">{{ __('لم تجتز هذه المرة — حدّ النجاح :pct%', ['pct' => $attempt->level->pass_threshold]) }}</p>
         <p style="color:var(--ink-2);margin-top:10px">{{ __('لا بأس —') }} <b>{{ __('المحاولات غير محدودة') }}</b>{{ __('، وستأتيك أسئلة مختلفة في المحاولة القادمة.') }}</p>
       @endif
       <div class="cta-row" style="justify-content:center;margin-top:18px">
@@ -27,8 +27,8 @@
     @foreach ($questions as $i => $q)
       @php($chosen = $answers[$q->id] ?? null)
       <div class="glass q-card rise in">
-        <div class="qh">{{ $i + 1 }}. {{ $q->question_ar }}</div>
-        @foreach (($q->options_ar ?? []) as $idx => $opt)
+        <div class="qh">{{ $i + 1 }}. {{ $q->question }}</div>
+        @foreach ($q->options as $idx => $opt)
           @php($isCorrect = (int) $idx === (int) $q->correct_index)
           @php($isChosen = ! is_null($chosen) && (int) $idx === (int) $chosen)
           @php($optStyle = $isCorrect ? 'border-color:var(--success);background:rgba(18,179,155,.10)' : ($isChosen ? 'border-color:#F0506E;background:rgba(240,80,110,.10)' : ''))

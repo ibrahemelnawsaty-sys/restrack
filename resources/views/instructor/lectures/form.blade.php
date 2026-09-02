@@ -20,7 +20,7 @@
         <div class="field">
           <label>{{ __('المستوى') }}</label>
           <select name="level_id" required>
-            @foreach ($levels as $l)<option value="{{ $l->id }}" @selected(old('level_id', $lecture->level_id) == $l->id)>{{ $l->name_ar }}</option>@endforeach
+            @foreach ($levels as $l)<option value="{{ $l->id }}" @selected(old('level_id', $lecture->level_id) == $l->id)>{{ $l->name }}</option>@endforeach
           </select>
         </div>
         <div class="field"><label>{{ __('الترتيب') }}</label><input name="sort_order" type="number" value="{{ old('sort_order', $lecture->sort_order ?? 0) }}"></div>

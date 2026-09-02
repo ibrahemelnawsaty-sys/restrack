@@ -8,7 +8,7 @@
 
     <div class="page-head rise in">
       <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-research"/></svg>{{ __('بوّابة المدرّب') }}</span>
-      <h1>مرحباً، {{ $speaker->name_ar }}</h1>
+      <h1>مرحباً، {{ $speaker->name }}</h1>
       <p>{{ __('من هنا تدير محاضراتك وترفع فيديوهاتك — يظهر لك محتواك أنت فقط.') }}</p>
     </div>
 
@@ -23,9 +23,9 @@
       <h3 style="margin-bottom:6px">{{ __('رابط الدعوة الخاص بك') }}</h3>
       <p style="color:var(--ink-2);font-size:.9rem;margin-bottom:12px">{{ __('شارك هذا الرابط مع طلابك — كل من يسجّل عبره يُحسب لك.') }}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input id="refUrl" value="{{ $referral['url'] }}" readonly dir="ltr" onclick="this.select()"
+        <input id="refUrl" value="{{ $referral['url'] }}" readonly dir="ltr" data-select-all
                style="flex:1;min-width:220px;padding:.6rem .8rem;border-radius:10px;border:1px solid var(--g-border);background:var(--g-fill-2);color:var(--ink);text-align:start;font-size:.85rem">
-        <button type="button" class="btn btn-gold-line btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('refUrl').value);this.textContent='نُسِخ'">{{ __('نسخ الرابط') }}</button>
+        <button type="button" class="btn btn-gold-line btn-sm" data-copy="#refUrl" data-copied="نُسِخ">{{ __('نسخ الرابط') }}</button>
       </div>
       <div class="stat-row" style="margin-top:14px">
         <div class="glass stat"><div class="v num">{{ $referral['registered'] }}</div><div class="k">{{ __('مسجّل عبرك') }}</div></div>
@@ -48,8 +48,8 @@
             <tbody>
               @foreach ($lectures->take(8) as $lec)
                 <tr>
-                  <td>{{ $lec->title_ar }}</td>
-                  <td>{{ $lec->level?->name_ar }}</td>
+                  <td>{{ $lec->title }}</td>
+                  <td>{{ $lec->level?->name }}</td>
                   <td class="num">{{ $lec->duration_label }}</td>
                   <td><span class="badge {{ $lec->is_published ? '' : 'muted' }}">{{ $lec->is_published ? __('منشورة') : __('مسودّة') }}</span></td>
                   <td><a href="{{ route('instructor.lectures.edit', $lec) }}" style="color:var(--violet);font-weight:700">{{ __('تعديل') }}</a></td>

@@ -13,7 +13,7 @@
           @if ($certificate->type === 'final')
             {{ __('أتمّ بنجاح مسار') }} «<span style="direction:ltr;unicode-bidi:isolate">Research Track Programs (1)</span>»
           @else
-            {{ __('اجتاز') }} {{ optional($certificate->level)->name_ar }}
+            {{ __('اجتاز') }} {{ optional($certificate->level)->name }}
           @endif
           — {{ __('مؤسسة ريستراك للتدريب.') }}
         </div>

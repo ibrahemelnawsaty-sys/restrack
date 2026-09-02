@@ -27,6 +27,34 @@ class Level extends Model
         ];
     }
 
+    /**
+     * Locale accessors — English only when that column actually has content,
+     * otherwise the Arabic original (same rule as PageSection::text()).
+     */
+    public function getNameAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name_ar;
+    }
+
+    public function getFocusAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->focus_en) ? $this->focus_en : $this->focus_ar;
+    }
+
+    public function getTopicsAttribute(): array
+    {
+        return app()->getLocale() === 'en' && filled($this->topics_en)
+            ? $this->topics_en
+            : ($this->topics_ar ?? []);
+    }
+
+    public function getOutcomesAttribute(): array
+    {
+        return app()->getLocale() === 'en' && filled($this->outcomes_en)
+            ? $this->outcomes_en
+            : ($this->outcomes_ar ?? []);
+    }
+
     public function lectures(): HasMany
     {
         return $this->hasMany(Lecture::class)->orderBy('sort_order');

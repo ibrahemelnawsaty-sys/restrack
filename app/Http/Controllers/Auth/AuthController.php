@@ -72,7 +72,9 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
             'role' => User::ROLE_STUDENT,
-            'locale' => 'ar',
+            // Keep the language they actually registered in. SetLocale prefers this column over
+            // the session, so hardcoding 'ar' silently flipped every English visitor back to Arabic.
+            'locale' => in_array(app()->getLocale(), ['ar', 'en'], true) ? app()->getLocale() : 'ar',
             'referrer_id' => $referrerId,
         ]);
 

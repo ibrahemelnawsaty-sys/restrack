@@ -47,7 +47,7 @@
                   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
                     <label class="check" style="font-size:.8rem"><input type="checkbox" name="is_active" value="1" form="rf{{ $r->id }}" @checked($r->is_active)> {{ __('فعّال') }}</label>
                     <button class="btn btn-ghost btn-sm" form="rf{{ $r->id }}">{{ __('حفظ') }}</button>
-                    <form method="POST" action="{{ route('admin.referrers.destroy', $r) }}" onsubmit="return confirm('حذف {{ $r->name }}؟')">
+                    <form method="POST" action="{{ route('admin.referrers.destroy', $r) }}" data-confirm="حذف {{ $r->name }}؟">
                       @csrf @method('DELETE')
                       <button class="btn btn-sm" style="color:#F0506E;background:transparent;border:1px solid var(--g-border)">{{ __('حذف') }}</button>
                     </form>

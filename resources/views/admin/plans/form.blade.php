@@ -25,7 +25,12 @@
         <div class="field"><label>{{ __('الترتيب') }}</label><input name="sort_order" type="number" value="{{ old('sort_order', $plan->sort_order ?? 0) }}"></div>
       </div>
 
-      <div class="field"><label>{{ __('المميّزات (سطر لكل ميزة)') }}</label><textarea name="features_ar" rows="5">{{ old('features_ar', implode("\n", $plan->features_ar ?? [])) }}</textarea></div>
+      <div class="field">
+        <label>{{ __('المميّزات (سطر لكل ميزة)') }}</label>
+        <textarea name="features_ar" rows="5">{{ old('features_ar', implode("\n", $plan->features_ar ?? [])) }}</textarea>
+        <span style="color:var(--ink-3);font-size:.76rem">{{ __('اللصق من العرض التقديمي مقبول — الفاصل • أو · يبدأ ميزة جديدة، إلا داخل الأقواس.') }}</span>
+      </div>
+      <div class="field"><label>{{ __('المميّزات (إنجليزي)') }}</label><textarea name="features_en" rows="5" dir="ltr" style="text-align:start">{{ old('features_en', implode("\n", $plan->features_en ?? [])) }}</textarea></div>
 
       <div style="display:flex;gap:18px;flex-wrap:wrap">
         <label class="check"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $plan->is_active ?? true))> {{ __('فعّالة') }}</label>

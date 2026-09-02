@@ -23,19 +23,29 @@ class Guideline extends Model
         ];
     }
 
+    /**
+     * Locale accessor — English only when that column actually has content,
+     * otherwise the Arabic original (same rule as PageSection::text()).
+     * `note_ar` has no English column, so it stays as-is.
+     */
+    public function getNameAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name_ar;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true)->orderBy('sort_order');
     }
 
-    /** Arabic label of the group this guideline belongs to. */
+    /** Label of the group this guideline belongs to, translated via lang/en.json. */
     public static function groupLabel(string $key): string
     {
         return match ($key) {
-            'saudi' => 'الأنظمة السعودية والمعايير الوطنية',
-            'ethics' => 'أخلاقيات البحث العالمية',
-            'publication' => 'النشر والنزاهة الأكاديمية',
-            default => 'أدلة كتابة الأبحاث الدولية',
+            'saudi' => __('الأنظمة السعودية والمعايير الوطنية'),
+            'ethics' => __('أخلاقيات البحث العالمية'),
+            'publication' => __('النشر والنزاهة الأكاديمية'),
+            default => __('أدلة كتابة الأبحاث الدولية'),
         };
     }
 }

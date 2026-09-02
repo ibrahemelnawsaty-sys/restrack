@@ -198,28 +198,28 @@ class DatabaseSeeder extends Seeder
         // A small starter bank per level (randomized per attempt in the exam service).
         $banks = [
             'beginner' => [
-                ['q' => 'ما الهدف الأساسي من مراجعة الأدبيات قبل بدء البحث؟', 'o' => ['تحديد الفجوة البحثية', 'زيادة عدد المراجع فقط', 'إطالة المقدمة', 'تجنّب أخذ الموافقة الأخلاقية'], 'c' => 0],
-                ['q' => 'أي جهة تُعنى بحماية المشاركين في البحث الطبي؟', 'o' => ['لجنة أخلاقيات البحث (IRB)', 'قسم التسويق', 'إدارة المشتريات', 'دار النشر'], 'c' => 0],
-                ['q' => 'السؤال البحثي الجيّد يجب أن يكون:', 'o' => ['محدّداً وقابلاً للقياس', 'عامّاً وغامضاً', 'بلا هدف واضح', 'غير قابل للإجابة'], 'c' => 0],
-                ['q' => 'أي مما يلي دراسة رصدية؟', 'o' => ['دراسة الأتراب (Cohort)', 'التجربة السريرية العشوائية', 'دراسة مخبرية تداخلية', 'تجربة دوائية مضبوطة'], 'c' => 0],
-                ['q' => 'الغرض من التوثيق العلمي (Referencing) هو:', 'o' => ['نسبة الأفكار لأصحابها وتجنّب الانتحال', 'زيادة عدد الصفحات', 'إخفاء المصادر', 'تعقيد النص'], 'c' => 0],
-                ['q' => 'الموافقة المستنيرة (Informed Consent) تعني:', 'o' => ['إعلام المشارك وأخذ موافقته الطوعية', 'إجبار المشارك', 'تجاهل رأي المشارك', 'إخفاء مخاطر البحث'], 'c' => 0],
+                ['q' => 'ما الهدف الأساسي من مراجعة الأدبيات قبل بدء البحث؟', 'o' => ['تحديد الفجوة البحثية', 'زيادة عدد المراجع فقط', 'إطالة المقدمة', 'تجنّب أخذ الموافقة الأخلاقية'], 'c' => 0, 'qe' => 'What is the main purpose of a literature review before starting research?', 'oe' => ['Identifying the research gap', 'Simply increasing the number of references', 'Making the introduction longer', 'Avoiding ethical approval']],
+                ['q' => 'أي جهة تُعنى بحماية المشاركين في البحث الطبي؟', 'o' => ['لجنة أخلاقيات البحث (IRB)', 'قسم التسويق', 'إدارة المشتريات', 'دار النشر'], 'c' => 0, 'qe' => 'Which body is responsible for protecting participants in medical research?', 'oe' => ['The Institutional Review Board (IRB)', 'The marketing department', 'The procurement department', 'The publishing house']],
+                ['q' => 'السؤال البحثي الجيّد يجب أن يكون:', 'o' => ['محدّداً وقابلاً للقياس', 'عامّاً وغامضاً', 'بلا هدف واضح', 'غير قابل للإجابة'], 'c' => 0, 'qe' => 'A good research question should be:', 'oe' => ['Specific and measurable', 'General and vague', 'Without a clear aim', 'Unanswerable']],
+                ['q' => 'أي مما يلي دراسة رصدية؟', 'o' => ['دراسة الأتراب (Cohort)', 'التجربة السريرية العشوائية', 'دراسة مخبرية تداخلية', 'تجربة دوائية مضبوطة'], 'c' => 0, 'qe' => 'Which of the following is an observational study?', 'oe' => ['A cohort study', 'A randomised clinical trial', 'An interventional laboratory study', 'A controlled drug trial']],
+                ['q' => 'الغرض من التوثيق العلمي (Referencing) هو:', 'o' => ['نسبة الأفكار لأصحابها وتجنّب الانتحال', 'زيادة عدد الصفحات', 'إخفاء المصادر', 'تعقيد النص'], 'c' => 0, 'qe' => 'The purpose of referencing is:', 'oe' => ['Attributing ideas to their authors and avoiding plagiarism', 'Increasing the page count', 'Hiding the sources', 'Complicating the text']],
+                ['q' => 'الموافقة المستنيرة (Informed Consent) تعني:', 'o' => ['إعلام المشارك وأخذ موافقته الطوعية', 'إجبار المشارك', 'تجاهل رأي المشارك', 'إخفاء مخاطر البحث'], 'c' => 0, 'qe' => 'Informed consent means:', 'oe' => ['Informing the participant and obtaining their voluntary agreement', 'Coercing the participant', 'Ignoring the participant\'s view', 'Concealing the research risks']],
             ],
             'intermediate' => [
-                ['q' => 'ما الغرض من حساب حجم العيّنة قبل الدراسة؟', 'o' => ['ضمان قوة إحصائية كافية', 'إطالة مدة الدراسة', 'زيادة التكلفة عمداً', 'لا فائدة منه'], 'c' => 0],
-                ['q' => 'أي طريقة أخذ عيّنات تقلّل التحيّز أكثر؟', 'o' => ['العيّنة العشوائية', 'عيّنة الملاءمة', 'عيّنة كرة الثلج', 'الاختيار المتحيّز'], 'c' => 0],
-                ['q' => 'المتغيّر المُربِك (Confounder) هو:', 'o' => ['عامل يؤثّر على النتيجة والتعرّض معاً', 'المتغيّر التابع فقط', 'خطأ مطبعي', 'قيمة مفقودة'], 'c' => 0],
-                ['q' => 'أي مقياس مناسب لوصف بيانات كمّية طبيعية التوزيع؟', 'o' => ['المتوسّط والانحراف المعياري', 'المنوال فقط', 'النسبة المئوية فقط', 'لا شيء مما سبق'], 'c' => 0],
-                ['q' => 'المقترح البحثي الجيّد يتضمّن:', 'o' => ['الأهداف والمنهجية وخطة التحليل', 'العنوان فقط', 'قائمة أسماء فقط', 'صفحة غلاف فقط'], 'c' => 0],
-                ['q' => 'إدارة البيانات الجيّدة تشمل:', 'o' => ['التوثيق والنسخ الاحتياطي وأمن البيانات', 'حذف البيانات فوراً', 'مشاركة كلمات المرور', 'تجاهل الخصوصية'], 'c' => 0],
+                ['q' => 'ما الغرض من حساب حجم العيّنة قبل الدراسة؟', 'o' => ['ضمان قوة إحصائية كافية', 'إطالة مدة الدراسة', 'زيادة التكلفة عمداً', 'لا فائدة منه'], 'c' => 0, 'qe' => 'Why is sample size calculated before a study?', 'oe' => ['To ensure adequate statistical power', 'To lengthen the study', 'To deliberately increase cost', 'It serves no purpose']],
+                ['q' => 'أي طريقة أخذ عيّنات تقلّل التحيّز أكثر؟', 'o' => ['العيّنة العشوائية', 'عيّنة الملاءمة', 'عيّنة كرة الثلج', 'الاختيار المتحيّز'], 'c' => 0, 'qe' => 'Which sampling method best reduces bias?', 'oe' => ['Random sampling', 'Convenience sampling', 'Snowball sampling', 'Biased selection']],
+                ['q' => 'المتغيّر المُربِك (Confounder) هو:', 'o' => ['عامل يؤثّر على النتيجة والتعرّض معاً', 'المتغيّر التابع فقط', 'خطأ مطبعي', 'قيمة مفقودة'], 'c' => 0, 'qe' => 'A confounder is:', 'oe' => ['A factor that affects both the outcome and the exposure', 'The dependent variable only', 'A typographical error', 'A missing value']],
+                ['q' => 'أي مقياس مناسب لوصف بيانات كمّية طبيعية التوزيع؟', 'o' => ['المتوسّط والانحراف المعياري', 'المنوال فقط', 'النسبة المئوية فقط', 'لا شيء مما سبق'], 'c' => 0, 'qe' => 'Which measure suits normally distributed quantitative data?', 'oe' => ['The mean and standard deviation', 'The mode only', 'The percentage only', 'None of the above']],
+                ['q' => 'المقترح البحثي الجيّد يتضمّن:', 'o' => ['الأهداف والمنهجية وخطة التحليل', 'العنوان فقط', 'قائمة أسماء فقط', 'صفحة غلاف فقط'], 'c' => 0, 'qe' => 'A good research proposal includes:', 'oe' => ['The objectives, methodology and analysis plan', 'The title only', 'A list of names only', 'A cover page only']],
+                ['q' => 'إدارة البيانات الجيّدة تشمل:', 'o' => ['التوثيق والنسخ الاحتياطي وأمن البيانات', 'حذف البيانات فوراً', 'مشاركة كلمات المرور', 'تجاهل الخصوصية'], 'c' => 0, 'qe' => 'Good data management includes:', 'oe' => ['Documentation, backup and data security', 'Deleting the data immediately', 'Sharing passwords', 'Ignoring privacy']],
             ],
             'expert' => [
-                ['q' => 'ما بنية المخطوطة العلمية الأكثر شيوعاً؟', 'o' => ['IMRaD (مقدمة، طرق، نتائج، مناقشة)', 'عنوان ثم خاتمة فقط', 'مناقشة ثم مقدمة', 'نتائج فقط'], 'c' => 0],
-                ['q' => 'عند اختيار المجلة، من المهم مراعاة:', 'o' => ['النطاق ومعامل التأثير والفهرسة', 'لون الغلاف', 'عدد الإعلانات', 'خط الطباعة'], 'c' => 0],
-                ['q' => 'ما الغرض من مراجعة الأقران (Peer Review)؟', 'o' => ['تقييم جودة البحث وصحّته', 'تأخير النشر بلا سبب', 'زيادة الرسوم', 'إخفاء النتائج'], 'c' => 0],
-                ['q' => 'المراجعة المنهجية (Systematic Review) تتميّز بـ:', 'o' => ['بروتوكول منهجي شامل وقابل للتكرار', 'اختيار عشوائي للمراجع', 'رأي شخصي فقط', 'دراسة واحدة فقط'], 'c' => 0],
-                ['q' => 'من أخلاقيات النشر:', 'o' => ['تجنّب الانتحال والنشر المُكرّر', 'شراء الاستشهادات', 'تزوير البيانات', 'إخفاء تضارب المصالح'], 'c' => 0],
-                ['q' => 'المجلات المُفترِسة (Predatory) تتّسم عادةً بـ:', 'o' => ['رسوم عالية دون مراجعة حقيقية', 'مراجعة أقران صارمة', 'فهرسة معتبرة', 'شفافية كاملة'], 'c' => 0],
+                ['q' => 'ما بنية المخطوطة العلمية الأكثر شيوعاً؟', 'o' => ['IMRaD (مقدمة، طرق، نتائج، مناقشة)', 'عنوان ثم خاتمة فقط', 'مناقشة ثم مقدمة', 'نتائج فقط'], 'c' => 0, 'qe' => 'What is the most common scientific manuscript structure?', 'oe' => ['IMRaD (Introduction, Methods, Results, Discussion)', 'A title then a conclusion only', 'Discussion then introduction', 'Results only']],
+                ['q' => 'عند اختيار المجلة، من المهم مراعاة:', 'o' => ['النطاق ومعامل التأثير والفهرسة', 'لون الغلاف', 'عدد الإعلانات', 'خط الطباعة'], 'c' => 0, 'qe' => 'When choosing a journal, it is important to consider:', 'oe' => ['Scope, impact factor and indexing', 'The cover colour', 'The number of advertisements', 'The typeface']],
+                ['q' => 'ما الغرض من مراجعة الأقران (Peer Review)؟', 'o' => ['تقييم جودة البحث وصحّته', 'تأخير النشر بلا سبب', 'زيادة الرسوم', 'إخفاء النتائج'], 'c' => 0, 'qe' => 'What is the purpose of peer review?', 'oe' => ['Assessing the quality and validity of the research', 'Delaying publication for no reason', 'Increasing the fees', 'Hiding the results']],
+                ['q' => 'المراجعة المنهجية (Systematic Review) تتميّز بـ:', 'o' => ['بروتوكول منهجي شامل وقابل للتكرار', 'اختيار عشوائي للمراجع', 'رأي شخصي فقط', 'دراسة واحدة فقط'], 'c' => 0, 'qe' => 'A systematic review is characterised by:', 'oe' => ['A comprehensive, reproducible methodological protocol', 'Random selection of references', 'Personal opinion only', 'A single study only']],
+                ['q' => 'من أخلاقيات النشر:', 'o' => ['تجنّب الانتحال والنشر المُكرّر', 'شراء الاستشهادات', 'تزوير البيانات', 'إخفاء تضارب المصالح'], 'c' => 0, 'qe' => 'Publication ethics include:', 'oe' => ['Avoiding plagiarism and duplicate publication', 'Buying citations', 'Fabricating data', 'Concealing conflicts of interest']],
+                ['q' => 'المجلات المُفترِسة (Predatory) تتّسم عادةً بـ:', 'o' => ['رسوم عالية دون مراجعة حقيقية', 'مراجعة أقران صارمة', 'فهرسة معتبرة', 'شفافية كاملة'], 'c' => 0, 'qe' => 'Predatory journals are usually characterised by:', 'oe' => ['High fees without genuine review', 'Rigorous peer review', 'Reputable indexing', 'Full transparency']],
             ],
         ];
 
@@ -228,6 +228,8 @@ class DatabaseSeeder extends Seeder
                 ['level_id' => $level->id, 'question_ar' => $item['q']],
                 [
                     'options_ar' => $item['o'],
+                    'question_en' => $item['qe'] ?? null,
+                    'options_en' => $item['oe'] ?? null,
                     'correct_index' => $item['c'],
                     'is_published' => true,
                 ]
@@ -346,23 +348,10 @@ class DatabaseSeeder extends Seeder
 
             // ── speakers (slide 13 · owner note م3) ─────────────────────────────
             ['home', 'speakers', 'title', 'متحدثونا', 'Our Speakers'],
-            ['home', 'speakers', 'intro', 'نختار متحدثينا بعناية — كفاءاتٌ وخبراتٌ سعودية في المجال الطبي، ذات سجلٍّ بحثيٍّ ونشرٍ موثّق.', 'We select our speakers carefully — Saudi expertise in the medical field, with a documented research and publication record.'],
+            ['home', 'speakers', 'intro', 'نختار متحدثينا بعناية — كفاءاتٌ وخبراتٌ في المجال الطبي، ذات سجلٍّ بحثيٍّ ونشرٍ موثّق.', 'We select our speakers carefully — expertise in the medical field, with a documented research and publication record.'],
             ['home', 'speakers', 'c1', 'اعتماد أكاديمي مُثبَت', 'Proven academic credentials'],
             ['home', 'speakers', 'c2', 'مشاركة بحثية نشطة', 'Active research involvement'],
             ['home', 'speakers', 'c3', 'سجلّ نشرٍ قوي', 'A strong publication record'],
-
-            // ── learning delivery model (slide 12) ──────────────────────────────
-            ['home', 'delivery', 'title', 'نموذج التعلّم', 'Learning Delivery Model'],
-            ['home', 'delivery', 'body', 'محاضراتٌ مسجّلة عالية الجودة تمنحك مرونة الوصول إلى المادة في أي وقتٍ ومن أي مكان — تتعلّم بالوتيرة التي تناسبك، وتربط المفاهيم النظرية بالتطبيق العملي في تجربةٍ تعليميةٍ متكاملة.', 'High-quality recorded lectures give you the flexibility to access the material anytime, anywhere — learn at your own pace and integrate theory with practice in a complete educational experience.'],
-
-            // ── quality assurance (slide 14) ────────────────────────────────────
-            ['home', 'quality', 'title', 'ضمان الجودة', 'Quality Assurance'],
-            ['home', 'quality', 'body', 'التزامنا بالتميّز ينعكس في نظام ضمان جودةٍ يشمل لجان مراجعة أكاديمية، وتدقيق المحتوى، وتحديثاتٍ دورية. ونستطلع رأي المتعلّمين ونحلّل مؤشرات الأداء باستمرار لنُبقي المنهج وثيق الصلة وفعّالاً.', 'Our commitment to excellence is reflected in a quality assurance system that includes academic review committees, content validation, and regular updates. We actively seek learner feedback and analyse performance to keep the curriculum relevant and effective.'],
-            ['home', 'quality', 'q1', 'لجان مراجعة أكاديمية', 'Academic review committees'],
-            ['home', 'quality', 'q2', 'تدقيق المحتوى', 'Content validation'],
-            ['home', 'quality', 'q3', 'تحديث دوري', 'Regular updates'],
-            ['home', 'quality', 'q4', 'استبيان المتعلّمين', 'Learner feedback surveys'],
-            ['home', 'quality', 'q5', 'تحليلات الأداء', 'Performance analytics'],
 
             // ── pricing (owner notes م7 · م9) ───────────────────────────────────
             ['home', 'pricing', 'title', 'اشتراك سنوي واحد · المسار كامل', 'One annual subscription · the whole track'],
@@ -382,20 +371,22 @@ class DatabaseSeeder extends Seeder
     {
         // Absorbs the objections the old "content protection" section used to answer (CONTENT-PLAN §3.14).
         $faqs = [
-            ['هل المحاضرات مباشرة أم مسجّلة؟', 'كل المحاضرات مسجّلة — تشاهدها في أي وقتٍ ومن أي جهاز، وتعيدها كما تشاء، مع الاستئناف من حيث توقّفت.'],
-            ['ماذا لو رسبتُ في الاختبار؟', 'لا شيء يُفقَد — المحاولات غير محدودة وحدّ النجاح 70%، وتُطرح أسئلة مختلفة في كل محاولة.'],
-            ['هل الأسئلة ثابتة لكل المتقدّمين؟', 'لا — لكل مستوى بنك أسئلة، ويُختار منه عدد من الأسئلة عشوائياً في كل محاولة، فلا تتكرّر التجربة نفسها.'],
-            ['ما الذي أحصل عليه بعد كل مستوى؟', 'شهادة إتمام للمستوى تحمل الدرجة التي اجتزتَه بها، وعند إكمال المستويات الثلاثة تُصدَر شهادة إتمام نهائية للمسار الكامل.'],
-            ['هل الشهادة قابلة للتحقّق؟', 'نعم — لكل شهادة رقم فريد وصفحة تحقّق عامة عبر QR. الشهادة شهادة إكمال (Certificate of Completion / شهادة إكمال)، والاعتماد الرسمي قيد الإجراء ولا ندّعيه قبل اكتماله.'],
-            ['ما المراجع التي يُبنى عليها المحتوى؟', 'الأنظمة السعودية (NCBE · SFDA-GCP · سياسات لجان الأخلاقيات في وزارة الصحة · نظام حماية البيانات PDPL)، وأدلة الكتابة الدولية (CONSORT · STROBE · PRISMA · CARE · ARRIVE)، وأخلاقيات البحث العالمية (هلسنكي · ICH-GCP · CIOMS · بلمونت · إطار منظمة الصحة العالمية)، ومعايير النشر (ICMJE · COPE · WAME · فانكوفر).'],
-            ['لمن هذه المنصة؟', 'طلاب الطب، وخرّيجو العلوم الصحية، وأطباء الامتياز، والأطباء المقيمون، والباحثون في بداية مسيرتهم.'],
-            ['هل يمكنني تحميل الفيديوهات؟', 'لا — المحتوى داخل المنصة فقط، بروابط موقّتة وعلامة مائية باسمك، حمايةً لحقوق المتحدثين والمؤسسة.'],
-            ['هل اشتراكٌ واحد يفتح كل المحتوى؟', 'نعم — اشتراك سنوي واحد يفتح المسار كاملاً بمستوياته الثلاثة، دون شراءٍ منفصل لكل دورة.'],
+            ['هل المحاضرات مباشرة أم مسجّلة؟', 'كل المحاضرات مسجّلة — تشاهدها في أي وقتٍ ومن أي جهاز، وتعيدها كما تشاء، مع الاستئناف من حيث توقّفت.', 'Are the lectures live or recorded?', 'Every lecture is recorded — watch anytime on any device, replay as often as you like, and resume from where you stopped.'],
+            ['ماذا لو رسبتُ في الاختبار؟', 'لا شيء يُفقَد — المحاولات غير محدودة وحدّ النجاح 70%، وتُطرح أسئلة مختلفة في كل محاولة.', 'What if I fail the exam?', 'Nothing is lost — attempts are unlimited, the pass mark is 70%, and each attempt draws different questions.'],
+            ['هل الأسئلة ثابتة لكل المتقدّمين؟', 'لا — لكل مستوى بنك أسئلة، ويُختار منه عدد من الأسئلة عشوائياً في كل محاولة، فلا تتكرّر التجربة نفسها.', 'Is everyone asked the same questions?', 'No — each level has its own question bank, and a set of questions is drawn from it at random on every attempt, so no two sittings are alike.'],
+            ['ما الذي أحصل عليه بعد كل مستوى؟', 'شهادة إتمام للمستوى تحمل الدرجة التي اجتزتَه بها، وعند إكمال المستويات الثلاثة تُصدَر شهادة إتمام نهائية للمسار الكامل.', 'What do I get after each level?', 'A level completion certificate showing the score you passed with, and once you finish all three levels a final completion certificate for the whole track is issued.'],
+            ['هل الشهادة قابلة للتحقّق؟', 'نعم — لكل شهادة رقم فريد وصفحة تحقّق عامة عبر QR. الشهادة شهادة إكمال (Certificate of Completion / شهادة إكمال)، والاعتماد الرسمي قيد الإجراء ولا ندّعيه قبل اكتماله.', 'Can the certificate be verified?', 'Yes — every certificate carries a unique number and a public verification page reachable by QR. It is a Certificate of Completion; formal accreditation is in progress and we make no such claim until it is finalised.'],
+            ['ما المراجع التي يُبنى عليها المحتوى؟', 'الأنظمة السعودية (NCBE · SFDA-GCP · سياسات لجان الأخلاقيات في وزارة الصحة · نظام حماية البيانات PDPL)، وأدلة الكتابة الدولية (CONSORT · STROBE · PRISMA · CARE · ARRIVE)، وأخلاقيات البحث العالمية (هلسنكي · ICH-GCP · CIOMS · بلمونت · إطار منظمة الصحة العالمية)، ومعايير النشر (ICMJE · COPE · WAME · فانكوفر).', 'What sources is the content built on?', 'Saudi regulations (NCBE · SFDA-GCP · Ministry of Health IRB policies · the PDPL data protection law), international reporting guidelines (CONSORT · STROBE · PRISMA · CARE · ARRIVE), global research ethics (Helsinki · ICH-GCP · CIOMS · Belmont · the WHO framework), and publication standards (ICMJE · COPE · WAME · Vancouver).'],
+            ['لمن هذه المنصة؟', 'طلاب الطب، وخرّيجو العلوم الصحية، وأطباء الامتياز، والأطباء المقيمون، والباحثون في بداية مسيرتهم.', 'Who is this platform for?', 'Medical students, health sciences graduates, interns, resident physicians, and early-career researchers.'],
+            ['هل يمكنني تحميل الفيديوهات؟', 'لا — المحتوى داخل المنصة فقط، بروابط موقّتة وعلامة مائية باسمك، حمايةً لحقوق المتحدثين والمؤسسة.', 'Can I download the videos?', 'No — the content stays inside the platform, served through short-lived links and watermarked with your name, to protect the speakers\' and the institute\'s rights.'],
+            ['هل اشتراكٌ واحد يفتح كل المحتوى؟', 'نعم — اشتراك سنوي واحد يفتح المسار كاملاً بمستوياته الثلاثة، دون شراءٍ منفصل لكل دورة.', 'Does one subscription unlock everything?', 'Yes — a single annual subscription unlocks the whole track and all three levels, with no separate purchase per course.'],
         ];
 
-        foreach ($faqs as $i => [$q, $a]) {
+        foreach ($faqs as $i => [$q, $a, $qEn, $aEn]) {
             Faq::updateOrCreate(['question_ar' => $q], [
                 'answer_ar' => $a,
+                'question_en' => $qEn,
+                'answer_en' => $aEn,
                 'sort_order' => $i + 1,
                 'is_published' => true,
             ]);

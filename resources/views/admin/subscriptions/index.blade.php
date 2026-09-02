@@ -17,7 +17,7 @@
               <tr>
                 <td>{{ optional($sub->user)->name }}</td>
                 <td>{{ optional(optional($sub->user)->referrer)->name ?? '—' }}</td>
-                <td>{{ optional($sub->plan)->name_ar ?? '—' }}</td>
+                <td>{{ optional($sub->plan)->name ?? '—' }}</td>
                 <td class="num">{{ (int) $sub->amount }} ر.س</td>
                 <td>
                   @php($cls = $sub->status === 'active' ? 'ok' : ($sub->status === 'pending' ? 'warn' : 'muted'))

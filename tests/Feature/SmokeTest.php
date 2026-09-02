@@ -53,7 +53,6 @@ class SmokeTest extends TestCase
         $home->assertSee('Research Track 1', false);
         $home->assertSee('شهادة إتمام نهائية للمسار الكامل', false);
         $home->assertSee('متحدثونا', false);
-        $home->assertSee('ضمان الجودة', false);
 
         // one annual plan at 899 SAR, with the no-risk promise stated before the button
         $home->assertSee('899', false);
@@ -62,6 +61,12 @@ class SmokeTest extends TestCase
         // and none of the old product-brochure copy survives
         $home->assertDontSee('زجاج راقٍ', false);
         $home->assertDontSee('الأرقام توضيحية', false);
+
+        // the owner removed the delivery-model and quality-assurance sections
+        $home->assertDontSee('نموذج التعلّم', false);
+        $home->assertDontSee('ضمان الجودة', false);
+        // …and the speakers intro no longer claims a nationality
+        $home->assertDontSee('سعودية في المجال الطبي', false);
     }
 
     /** Owner note م9: the learner must read "unlimited attempts" before paying. */

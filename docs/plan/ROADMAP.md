@@ -105,18 +105,21 @@ Each level ends with an **exam**; **exam attempts are UNLIMITED**; finishing all
 
 ---
 
-## 4. Payments — Moyasar end-to-end + pre-payment page ☐ ⚠️
+## 4. Payments — Paymob end-to-end + pre-payment page ☑ (code) / ⚠️ (server config)
 
 **Request:** after register + login, **before paying**, show a **full program-detail page**; end with **Pay** or **Start**. Online payment via gateway.
 
-**Reality (map):**
-- Gateway = **Moyasar**. Paid flow is a **stub**: `PaymentService::createPayment()` returns `'#'`; `CheckoutController::process()` only completes free (100%-coupon) checkouts; no pending `Subscription`+`payment_id` is created, yet the webhook looks it up by `payment_id`. **Not end-to-end.**
-- Webhook `/webhooks/moyasar` is **unsigned** and has **no real CSRF exemption** in `bootstrap/app.php` (`CLAUDE.md` §6.3).
+**Reality (verified 2026-09-01) — the code is done; only the server env is missing:**
+- Gateway = **Paymob (KSA)**, switched from Moyasar on 2026-07-30 (`d5fa040`, `ed97476`). `app/Services/PaymentService.php` uses the Intention API with an `Authorization: Token` header.
+- The flow **is** end-to-end: `CheckoutController::process()` creates a **pending** `Subscription` first, then `createCheckout()` writes back the `payment_id`, so the webhook's lookup resolves.
+- Webhook `POST /webhooks/paymob` **is** HMAC-SHA512 verified (`hash_equals`, 403 on mismatch) and **is** genuinely CSRF-exempt (`bootstrap/app.php:27-29`). Covered by `tests/Feature/SmokeTest.php:378-423`.
+- Both activation paths (`PaymentService::activateFromTransaction()` and `Admin\SubscriptionController::activate()`) compute the same term and set the same fields.
+- `isSubscribed()` **does** enforce `expires_at` (`app/Models/User.php:132-151`).
 
-**Plan:**
+**What is actually left:**
+- ⚠️ **The live server's `.env` has no `PAYMOB_*` keys** — only three dead `MOYASAR_*` ones. `PaymentService::configured()` is therefore `false` in production and **paid checkout cannot complete**. Fix per [`DEPLOY.md`](../../DEPLOY.md) §7. This is a credentials/deploy task, not a code task.
 - Build the authenticated **program-detail page** (route + view) shown before checkout, ending with Pay/Start CTA.
-- Implement Moyasar create-payment → create **pending** `Subscription` with `payment_id` → redirect to gateway → **signed** webhook (`HMAC` verify, amount/currency check) flips to `active` → CSRF-exempt the route. **Unify the two activation paths** (`PaymentService` + `Admin\SubscriptionController`).
-- Enforce `expires_at` in `isSubscribed()` (currently ignored).
+- ZATCA VAT invoice generation — the checkout page already promises "شامل ضريبة القيمة المضافة 15% مع فاتورة ZATCA" but nothing generates one.
 
 ---
 

@@ -26,6 +26,22 @@ class Plan extends Model
         ];
     }
 
+    /**
+     * Locale accessors — English only when that column actually has content,
+     * otherwise the Arabic original (same rule as PageSection::text()).
+     */
+    public function getNameAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name_ar;
+    }
+
+    public function getFeaturesAttribute(): array
+    {
+        return app()->getLocale() === 'en' && filled($this->features_en)
+            ? $this->features_en
+            : ($this->features_ar ?? []);
+    }
+
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);

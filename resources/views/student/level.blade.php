@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', $level->name_ar.' — Restrack')
+@section('title', $level->name.' — Restrack')
 
 @section('content')
   <section class="page">
     <div class="crumb rise in">
       <a href="{{ route('dashboard') }}">{{ __('لوحتي') }}</a><span>/</span>
       <a href="{{ route('program.index') }}">{{ __('المسار') }}</a><span>/</span>
-      <span>{{ $level->name_ar }}</span>
+      <span>{{ $level->name }}</span>
     </div>
 
     <div class="page-head rise in">
-      <span class="badge muted">المستوى {{ $level->sort_order }}</span>
+      <span class="badge muted">{{ __('المستوى :n', ['n' => $level->sort_order]) }}</span>
       @if ($passed)<span class="badge ok"><svg class="ico" style="width:13px;height:13px" aria-hidden="true"><use href="#i-check-s"/></svg>{{ __('مجتاز') }}</span>@endif
-      <h1 style="margin-top:8px">{{ $level->name_ar }}</h1>
-      <p>{{ $level->focus_ar }}</p>
+      <h1 style="margin-top:8px">{{ $level->name }}</h1>
+      <p>{{ $level->focus }}</p>
     </div>
 
     <div class="split" style="align-items:start">
@@ -30,7 +30,7 @@
               <span class="chip violet" style="width:34px;height:34px;border-radius:10px">
                 <svg class="ico" style="width:16px;height:16px" aria-hidden="true"><use href="#i-{{ $completedLectureIds->contains($lec->id) ? 'check-s' : 'video' }}"/></svg>
               </span>
-              <span style="flex:1">{{ $lec->title_ar }}</span>
+              <span style="flex:1">{{ $lec->title }}</span>
               <span class="num" style="color:var(--ink-3);font-size:.8rem">{{ $lec->duration_label }}</span>
             </a>
           @empty
@@ -43,7 +43,7 @@
         <div class="chip gold"><svg class="ico" aria-hidden="true"><use href="#i-infinity"/></svg></div>
         <h3 style="margin-top:12px">{{ __('اختبار المستوى') }}</h3>
         <p style="color:var(--ink-2);font-size:.9rem;margin-top:6px">
-          {{ $level->exam_questions_count }} أسئلة · حدّ النجاح {{ $level->pass_threshold }}% · <b>{{ __('محاولات لا محدودة') }}</b>.
+          {{ __(':num أسئلة · حدّ النجاح :pct%', ['num' => $level->exam_questions_count, 'pct' => $level->pass_threshold]) }} · <b>{{ __('محاولات لا محدودة') }}</b>.
         </p>
         @if ($bestAttempt)
           <p class="alert" style="margin-top:14px">{{ __('أفضل نتيجة سابقة:') }} <b class="num">{{ $bestAttempt->score }}%</b> — {{ $bestAttempt->passed ? __('ناجح') : __('حاوِل مجدداً') }}.</p>
@@ -57,7 +57,7 @@
 
         <div style="margin-top:14px">
           <div class="topics">
-            @foreach (($level->topics_ar ?? []) as $t)<span>{{ $t }}</span>@endforeach
+            @foreach ($level->topics as $t)<span>{{ $t }}</span>@endforeach
           </div>
         </div>
       </div>
