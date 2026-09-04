@@ -60,7 +60,7 @@ class SecurityHeaders
         // origin has to be listed or the payment flow dies at the last step.
         $form = array_filter(["'self'", $this->paymobOrigin()]);
 
-        return implode('; ', [
+        $directives = [
             "default-src 'self'",
             "base-uri 'self'",
             "object-src 'none'",
@@ -72,7 +72,25 @@ class SecurityHeaders
             "font-src 'self'",
             "media-src 'self'",
             'connect-src '.implode(' ', $connect),
-        ]);
+        ];
+
+        // Hostinger's "Force HTTPS" switch injects
+        //     Header always set Content-Security-Policy "upgrade-insecure-requests"
+        // into .htaccess, and mod_headers REPLACES this policy with that one line after PHP
+        // has returned — so that line must be deleted on the server. Its single directive is
+        // carried here instead, but only where the site really is on https: on a plain-http
+        // dev host it would upgrade every asset URL to a port that isn't listening.
+        if ($this->servedOverHttps()) {
+            $directives[] = 'upgrade-insecure-requests';
+        }
+
+        return implode('; ', $directives);
+    }
+
+    /** APP_URL is the deployment's own statement about its scheme; the request is the fallback. */
+    protected function servedOverHttps(): bool
+    {
+        return str_starts_with((string) config('app.url'), 'https://') || request()->isSecure();
     }
 
     /** Scheme + host of the configured payment gateway, e.g. https://ksa.paymob.com. */

@@ -19,6 +19,17 @@ npm run build          # يبني الأصول إلى public/build (لا تُب�
 اجعل نطاق `restrack.sa` يشير إلى مجلد **`/public`** (من hPanel → Websites → إعدادات النطاق).
 إن لم يُتَح تغيير الجذر، انقل محتويات `public/` إلى `public_html/` وعدّل المسارين في `public_html/index.php` ليشيرا إلى مجلد المشروع.
 
+### ⚠️ مفتاح «Force HTTPS» في hPanel يمسح سياسة CSP
+تفعيل الخيار يكتب في `.htaccess` سطراً على هذه الصورة:
+```apache
+Header always set Content-Security-Policy "upgrade-insecure-requests"
+```
+و`mod_headers` ينفّذه **بعد** خروج PHP، فيستبدل سياستنا الكاملة بهذا السطر الواحد — تفقد الموقع `default-src` و`frame-ancestors` وقيد الـnonce كلها، ولا يظهر في السجل أي خطأ. تحقّق:
+```bash
+curl -sI https://restrack.sa | grep -i content-security-policy   # يجب أن يبدأ بـ default-src 'self'
+```
+إن ظهر `upgrade-insecure-requests` وحده، احذف سطر `Header always set …` من `.htaccess` (أبقِ قاعدة إعادة التوجيه إلى https). التوجيه نفسه مضمَّن أصلاً في `SecurityHeaders::policy()` على أي تنصيب `APP_URL` فيه `https://`، فلا تخسر شيئاً بحذفه.
+
 ## 3) إعداد البيئة
 
 ### 🚨 على موقع يعمل بالفعل: لا تستبدل `.env` كاملاً

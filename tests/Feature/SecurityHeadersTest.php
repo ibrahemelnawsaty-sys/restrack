@@ -73,6 +73,26 @@ class SecurityHeadersTest extends TestCase
         );
     }
 
+    /**
+     * The directive borrowed from Hostinger's force-HTTPS .htaccess line, so deleting that
+     * line (which was overwriting the whole policy) costs the deployment nothing. It must
+     * stay off a plain-http host, where upgrading asset URLs would break every page.
+     */
+    public function test_insecure_requests_are_upgraded_only_on_an_https_deployment(): void
+    {
+        config(['app.url' => 'http://localhost']);
+        $this->assertStringNotContainsString(
+            'upgrade-insecure-requests',
+            (string) $this->get('/')->headers->get('Content-Security-Policy')
+        );
+
+        config(['app.url' => 'https://restrack.sa']);
+        $this->assertStringContainsString(
+            'upgrade-insecure-requests',
+            (string) $this->get('/')->headers->get('Content-Security-Policy')
+        );
+    }
+
     /** Public pages still render, and nothing on them is blocked by the policy. */
     public function test_public_pages_survive_the_policy(): void
     {
