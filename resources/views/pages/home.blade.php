@@ -8,6 +8,9 @@
   $t = fn (string $section, string $key, string $default = '') => \App\Models\PageSection::text('home', $section, $key, $default);
   $groupOrder = \App\Models\Guideline::GROUPS;
   $allGuidelines = collect($groupOrder)->flatMap(fn ($g) => $guidelines[$g] ?? [])->values();
+  // Icon vocabulary for the deck-styled cards — line icons only, no emoji (CLAUDE.md §4).
+  $levelIcons = ['i-research', 'i-chart', 'i-award'];
+  $groupIcons = ['saudi' => 'i-shield', 'reporting' => 'i-layers', 'ethics' => 'i-check', 'publication' => 'i-award'];
 @endphp
 
 @section('content')
@@ -16,8 +19,9 @@
     <div class="hero-grid">
       <div class="rise in">
         <span class="kick glass"><span class="dot"></span>{{ $t('hero', 'kicker', __('مؤسسة ريستراك للتدريب')) }}</span>
-        <h1><span class="grad-gold">{{ $t('hero', 'highlight', 'Research Track Platform') }}</span></h1>
+        <h1>{{ $t('hero', 'highlight', 'Research Track Platform') }}</h1>
         <p class="sub">{{ $t('hero', 'subtitle', 'From Beginner to Expert in Medical Research') }}</p>
+        <div class="sec-rule start" aria-hidden="true"><svg class="ico"><use href="#i-chart"/></svg></div>
         <p class="lead">{{ $t('hero', 'lead') }}</p>
         <div class="cta-row">
           <a class="btn btn-gold" href="{{ auth()->check() ? route('dashboard') : route('register') }}"><span class="sheen"></span>{{ $t('hero', 'cta_primary', __('ابدأ رحلتك')) }}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -72,133 +76,173 @@
   @endif
 
   {{-- ===== 3. who we are + vision & mission (deck slides 2 & 5) ===== --}}
-  <section id="about">
-    <div class="split about-split">
-      <div class="glass tile rise">
-        <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg>{{ $t('about', 'title', __('من نحن')) }}</span>
-        <p class="lead" style="margin-top:14px">{{ $t('about', 'text') }}</p>
-      </div>
-      <div class="vm rise">
-        <div class="glass tile">
-          <div class="chip gold"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg></div>
+  <section id="about" class="sec">
+    <span class="dots s" aria-hidden="true"></span>
+    <span class="dots e" aria-hidden="true"></span>
+    <div class="sec-head rise">
+      <span class="sec-eyebrow solo"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg></span>
+      <h2>{{ $t('about', 'title', __('من نحن')) }}</h2>
+      <div class="sec-rule" aria-hidden="true"><svg class="ico"><use href="#i-shield"/></svg></div>
+      <p>{{ $t('about', 'text') }}</p>
+    </div>
+
+    <div class="pgrid pair stagger rise">
+      <div class="pcard">
+        <div class="pcard-top">
+          <span class="pico"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg></span>
           <h3>{{ $t('vision', 'vision_title', __('رؤيتنا')) }}</h3>
-          <p>{{ $t('vision', 'vision') }}</p>
         </div>
-        <div class="glass tile">
-          <div class="chip teal"><svg class="ico" aria-hidden="true"><use href="#i-research"/></svg></div>
+        <span class="urule" aria-hidden="true"></span>
+        <p>{{ $t('vision', 'vision') }}</p>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <span class="pico t"><svg class="ico" aria-hidden="true"><use href="#i-research"/></svg></span>
           <h3>{{ $t('vision', 'mission_title', __('رسالتنا')) }}</h3>
-          <p>{{ $t('vision', 'mission') }}</p>
         </div>
+        <span class="urule" aria-hidden="true"></span>
+        <p>{{ $t('vision', 'mission') }}</p>
       </div>
     </div>
   </section>
 
   {{-- ===== 4. goals + values (deck slides 3 & 4) ===== --}}
-  <section id="goals" style="padding-top:0">
-    <div class="shead rise">
-      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>{{ $t('goals', 'title', __('أهدافنا')) }}</span>
+  <section id="goals" class="sec band">
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>{{ $t('goals', 'title', __('أهدافنا')) }}</span>
       <h2>{{ __('ما الذي نعمل من أجله') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><span class="dot"></span></div>
     </div>
-    <div class="fgrid stagger rise" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+
+    <div class="pgrid stagger rise">
       @foreach (['g1' => 'i-users', 'g2' => 'i-chart', 'g3' => 'i-globe', 'g4' => 'i-layers'] as $key => $icon)
-        <div class="glass sheen fcard goal">
-          <div class="chip gold"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></div>
+        <div class="pcard">
+          <span class="pico"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></span>
+          <span class="urule" aria-hidden="true"></span>
           <p>{{ $t('goals', $key) }}</p>
         </div>
       @endforeach
     </div>
 
-    <div class="values rise">
-      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>{{ $t('values', 'title', __('قيمنا')) }}</span>
-      <div class="vrow">
+    <div class="pcard vcard rise">
+      <div class="pcard-top">
+        <span class="pico"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg></span>
+        <h3>{{ $t('values', 'title', __('قيمنا')) }}</h3>
+      </div>
+      <span class="urule" aria-hidden="true"></span>
+      <div class="tchips">
         @foreach (['v1', 'v2', 'v3', 'v4'] as $key)
-          <span class="vchip glass"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $t('values', $key) }}</span>
+          <span class="tchip ok"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $t('values', $key) }}</span>
         @endforeach
       </div>
     </div>
   </section>
 
   {{-- ===== 5. target audience (deck slide 7) ===== --}}
-  <section id="audience" style="padding-top:0">
-    <div class="glass tile rise aud-tile">
-      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>{{ $t('audience', 'title', __('لمن هذه المنصة؟')) }}</span>
-      <p style="color:var(--ink-2);margin-top:10px;max-width:70ch">{{ $t('audience', 'intro') }}</p>
-      <div class="aud">
-        @foreach (['a1', 'a2', 'a3', 'a4', 'a5'] as $key)
-          <span class="achip"><svg class="ico" aria-hidden="true"><use href="#i-cap"/></svg>{{ $t('audience', $key) }}</span>
-        @endforeach
-      </div>
+  <section id="audience" class="sec">
+    <span class="dots s" aria-hidden="true"></span>
+    <span class="dots e" aria-hidden="true"></span>
+    <div class="sec-head rise">
+      <span class="sec-eyebrow solo"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg></span>
+      <h2>{{ $t('audience', 'title', __('لمن هذه المنصة؟')) }}</h2>
+      <div class="sec-rule plain" aria-hidden="true"><span class="dot"></span></div>
+      <p>{{ $t('audience', 'intro') }}</p>
+    </div>
+
+    <div class="pgrid five stagger rise">
+      @foreach (['a1' => 'i-cap', 'a2' => 'i-award', 'a3' => 'i-users', 'a4' => 'i-research', 'a5' => 'i-chart'] as $key => $icon)
+        <div class="pcard center line">
+          <div class="pcard-top">
+            <span class="pico"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></span>
+            <h3>{{ $t('audience', $key) }}</h3>
+          </div>
+        </div>
+      @endforeach
     </div>
   </section>
 
   {{-- ===== 6. why choose us (deck slide 6) ===== --}}
-  <section id="features" style="padding-top:0">
-    <div class="shead rise">
-      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg>{{ $t('why', 'title', __('لماذا تختارنا؟')) }}</span>
+  <section id="features" class="sec band">
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg>{{ $t('why', 'title', __('لماذا تختارنا؟')) }}</span>
       <h2>{{ __('أربعة أسباب تجعل المسار مختلفاً') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><span class="dot"></span></div>
     </div>
-    <div class="fgrid stagger rise" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
-      @foreach (['w1' => ['i-layers', 'gold'], 'w2' => ['i-users', 'violet'], 'w3' => ['i-globe', 'teal'], 'w4' => ['i-shield', 'coral']] as $key => [$icon, $tone])
-        <div class="glass sheen fcard">
-          <div class="chip {{ $tone }}"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></div>
-          <h3>{{ $t('why', $key.'_t') }}</h3>
-          <p>{{ $t('why', $key.'_b') }}</p>
+
+    <div class="pgrid pair stagger rise">
+      @foreach (['w1' => ['i-layers', ''], 'w2' => ['i-users', 'v'], 'w3' => ['i-globe', 't'], 'w4' => ['i-shield', '']] as $key => [$icon, $tone])
+        <div class="pcard split">
+          <span class="pico {{ $tone }}"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></span>
+          <div class="pc-body">
+            <h3>{{ $t('why', $key.'_t') }}</h3>
+            <span class="urule" aria-hidden="true"></span>
+            <p>{{ $t('why', $key.'_b') }}</p>
+          </div>
         </div>
       @endforeach
     </div>
   </section>
 
   {{-- ===== 7. the program — the commercial heart (owner notes م5 · م6) ===== --}}
-  <section id="program">
-    <div class="glass prog rise">
-      <div class="prog-head">
-        <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-cap"/></svg>{{ __('البرنامج') }}</span>
-        <h2><bdi class="grad-gold">{{ $t('program', 'name', 'Research Track 1') }}</bdi></h2>
-        <p class="sub"><bdi>{{ $t('program', 'tagline', 'From Beginner to Expert in Medical Research') }}</bdi></p>
-        <p class="lead">{{ $t('program', 'about') }}</p>
-      </div>
+  <section id="program" class="sec gold-wash">
+    <span class="dots s" aria-hidden="true"></span>
+    <span class="dots e" aria-hidden="true"></span>
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-cap"/></svg>{{ __('البرنامج') }}</span>
+      <h2><bdi>{{ $t('program', 'name', 'Research Track 1') }}</bdi></h2>
+      <p class="sub"><bdi>{{ $t('program', 'tagline', 'From Beginner to Expert in Medical Research') }}</bdi></p>
+      <div class="sec-rule" aria-hidden="true"><svg class="ico"><use href="#i-award"/></svg></div>
+      <p>{{ $t('program', 'about') }}</p>
+    </div>
 
-      <div class="prog-includes">
-        @foreach (['i1' => 'i-layers', 'i2' => 'i-infinity', 'i3' => 'i-award', 'i4' => 'i-award', 'i5' => 'i-video'] as $key => $icon)
-          <div class="inc">
-            <span class="li"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></span>
-            <span>{{ $t('program', $key) }}</span>
+    <div class="pgrid flow stagger rise">
+      @foreach (['i1' => 'i-layers', 'i2' => 'i-infinity', 'i3' => 'i-award', 'i4' => 'i-award', 'i5' => 'i-video'] as $key => $icon)
+        <div class="pcard">
+          <div class="pcard-top">
+            <span class="pico"><svg class="ico" aria-hidden="true"><use href="#{{ $icon }}"/></svg></span>
+            <h3>{{ $t('program', $key) }}</h3>
           </div>
-        @endforeach
-      </div>
+        </div>
+      @endforeach
+    </div>
 
-      <p class="prog-closing">{{ $t('program', 'closing') }}</p>
+    <p class="prog-closing rise">{{ $t('program', 'closing') }}</p>
 
-      <div class="cta-row" style="justify-content:center">
-        <a class="btn btn-gold" href="{{ auth()->check() ? route('dashboard') : route('register') }}"><span class="sheen"></span>{{ __('ابدأ الآن') }}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-        <a class="btn btn-ghost" href="#pricing">{{ __('السعر والاشتراك') }}</a>
-      </div>
+    <div class="cta-row cta-center rise">
+      <a class="btn btn-gold" href="{{ auth()->check() ? route('dashboard') : route('register') }}"><span class="sheen"></span>{{ __('ابدأ الآن') }}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost" href="#pricing">{{ __('السعر والاشتراك') }}</a>
     </div>
   </section>
 
   {{-- ===== 8. the three levels (from the database) ===== --}}
-  <section style="padding-top:0">
-    <div class="shead center rise">
-      <span class="eyebrow" style="justify-content:center"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>{{ __('إطار التعلّم') }}</span>
+  <section class="sec">
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-cap"/></svg>{{ __('إطار التعلّم') }}</span>
       <h2>{{ __('ثلاثة مستويات — كل مستوى يبني على ما قبله') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><span class="dot"></span></div>
       <p>{{ __('كل مستوى مجموعة محاضرات مسجّلة، ينتهي باختبار، ويمنحك شهادة إتمام تحمل درجتك.') }}</p>
     </div>
 
-    <div class="ladder stagger rise">
+    <div class="pgrid three stagger rise">
       @foreach ($levels as $level)
-        <div class="glass sheen lvl">
-          <div class="node num">{{ $level->sort_order }}</div>
-          <div class="en"><bdi>{{ $level->name_en }}</bdi></div>
-          @if ($level->name !== $level->name_en)<div class="ar">{{ $level->name }}</div>@endif
-          <div class="focus">{{ $level->focus }}</div>
-          <div class="topics">
+        <div class="pcard lvlcard">
+          <span class="pico"><svg class="ico" aria-hidden="true"><use href="#{{ $levelIcons[$loop->index % 3] }}"/></svg></span>
+          <div class="lvl-name">
+            <span class="nbadge">{{ $level->sort_order }}</span>
+            <b><bdi>{{ $level->name_en }}</bdi></b>
+          </div>
+          @if ($level->name !== $level->name_en)<div class="lvl-ar">{{ $level->name }}</div>@endif
+          <div class="lvl-focus">{{ $level->focus }}</div>
+          <div class="tchips">
             @foreach (array_slice($level->topics, 0, 5) as $topic)
-              <span>{{ $topic }}</span>
+              <span class="tchip">{{ $topic }}</span>
             @endforeach
           </div>
           {{-- owner note م8: the learner sees "0/6" up front, so the size of each level is obvious --}}
-          <div class="lvl-count"><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg><span class="num">0/{{ $level->lectures->count() }}</span> {{ __('محاضرة') }}</div>
-          <div class="exam"><svg class="ico" aria-hidden="true"><use href="#i-infinity"/></svg>{{ __('ينتهي باختبار · محاولات لا محدودة') }}</div>
+          <div class="lvl-foot">
+            <span><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg><span class="num">0/{{ $level->lectures->count() }}</span> {{ __('محاضرة') }}</span>
+            <span><svg class="ico" aria-hidden="true"><use href="#i-infinity"/></svg>{{ __('ينتهي باختبار · محاولات لا محدودة') }}</span>
+          </div>
         </div>
       @endforeach
     </div>
@@ -206,18 +250,23 @@
 
   {{-- ===== 9. the standards in full (deck slides 9–11) ===== --}}
   @if ($allGuidelines->isNotEmpty())
-    <section id="guidelines" style="padding-top:0">
-      <div class="shead rise">
-        <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>{{ $t('guidelines', 'title', __('المعايير التي نلتزم بها')) }}</span>
+    <section id="guidelines" class="sec band">
+      <div class="sec-head rise">
+        <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>{{ $t('guidelines', 'title', __('المعايير التي نلتزم بها')) }}</span>
         <h2>{{ __('محتوىً مبنيّ على مرجعية، لا على اجتهاد') }}</h2>
+        <div class="sec-rule" aria-hidden="true"><svg class="ico"><use href="#i-shield"/></svg></div>
         <p>{{ $t('guidelines', 'intro') }}</p>
       </div>
-      <div class="gl-groups stagger rise">
+      <div class="pgrid pair stagger rise">
         @foreach ($groupOrder as $group)
           @continue (empty($guidelines[$group]) || count($guidelines[$group]) === 0)
-          <div class="glass tile gl-group">
-            <h3>{{ \App\Models\Guideline::groupLabel($group) }}</h3>
-            <div class="gl-items">
+          <div class="pcard">
+            <div class="pcard-top">
+              <span class="pico"><svg class="ico" aria-hidden="true"><use href="#{{ $groupIcons[$group] ?? 'i-shield' }}"/></svg></span>
+              <h3>{{ \App\Models\Guideline::groupLabel($group) }}</h3>
+            </div>
+            <span class="urule" aria-hidden="true"></span>
+            <div class="tchips">
               @foreach ($guidelines[$group] as $g)
                 <span class="glogo sm" @if ($g->note_ar) title="{{ __($g->note_ar) }}" @endif>
                   @if ($g->logo)
@@ -235,17 +284,18 @@
   @endif
 
   {{-- ===== 10. our speakers (deck slide 13 · owner note م3) ===== --}}
-  <section id="speakers" style="padding-top:0">
-    <div class="shead rise">
-      <span class="eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>{{ $t('speakers', 'title', __('متحدثونا')) }}</span>
+  <section id="speakers" class="sec">
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>{{ $t('speakers', 'title', __('متحدثونا')) }}</span>
       <h2>{{ __('من سيعلّمك؟') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><span class="dot"></span></div>
       <p>{{ $t('speakers', 'intro') }}</p>
     </div>
 
     @if ($speakers->isNotEmpty())
-      <div class="spk stagger rise">
+      <div class="pgrid flow stagger rise spk">
         @foreach ($speakers as $s)
-          <div class="glass sheen spk-card">
+          <div class="pcard center spk-card">
             <div class="ava">
               @if ($s->avatar)
                 <img src="{{ asset('storage/'.$s->avatar) }}" alt="{{ $s->name }}" width="72" height="72" loading="lazy" decoding="async">
@@ -261,15 +311,15 @@
       </div>
     @endif
 
-    <div class="crit rise">
+    <div class="tchips crit rise">
       @foreach (['c1', 'c2', 'c3'] as $key)
-        <span class="vchip glass"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $t('speakers', $key) }}</span>
+        <span class="tchip ok"><svg class="ico" aria-hidden="true"><use href="#i-check-s"/></svg>{{ $t('speakers', $key) }}</span>
       @endforeach
     </div>
   </section>
 
   {{-- ===== 13. certificates ===== --}}
-  <section class="certwrap">
+  <section class="sec band certwrap">
     <div class="glass cert rise">
       <div class="rose"><svg class="ico" aria-hidden="true"><use href="#i-award"/></svg></div>
       <h3>Certificate of Completion</h3>
@@ -281,15 +331,18 @@
   </section>
 
   {{-- ===== 14. pricing — one annual subscription (owner notes م7 · م9) ===== --}}
-  <section id="pricing">
-    <div class="shead center rise">
-      <span class="eyebrow" style="justify-content:center"><svg class="ico" aria-hidden="true"><use href="#i-wallet"/></svg>{{ $t('pricing', 'title', __('اشتراك سنوي واحد · المسار كامل')) }}</span>
+  <section id="pricing" class="sec">
+    <span class="dots s" aria-hidden="true"></span>
+    <span class="dots e" aria-hidden="true"></span>
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-wallet"/></svg>{{ $t('pricing', 'title', __('اشتراك سنوي واحد · المسار كامل')) }}</span>
       <h2>{{ __('اشتراك واحد يفتح المسار كاملاً') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><span class="dot"></span></div>
     </div>
 
-    <div class="plans stagger rise" style="max-width:520px;margin-inline:auto">
+    <div class="plans one stagger rise">
       @foreach ($plans as $plan)
-        <div class="glass sheen plan @if ($plan->is_featured) feat @endif">
+        <div class="glass plan @if ($plan->is_featured) feat @endif">
           <div class="pt"><b><bdi>{{ $plan->name }}</bdi></b></div>
           <div class="amt"><span class="num n">{{ (int) $plan->price }}</span><span class="cur">{{ __('ر.س') }}</span><span class="per">/ {{ $plan->interval === 'annual' ? __('سنوياً') : __('شهرياً') }}</span></div>
           <ul>
@@ -307,10 +360,11 @@
   </section>
 
   {{-- ===== 15. faq ===== --}}
-  <section id="faq">
-    <div class="shead center rise">
-      <span class="eyebrow" style="justify-content:center"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg>{{ __('الأسئلة الشائعة') }}</span>
+  <section id="faq" class="sec band">
+    <div class="sec-head rise">
+      <span class="sec-eyebrow"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg>{{ __('الأسئلة الشائعة') }}</span>
       <h2>{{ __('أجوبةٌ صريحة قبل أن تبدأ') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><span class="dot"></span></div>
     </div>
     <div class="glass detail faq rise">
       @foreach ($faqs as $i => $faq)
@@ -323,9 +377,10 @@
   </section>
 
   {{-- ===== 16. final CTA ===== --}}
-  <section style="padding-top:0">
+  <section class="sec">
     <div class="glass final rise">
       <h2>{{ __('ابدأ رحلتك في البحث الطبي اليوم') }}</h2>
+      <div class="sec-rule" aria-hidden="true"><svg class="ico"><use href="#i-sparkle"/></svg></div>
       <p>{{ __('من أول محاضرة إلى شهادة الإتمام — مسارٌ منظَّم وفق المعايير، ومحاولاتٌ لا محدودة.') }}</p>
       <div class="cta-row">
         <a class="btn btn-gold" href="{{ auth()->check() ? route('dashboard') : route('register') }}"><span class="sheen"></span>{{ __('ابدأ الآن') }}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>

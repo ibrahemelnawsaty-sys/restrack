@@ -15,8 +15,15 @@ the real Laravel/Tailwind views. Full product/UX context: `../plan/MASTER_PLAN.m
 ## 2. Color tokens
 Brand: navy `#16264b` · gold `#af9136`. Vibrant accents: violet `#7C6CFC` · teal `#10B4A0` · coral `#FF7A59` · bright-gold `#FFB400`. Semantic: success `#12B39B` · warning `#F5A524` · danger `#F0506E`. (All live in `resources/css/app.css` `@theme`.)
 
-**Dark (signature):** canvas `#0b1428`→`#070d1c` aurora · ink `#F3F6FF` · ink-2 `#AEB9D6` · gold-on-dark `#D9B458`.
-**Light (day):** canvas `#F4F7FE` · ink `#152142` · gold-on-light darkens to `#9A7C22` (contrast). Glass fill flips to frosted white.
+**Light (signature default — matches the owner's deck):** canvas `#FFFFFF` · alt band `#FAFBFD` · ink `#0B2145` (the deck samples `#021B44`, softened for long-form reading) · ink-2 `#48566F` · card `#FFFFFF` on hairline `#E7EBF2`.
+
+**Gold splits in two, deliberately.** The deck's gold is `#DBA134`, which is only ~2.3:1 on white and fails WCAG for text. So `--gold-2` `#DBA134` is **decorative only** (rules, dividers, icon strokes, underlines — no contrast requirement), while `--gold` `#8A6C1F` (~4.6:1) is the **only gold used for text**. Never set small text in `--gold-2`.
+
+**Dark (equal, not an inversion):** canvas `#0b1428`→`#070d1c` aurora · ink `#F3F6FF` · ink-2 `#AEB9D6` · gold-on-dark `#D9B458`.
+
+`--gg-1/2/3` is the gold **gradient ramp** used by `.grad-gold`. On light it measures 4.95:1 / 3.96:1 / 3.33:1, so it is a **display-text ramp only — never use it below 24px (or 18.66px bold) on a light ground**; the `#b5842a` stop fails 4.5:1 at body size. On dark it clears everywhere (6.7–13.4:1).
+
+Accents (violet/teal) survive only as **faint icon tints** (`.pico.v` / `.pico.t`) — navy + gold lead every surface.
 
 ## 3. The glass recipe (liquid-glass)
 ```css
